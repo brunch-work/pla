@@ -1,0 +1,40 @@
+:root {
+  view-transition-name: root;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  font-family: "Unica", Helvetica, Arial, sans-serif;
+  font-weight: 400 !important;
+  color: var(--black);
+  background-color: var(--white);
+  overscroll-behavior: none;
+  text-rendering: optimizeLegibility;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: clamp(1.6rem, 1.3vw, 2rem);
+  line-height: 1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::selection {
+  text-shadow: 0 0 0.75rem var(--black);
+  color: transparent;
+  background-color: transparent;
+}
