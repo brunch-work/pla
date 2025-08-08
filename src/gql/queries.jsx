@@ -6,6 +6,7 @@ export const GET_HOME = gql`
       videos {
         id
         publicationDate
+        description
         thumbnail {
           url
           width

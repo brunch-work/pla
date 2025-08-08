@@ -1,4 +1,6 @@
 .video-player {
+  overflow: hidden;
+
   .video {
     position: relative;
     width: 100%;

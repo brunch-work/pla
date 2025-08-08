@@ -15,19 +15,15 @@ export const VideoPlayer = ({
   const [videoUrl, setVideoUrl] = useState("");
 
   useEffect(() => {
-    if (isPlaying) {
-      setIsPlaying(false);
-      setShowDescription(false);
-      setVideoUrl(`//www.youtube.com/embed/${videoUid}?autoplay=0&rel=0`);
-    }
+    setIsPlaying(false);
+    setShowDescription(false);
+    setVideoUrl(`//www.youtube.com/embed/${videoUid}?autoplay=0&rel=0`);
   }, [videoUid]);
 
   const handlePlay = () => {
     setIsPlaying(true);
     setVideoUrl(`//www.youtube.com/embed/${videoUid}?autoplay=1&rel=0`);
   };
-
-  console.log(isPlaying)
 
   return (
     <div className="video-player">
@@ -36,7 +32,7 @@ export const VideoPlayer = ({
           <iframe
             src={videoUrl}
             alt=""
-            // frameBorder="0"
+            frameBorder="0"
             allow="autoplay"
             allowFullScreen
           />
