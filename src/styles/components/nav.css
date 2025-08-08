@@ -1,0 +1,80 @@
+.nav {
+  padding-block: 1.6rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #fff;
+  box-shadow: 0 7px 5px 3px #fff;
+
+  .subgrid {
+    grid-column: 2/-2;
+    height: 100%;
+    row-gap: 0.8rem;
+  }
+
+  .logo {
+    grid-column: 1 / span 4;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+
+    .dot {
+      width: 4px;
+      position: relative;
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
+
+    &:hover {
+      border-bottom: 1.5px solid var(--black);
+    }
+  }
+
+  &.open {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    grid-column: 1 / -1;
+  }
+
+  .menu {
+    grid-column: 1/-1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  @media (min-width: 1400px) {
+    .menu {
+      grid-column: 5 / span 8;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 0;
+    }
+  }
+}

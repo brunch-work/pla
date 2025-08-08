@@ -1,11 +1,77 @@
-import Image from "next/image";
+import Homepage from "@/components/pages/Homepage";
+import { getPropData } from "@/utils/client";
+import { GET_HOME } from "@/gql/queries";
 
-export default function Home() {
-  return (
-    <div>
-      <main>
-        <h1>Hello world</h1>
-      </main>
-    </div>
-  );
+export default async function Home() {
+  // const { homepage } = await getPropData(GET_HOME);
+
+  const placeholderHomepage = {
+    videos: [
+      {
+        id: "bdkREWOuQVqZGpjt-MCQSA",
+        publicationDate: "2025-08-01",
+        thumbnail: {
+          url: "https://www.datocms-assets.com/166070/1754078573-didhesls07i.jpg",
+          width: 2500,
+          height: 1667,
+        },
+        title: "The First Video",
+        video: {
+          providerUid: "3kJTl6PnB-g",
+          url: "https://www.youtube.com/watch?v=3kJTl6PnB-g",
+        },
+      },
+      {
+        id: "eODCHpOhS7eOFEnYsLiu9w",
+        publicationDate: "2025-07-17",
+        thumbnail: {
+          url: "https://www.datocms-assets.com/166070/1754078730-a-woman-standing-in-front-of-a.jpg",
+          width: 2500,
+          height: 1667,
+        },
+        title: "The Second Video",
+        video: {
+          providerUid: "7KTIrfiRfyM",
+          url: "https://www.youtube.com/watch?v=7KTIrfiRfyM",
+        },
+      },
+    ],
+    homepageText: {
+      value: {
+        schema: "dast",
+        document: {
+          type: "root",
+          children: [
+            {
+              type: "heading",
+              level: 1,
+              children: [
+                {
+                  type: "span",
+                  value: "A Video Gallery of Poets in Southern California.",
+                },
+              ],
+            },
+            {
+              type: "paragraph",
+              children: [
+                {
+                  url: "/about",
+                  type: "link",
+                  children: [
+                    {
+                      type: "span",
+                      value: "About us",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  };
+
+  return <Homepage homepage={placeholderHomepage} />;
 }

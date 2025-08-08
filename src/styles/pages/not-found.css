@@ -1,0 +1,4 @@
+.not-found {
+  grid-column: 2/-2;
+  height: 100%;
+}

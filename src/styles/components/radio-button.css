@@ -1,0 +1,40 @@
+.radio-button {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+
+  input {
+    appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: 1.5px solid var(--black);
+    margin: 0;
+
+    &::before {
+      content: "";
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 50%;
+      background-color: var(--black);
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+      display: block;
+    }
+
+    &:checked::before {
+      opacity: 1;
+    }
+  }
+
+  &:hover * {
+    cursor: pointer;
+    text-decoration: none !important;
+  }
+
+  &:hover input::before {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

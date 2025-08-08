@@ -1,0 +1,4 @@
+.page {
+  min-height: var(--100dvh);
+  padding-top: calc(var(--nav-height) + 1.6rem);
+}

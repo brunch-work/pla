@@ -1,0 +1,16 @@
+export const Playbutton = () => (
+  <div className="play-button">
+    <svg
+      width="51"
+      height="51"
+      viewBox="0 0 51 51"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M50.5884 25.7207L13.2869 47.2567L13.2869 4.18466L50.5884 25.7207Z"
+        fill="white"
+      />
+    </svg>
+  </div>
+);

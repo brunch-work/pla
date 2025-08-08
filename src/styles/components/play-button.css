@@ -1,0 +1,16 @@
+.play-button {
+  fill: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(25px);
+  width: 7.6rem;
+  height: 7.6rem;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
