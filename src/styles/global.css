@@ -3,11 +3,10 @@
 @import "./base/fonts.css";
 @import "./base/grid.css";
 @import "./base/typography.css";
+@import "./base/buttons.css";
 
 @import "./components/nav.css";
-@import "./components/radio-button.css";
 @import "./components/video-player.css";
-@import "./components/play-button.css";
 
 @import "./pages/home.css";
 @import "./pages/not-found.css";
