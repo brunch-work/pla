@@ -2,13 +2,23 @@
   grid-column: 2/-2;
   height: var(--100ddvh);
   padding-bottom: 1.6rem;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
+
+  .top {
+    grid-template-rows: auto 1fr;
+    grid-column: 1/-1;
+  }
 
   .intro {
     grid-column: 1/-1;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     padding: 3.2rem 0 0;
+
+    a {
+      margin-top: 1em;
+    }
   }
 
   .featured {
@@ -48,11 +58,16 @@
   @media (min-width: 1400px) {
     grid-template-rows: auto 16dvh;
 
+    .top {
+      height: fit-content;
+    }
+
     .intro {
       grid-column: 1 / span 4;
     }
     .featured {
       grid-column: 5 / span 8;
+      align-items: flex-start;
     }
 
     .thumbnails {

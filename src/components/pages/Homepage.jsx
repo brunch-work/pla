@@ -1,12 +1,12 @@
 "use client";
 
-import { render } from "datocms-structured-text-to-html-string";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
 import { calculateImageWidth, calculateThumbnailPositions, calculateTotalWidth, clampOffset } from "@/utils/helpers";
 import { useViewport } from "@/hooks/useViewport";
 import { useMobile } from "@/hooks/useMobile";
 import { VideoPlayer } from "@/components/VideoPlayer";
+import Link from "next/link";
 
 export default function Homepage({homepage}) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
@@ -38,7 +38,7 @@ export default function Homepage({homepage}) {
   const thumbnailHeightVh = 13;
   const gap = 1.6;
 
-  const thumbnailsList = homepage.videos;
+  const thumbnailsList = homepage.allYoutubeVideos;
 
   // Detect Safari
   useEffect(() => {
@@ -476,27 +476,25 @@ export default function Homepage({homepage}) {
 
   return (
     <main className="home page subgrid">
-      <div className="intro">
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{
-            __html: render(homepage.homepageText.value),
-          }}
-        />
-      </div>
-      <div className="featured" ref={featuredRef}>
-        <VideoPlayer
-          videoUid={thumbnailsList[activeThumbnail].video.providerUid}
-          thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
-          title={thumbnailsList[activeThumbnail].title}
-          description={thumbnailsList[activeThumbnail].description}
-          publicationDate={thumbnailsList[activeThumbnail].publicationDate}
-        />
+      <div className="top subgrid">
+        <div className="intro">
+          <h1>{homepage.homepage.tagline}</h1>
+          <Link href="/about">About Us</Link>
+        </div>
+        <div className="featured" ref={featuredRef}>
+          <VideoPlayer
+            videoUid={thumbnailsList[activeThumbnail].youtubeVideo.providerUid}
+            thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
+            title={thumbnailsList[activeThumbnail].title}
+            description={thumbnailsList[activeThumbnail].description}
+            publicationDate={thumbnailsList[activeThumbnail].publicationDate}
+          />
+        </div>
       </div>
       <div className="thumbnails">
         <h3>Latest</h3>
         <div className="carousel" ref={carouselRef}>
-          {homepage.videos.map((video, index) => (
+          {homepage.allYoutubeVideos.map((video, index) => (
             <div
               className="carousel-item"
               key={index}
