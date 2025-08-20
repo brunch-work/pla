@@ -49,9 +49,15 @@
 
   .carousel-item {
     height: 13dvh;
+    cursor: pointer;
 
     img {
       height: 100%;
+      filter: grayscale(100%) blur(1px);
+    }
+
+    &.active img {
+      filter: none;
     }
   }
 

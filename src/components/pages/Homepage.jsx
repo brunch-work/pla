@@ -496,10 +496,13 @@ export default function Homepage({homepage}) {
         <div className="carousel" ref={carouselRef}>
           {homepage.youtubeVideoCollection.items.map((video, index) => (
             <div
-              className="carousel-item"
+              className={`carousel-item ${index === activeThumbnail ? "active" : ""}`}
               key={index}
               ref={thumbnailsRef[index]}
               onClick={() => handleThumbnailClick(index)}
+              onKeyDown={(e) => e.key === "Enter" && handleThumbnailClick(index)}
+              tabIndex={0}
+              role="button"
             >
               <img src={video.thumbnail.url} alt={video.title} />
             </div>

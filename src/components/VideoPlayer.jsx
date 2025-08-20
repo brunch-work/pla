@@ -43,6 +43,9 @@ export const VideoPlayer = ({
         <div
           className={`overlay ${isPlaying ? "playing" : ""}`}
           onClick={() => handlePlay()}
+          onKeyDown={(e) => e.key === "Enter" && handlePlay()}
+          tabIndex={0}
+          role="button"
         >
           <img src={thumbnailUrl} alt={title} />
           <Playbutton />
