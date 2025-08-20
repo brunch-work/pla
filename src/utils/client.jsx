@@ -1,8 +1,9 @@
 import { GraphQLClient } from "graphql-request";
 
-export const client = new GraphQLClient(process.env.NEXT_PUBLIC_DATO_ENDPOINT, {
+export const client = new GraphQLClient(process.env.NEXT_PUBLIC_CONTENTFUL_URL, {
   headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_API_KEY}`,
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,
   },
 });
 

@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 
 import { Playbutton } from "./Playbutton";
 import { PlusButton } from "./PlusButton";
+import { getVideoUid } from "@/utils/getVideoUid";
 
 export const VideoPlayer = ({
-  videoUid,
+  originalVideoUrl,
   thumbnailUrl,
   title,
   description,
@@ -12,17 +13,19 @@ export const VideoPlayer = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [videoUrl, setVideoUrl] = useState("");
+  const [videoUrl, setVideoUrl] = useState(originalVideoUrl);
+  const [videoId, setVideoId] = useState(getVideoUid(originalVideoUrl));
 
   useEffect(() => {
     setIsPlaying(false);
     setShowDescription(false);
-    setVideoUrl(`//www.youtube.com/embed/${videoUid}?autoplay=0&rel=0`);
-  }, [videoUid]);
+    setVideoId(getVideoUid(originalVideoUrl));
+    setVideoUrl(`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`);
+  }, [originalVideoUrl]);
 
   const handlePlay = () => {
     setIsPlaying(true);
-    setVideoUrl(`//www.youtube.com/embed/${videoUid}?autoplay=1&rel=0`);
+    setVideoUrl(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
   };
 
   return (

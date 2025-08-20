@@ -1,33 +1,22 @@
 import { gql } from "graphql-request";
 
 export const GET_HOME = gql`
-  query Home {
-    homepage {
-      tagline
-      seo {
-        description
+  query myQuery {
+    youtubeVideoCollection(limit: 12, order: [publicationDate_DESC]) {
+      items {
+        _id
         title
-        twitterCard
-        noIndex
-        image {
+        videoUrl
+        description
+        publicationDate
+        documentary
+        thumbnail {
           url
-          alt
+          width
+          height
+          description
+          contentType
         }
-      }
-    }
-    allYoutubeVideos(first: "12", orderBy: publicationDate_DESC) {
-      id
-      publicationDate
-      description
-      thumbnail {
-        url
-        width
-        height
-      }
-      title
-      youtubeVideo {
-        url
-        providerUid
       }
     }
   }

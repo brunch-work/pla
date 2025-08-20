@@ -38,7 +38,7 @@ export default function Homepage({homepage}) {
   const thumbnailHeightVh = 13;
   const gap = 1.6;
 
-  const thumbnailsList = homepage.allYoutubeVideos;
+  const thumbnailsList = homepage.youtubeVideoCollection.items;
 
   // Detect Safari
   useEffect(() => {
@@ -478,12 +478,12 @@ export default function Homepage({homepage}) {
     <main className="home page subgrid">
       <div className="top subgrid">
         <div className="intro">
-          <h1>{homepage.homepage.tagline}</h1>
+          <h1>A Video Gallery of Poets in Southern California</h1>
           <Link href="/about">About Us</Link>
         </div>
         <div className="featured" ref={featuredRef}>
           <VideoPlayer
-            videoUid={thumbnailsList[activeThumbnail].youtubeVideo.providerUid}
+            originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
             thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
             title={thumbnailsList[activeThumbnail].title}
             description={thumbnailsList[activeThumbnail].description}
@@ -494,7 +494,7 @@ export default function Homepage({homepage}) {
       <div className="thumbnails">
         <h3>Latest</h3>
         <div className="carousel" ref={carouselRef}>
-          {homepage.allYoutubeVideos.map((video, index) => (
+          {homepage.youtubeVideoCollection.items.map((video, index) => (
             <div
               className="carousel-item"
               key={index}
