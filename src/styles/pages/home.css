@@ -26,6 +26,10 @@
     display: flex;
     align-items: center;
 
+    .title.active {
+      cursor: pointer;
+    }
+
     .video-player {
       width: 100%;
     }

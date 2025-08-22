@@ -16,6 +16,8 @@ export const VideoPlayer = ({
   const [videoUrl, setVideoUrl] = useState(originalVideoUrl);
   const [videoId, setVideoId] = useState(getVideoUid(originalVideoUrl));
 
+  const date = new Date(publicationDate);
+
   useEffect(() => {
     setIsPlaying(false);
     setShowDescription(false);
@@ -54,19 +56,21 @@ export const VideoPlayer = ({
       <div className="info">
         <div className="top">
           <div
-            className="title"
-            onClick={() => setShowDescription(!showDescription)}
+            className={`title ${description ? "active" : ""}`}
+            onClick={() => description && setShowDescription(!showDescription)}
           >
             <h3>{title}</h3>
-            <PlusButton isActive={showDescription} />
+            {description && <PlusButton isActive={showDescription} />}
           </div>
-          <span>{publicationDate}</span>
+          <span>
+            {new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(
+              date
+            )}
+          </span>
         </div>
-        {showDescription && (
-          <div className="description">
-            <p>{description}</p>
-          </div>
-        )}
+        <div className={`description ${showDescription ? "show" : ""}`}>
+          <p>{description}</p>
+        </div>
       </div>
     </div>
   );
