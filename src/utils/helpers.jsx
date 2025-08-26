@@ -1,36 +1,8 @@
-// Throttle function to limit how often a function can be called
-export const throttle = (func, limit) => {
-  let inThrottle;
-  return function () {
-    const args = arguments;
-
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-};
-
-// RAF-based throttle for smoother animations
-export const rafThrottle = (func) => {
-  let rafId = null;
-  return function (...args) {
-    if (rafId === null) {
-      rafId = requestAnimationFrame(() => {
-        func.apply(this, args);
-        rafId = null;
-      });
-    }
-  };
-};
-
-// Function to calculate width from image dimensions or aspect ratio
+// Function to calculate width from image dimensions
 export const calculateImageWidth = (
   project,
   index,
   thumbnailHeight,
-  imageLoadStates
 ) => {
   const projectType = project._modelApiKey;
   const fileType = projectType === "photo" ? "photo" : "thumbnail";
@@ -45,12 +17,12 @@ export const calculateImageWidth = (
 };
 
 // Calculate cumulative positions for each thumbnail
-export const calculateThumbnailPositions = (thumbnailWidths, dynamicGap) => {
+export const calculateThumbnailPositions = (thumbnailWidths, gap) => {
   return thumbnailWidths.reduce((acc, width, index) => {
     if (index === 0) {
       acc.push(0);
     } else {
-      acc.push(acc[index - 1] + thumbnailWidths[index - 1] + dynamicGap);
+      acc.push(acc[index - 1] + thumbnailWidths[index - 1] + gap);
     }
     return acc;
   }, []);

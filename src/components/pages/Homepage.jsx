@@ -33,7 +33,6 @@ export default function Homepage({homepage}) {
   const featuredRef = useRef(null);
 
   const { viewportHeight, viewportWidth } = useViewport();
-  const isMobile = useMobile();
 
   const thumbnailHeightVh = 13;
   const gap = 1.6;
@@ -78,9 +77,8 @@ export default function Homepage({homepage}) {
     return () => window.removeEventListener("resize", checkTouchDevice);
   }, []);
 
-  // Dynamic left padding - 8px on mobile, 16px on desktop
   const leftPadding = useMemo(() => {
-    return isTouchDevice ? 1.2 : 16;
+    return isTouchDevice ? 1.2 : 1.6;
   }, [isTouchDevice]);
 
   const { minOffset, maxOffset } = useMemo(() => {
@@ -92,7 +90,6 @@ export default function Homepage({homepage}) {
     return { minOffset: min, maxOffset: max };
   }, [thumbnailPositions, generatedThumbnailWidths.length]);
 
-  // Performance-optimized scroll update
   const updateScrollTransform = useCallback((offset) => {
     if (carouselRef.current) {
       carouselRef.current.style.transform = `translate3d(${offset}px, 0, 0)`;
@@ -187,7 +184,6 @@ export default function Homepage({homepage}) {
       setIsKeyboardNavigating(false);
 
       if (isSafari) {
-        // Safari Desktop: Ultra-simple direct scrolling
         const scrollDelta = e.deltaY + e.deltaX;
         const newOffset = clampOffset(
           currentScrollOffsetRef.current - scrollDelta,
@@ -200,7 +196,6 @@ export default function Homepage({homepage}) {
           carouselRef.current.style.transition = "none";
         }
 
-        // Direct DOM update only - no React state updates
         updateScrollTransform(newOffset);
         updateActiveThumbnailFromOffset(newOffset);
       } else {
@@ -388,7 +383,7 @@ export default function Homepage({homepage}) {
           updateScrollTransform(clampedOffset);
         }
 
-        // Reset keyboard navigation mode after delay
+        // Reset keyboard navigation mode
         setTimeout(() => {
           setIsKeyboardNavigating(false);
         }, 500);
@@ -496,14 +491,19 @@ export default function Homepage({homepage}) {
         <div className="carousel" ref={carouselRef}>
           {homepage.youtubeVideoCollection.items.map((video, index) => (
             <div
-              className={`carousel-item ${index === activeThumbnail ? "active" : ""}`}
+              className={`carousel-item ${
+                index === activeThumbnail ? "active" : ""
+              }`}
               key={index}
               ref={thumbnailsRef[index]}
               onClick={() => handleThumbnailClick(index)}
-              onKeyDown={(e) => e.key === "Enter" && handleThumbnailClick(index)}
+              onKeyDown={(e) =>
+                e.key === "Enter" && handleThumbnailClick(index)
+              }
               tabIndex={0}
               role="button"
             >
+              <div className="overlay"/>
               <img src={video.thumbnail.url} alt={video.title} />
             </div>
           ))}

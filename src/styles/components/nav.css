@@ -20,20 +20,9 @@
     align-items: center;
     width: fit-content;
 
-    .dot {
-      width: 4px;
-      position: relative;
-
-      svg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-      }
-    }
-
-    &:hover {
-      border-bottom: 1.5px solid var(--black);
+    svg {
+      height: var(--base-font-size);
+      width: fit-content;
     }
   }
 
@@ -50,7 +39,6 @@
 
   .logo-wrapper {
     display: flex;
-    align-items: baseline;
     gap: 0.8rem;
     grid-column: 1 / -1;
   }
@@ -75,6 +63,11 @@
       justify-content: space-between;
       flex-direction: row;
       gap: 0;
+    }
+
+    .plus-button {
+      width: 1.6rem;
+      height: 1.6rem;
     }
   }
 }

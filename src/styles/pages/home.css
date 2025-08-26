@@ -54,14 +54,33 @@
   .carousel-item {
     height: 13dvh;
     cursor: pointer;
+    position: relative;
+
+    .overlay {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(3px);
+      z-index: 5;
+    }
 
     img {
       height: 100%;
-      filter: grayscale(100%) blur(1px);
+      filter: grayscale(100%);
     }
 
-    &.active img {
-      filter: none;
+    &.active {
+      .overlay {
+        backdrop-filter: blur(0px);
+        transition: backdrop-filter 0.25s ease;
+      }
+
+      img {
+        filter: none;
+      }
     }
   }
 

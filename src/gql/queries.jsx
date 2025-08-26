@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
 export const GET_HOME = gql`
-  query myQuery {
+  query getHome {
     youtubeVideoCollection(limit: 12, order: [publicationDate_DESC]) {
       items {
         _id
@@ -17,6 +17,30 @@ export const GET_HOME = gql`
           description
           contentType
         }
+      }
+    }
+  }
+`;
+
+export const GET_POETS = gql`
+  query getPoets {
+    poets: poetCollection {
+      items {
+        _id
+        name
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+    poetsIndex: poetsIndexCollection {
+      items {
+        pageDescription
+        pageTitle
       }
     }
   }
