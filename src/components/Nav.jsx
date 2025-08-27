@@ -49,6 +49,7 @@ export const Nav = () => {
                     <RadioButton
                       active={route === item.route}
                       label={item.name}
+                      value={item.route}
                       name="nav"
                     />
                   </Link>
@@ -75,6 +76,7 @@ export const Nav = () => {
                 <RadioButton
                   active={route === item.route}
                   label={item.name}
+                  value={item.route}
                   name="nav"
                 />
               </Link>

@@ -28,6 +28,7 @@ export const GET_POETS = gql`
       items {
         _id
         name
+        slug
         bio
         photo {
           url
@@ -41,6 +42,27 @@ export const GET_POETS = gql`
       items {
         pageDescription
         pageTitle
+      }
+    }
+  }
+`;
+
+export const GET_POET_VIDEOS = gql`
+  query getPoetVideos($poetSlug: String!) {
+    youtubeVideoCollection(where: { poets: { slug: $poetSlug } }) {
+      items {
+        _id
+        title
+        videoUrl
+        description
+        publicationDate
+        thumbnail {
+          url
+          width
+          height
+          description
+          contentType
+        }
       }
     }
   }

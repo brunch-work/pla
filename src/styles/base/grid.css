@@ -26,3 +26,10 @@
     gap: 0 var(--gap);
   }
 }
+
+.grid-right {
+  grid-column: 5 / -1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: var(--gap);
+}

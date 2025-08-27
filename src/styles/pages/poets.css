@@ -1,2 +1,46 @@
 .poets {
+  .sidebar {
+    grid-column: 1 / span 2;
+
+    .radio-button {
+      svg,
+      input,
+      input::before {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .list,
+    .list ul,
+    .list li {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+  }
+
+  .main-content {
+    grid-column: 5/-1;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .poet {
+    .poet__info {
+      grid-column: 1 / span 3;
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+      }
+    }
+
+    .poet__videos {
+      grid-column: 4 / -1;
+    }
+  }
 }

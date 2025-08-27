@@ -1,31 +1,36 @@
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 
-import { useState } from "react";
+import { act, useEffect, useState } from "react";
 
-export const AlphabeticalListSection = ({ letter, poets, poetActive, setPoetActive }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const AlphabeticalListSection = ({ letter, poets, activePoet }) => {
+  // Determine if the section is open based on the active poet
+  const [isOpen, setIsOpen] = useState(
+    activePoet && activePoet[0].toLowerCase() === letter.toLowerCase()
+      ? true
+      : false
+  );
 
   return (
-    <section key={letter}>
-      <h2 onClick={() => setIsOpen(!isOpen)}>
+    <li key={letter}>
+      <h2 className="body-text radio-button" onClick={() => setIsOpen(!isOpen)}>
         <PlusButton isActive={isOpen} />
-        {letter}
+        <span className="letter">{letter}</span>
       </h2>
       {isOpen && (
         <ul>
           {poets.map((poet) => (
-            <li key={poet._id} onClick={() => setPoetActive(poet._id)}>
+            <li key={poet._id}>
               <RadioButton
-                active={poetActive[poet._id] || false}
+                active={activePoet === poet.slug}
                 label={poet.name}
                 name="poetsList"
+                value={poet.slug}
               />
             </li>
           ))}
         </ul>
       )}
-    </section>
+    </li>
   );
 };
-

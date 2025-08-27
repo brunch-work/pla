@@ -27,11 +27,13 @@ html {
   font-size: 62.5%;
 }
 
-body {
+body,
+.body-text {
   font-size: var(--base-font-size);
   line-height: 1.2;
   margin: 0;
   letter-spacing: -0.02em;
+  font-weight: 400;
 }
 
 * {
