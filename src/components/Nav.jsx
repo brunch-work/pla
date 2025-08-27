@@ -9,23 +9,34 @@ import { Logo } from "./Logo";
 import { RadioButton } from "./RadioButton";
 import { PlusButton } from "./PlusButton";
 
-const menu = [
-  { name: "Home", route: "/" },
-  { name: "Poets", route: "/poets" },
-  { name: "Interviews", route: "/interviews" },
-  { name: "Series", route: "/series" },
-  { name: "Documentaries", route: "/documentaries" },
-  { name: "Resources", route: "/resources" },
-  { name: "About", route: "/about" },
-  { name: "Donate", route: "/donate" },
-  { name: "Search", route: "/search" },
-];
-
 export const Nav = () => {
   const route = usePathname();
   const [navOpen, setNavOpen] = useState(false);
 
   const isMobile = useMobile();
+
+  const menu = isMobile
+    ? [
+        { name: "Home", route: "/" },
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "/donate" },
+        { name: "Search", route: "/search" },
+      ]
+    : [
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "/donate" },
+        { name: "Search", route: "/search" },
+      ];
 
   useEffect(() => {
     if (isMobile) {
