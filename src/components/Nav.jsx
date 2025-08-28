@@ -48,7 +48,7 @@ export const Nav = () => {
     return (
       <nav className={`nav grid${navOpen ? " open" : ""}`}>
         <div className="subgrid">
-          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
+          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)} suppressHydrationWarning>
             <PlusButton isActive={navOpen} />
             <Logo />
           </div>

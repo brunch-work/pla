@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Playbutton } from "./Playbutton";
 import { PlusButton } from "./PlusButton";
 import { getVideoUid } from "@/utils/getVideoUid";
+import { useMobile } from "@/hooks/useMobile";
 
 export const VideoPlayer = ({
   originalVideoUrl,
@@ -15,6 +16,7 @@ export const VideoPlayer = ({
   const [showDescription, setShowDescription] = useState(false);
   const [videoUrl, setVideoUrl] = useState(originalVideoUrl);
   const [videoId, setVideoId] = useState(getVideoUid(originalVideoUrl));
+  const isMobile = useMobile();
 
   const date = new Date(publicationDate);
 
@@ -59,11 +61,13 @@ export const VideoPlayer = ({
             className={`title ${description ? "active" : ""}`}
             onClick={() => description && setShowDescription(!showDescription)}
           >
-            <h3>{title}</h3>
-            {description && <PlusButton isActive={showDescription} />}
+            <div className="title__title">
+              <h3>{title}</h3>
+              {description && <PlusButton isActive={showDescription} />}
+            </div>
           </div>
-          <span>
-            {new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(
+          <span className="date">
+            {new Intl.DateTimeFormat("en-US", { dateStyle: isMobile ? "medium" : "long" }).format(
               date
             )}
           </span>

@@ -3,6 +3,7 @@
 import { PlusButton } from "../PlusButton";
 import { AlphabeticalListSection } from "../AlphabeticalListSection";
 import { Poet } from "../Poet";
+import { RadioButton } from "../RadioButton";
 
 import { useMobile } from "@/hooks/useMobile";
 
@@ -14,8 +15,8 @@ export default function Poets({ poets, poetsIndex }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isMobile = useMobile();
-  const [poetsOpen, setPoetsOpen] = useState(isMobile ? false : true);
   const [activePoet, setActivePoet] = useState(searchParams.get("poet") || "");
+  const [poetsOpen, setPoetsOpen] = useState(isMobile && activePoet ? false : true);
 
   // place each poet in the correct alphabetical list
   let poetsList = poets.sort().reduce(function (acc, poet) {
@@ -34,7 +35,62 @@ export default function Poets({ poets, poetsIndex }) {
       current.set("poet", activePoet);
       router.push(`?${current.toString()}`, { scroll: false });
     }
+
+    if (isMobile && activePoet) {
+      setPoetsOpen(false);
+    }
   }, [activePoet]);
+
+  if (isMobile) {
+    return (
+      <main className="poets page subgrid">
+        <div className="main-content">
+          {!activePoet && poetsIndex.pageDescription && (
+            <Markdown>{poetsIndex.pageDescription}</Markdown>
+          )}
+        </div>
+        <div className="sidebar">
+          <div className="list">
+            <h1
+              className="body-text radio-button"
+              onClick={() => setPoetsOpen(!poetsOpen)}
+            >
+              <PlusButton isActive={poetsOpen} />
+              <span>Poets</span>
+            </h1>
+            {activePoet && !poetsOpen && (
+              <RadioButton
+                label={poets.find((p) => p.slug === activePoet).name}
+                name="active-poet"
+                value={poets.find((p) => p.slug === activePoet).slug}
+                active={true}
+              />
+            )}
+            {poetsOpen && (
+              <fieldset onChange={(e) => setActivePoet(e.target.value)}>
+                <ul>
+                  {Object.keys(poetsList)
+                    .sort()
+                    .map((letter) => {
+                      const poets = poetsList[letter];
+                      return (
+                        <AlphabeticalListSection
+                          key={letter}
+                          letter={letter}
+                          poets={poets}
+                          activePoet={activePoet}
+                        />
+                      );
+                    })}
+                </ul>
+              </fieldset>
+            )}
+          </div>
+        </div>
+        {activePoet && <Poet poet={poets.find((p) => p.slug === activePoet)} />}
+      </main>
+    );
+  }
 
   return (
     <main className="poets page subgrid">

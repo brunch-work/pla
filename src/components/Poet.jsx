@@ -1,10 +1,10 @@
+import { GET_POET_VIDEOS } from "@/gql/queries";
+import { VideoPlayer } from "./VideoPlayer";
+
 import Markdown from "react-markdown";
 import useSWR from "swr";
 import { useEffect } from "react";
-
 import { SWRfetch } from "@/utils/client";
-import { GET_POET_VIDEOS } from "@/gql/queries";
-import { VideoPlayer } from "./VideoPlayer";
 
 export const Poet = ({ poet }) => {
   const { data, error, mutate } = useSWR(GET_POET_VIDEOS, (query, variables) =>
@@ -13,7 +13,7 @@ export const Poet = ({ poet }) => {
 
   useEffect(() => {
     if (data) {
-      mutate({...data, poetSlug: poet.slug});
+      mutate({ ...data, poetSlug: poet.slug });
     }
   }, [poet.slug]);
 
@@ -21,9 +21,15 @@ export const Poet = ({ poet }) => {
     <div className="poet grid-right">
       <div className="poet__info">
         {poet.photo && (
-          <img src={poet.photo.url} alt={poet.name} className="poet__photo" />
+          <div className="img">
+            <img src={poet.photo.url} alt={poet.name} className="poet__photo" />
+          </div>
         )}
-        {poet.bio && <Markdown>{poet.bio}</Markdown>}
+        {poet.bio && (
+          <div className="bio">
+            <Markdown>{poet.bio}</Markdown>
+          </div>
+        )}
       </div>
       <div className="poet__videos">
         {data?.youtubeVideoCollection?.items.map((video) => (

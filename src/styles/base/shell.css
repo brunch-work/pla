@@ -1,8 +1,12 @@
 :root {
   view-transition-name: root;
   --100dvh: calc(100vh - env(safe-area-inset-bottom));
-  --nav-height: 5.2rem;
+  --nav-height: 3.2rem;
   --base-font-size: clamp(1.6rem, 1.3vw, 2rem);
+
+  @media (min-width: 1400px) {
+    --nav-height: 5.2rem;
+  }
 }
 
 html,

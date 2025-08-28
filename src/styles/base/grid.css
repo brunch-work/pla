@@ -24,12 +24,21 @@
     display: grid;
     grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
     gap: 0 var(--gap);
+    row-gap: 0;
+    grid-auto-rows: min-content;
   }
 }
 
 .grid-right {
-  grid-column: 5 / -1;
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
   gap: var(--gap);
+  row-gap: 0;
+  grid-auto-rows: min-content;
+
+  @media (min-width: 1400px) {
+    grid-column: 5 / -1;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
 }

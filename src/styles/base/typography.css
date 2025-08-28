@@ -31,3 +31,7 @@ a {
     color: var(--black);
   }
 }
+
+p {
+  margin-top: 0;
+}
