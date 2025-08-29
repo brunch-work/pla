@@ -52,11 +52,11 @@ export default function Poets({ poets, poetsIndex }) {
   if (isMobile) {
     return (
       <main className="poets page subgrid">
-        <div className="main-content">
           {!activePoet && poetsIndex.pageDescription && (
-            <Markdown>{poetsIndex.pageDescription}</Markdown>
+            <div className="main-content">
+              <Markdown>{poetsIndex.pageDescription}</Markdown>
+            </div>
           )}
-        </div>
         <div className={`sidebar ${poetsOpen ? "open" : ""}`}>
           <div className="list">
             <h1

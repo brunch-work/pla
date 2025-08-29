@@ -5,17 +5,15 @@
     position: sticky;
     top: var(--nav-height);
     grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 1px 1.2rem 4px 1.2rem;
+    margin: 0 -1.2rem;
+    z-index: 90;
 
     &.open {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
-      left: -1.2rem;
-      right: -1.2rem;
-      top: 0;
-      min-height: var(--100dvh);
+      height: 100%;
       z-index: 999;
-      padding: 0 1.2rem;
     }
 
     .list {
