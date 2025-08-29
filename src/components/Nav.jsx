@@ -44,6 +44,14 @@ export const Nav = () => {
     }
   }, [route]);
 
+  useEffect(() => {
+    if (navOpen) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+    }
+  }, [navOpen])
+
   if (isMobile) {
     return (
       <nav className={`nav grid${navOpen ? " open" : ""}`}>

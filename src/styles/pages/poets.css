@@ -1,6 +1,25 @@
 .poets {
+  position: relative;
+
   .sidebar {
     grid-column: 1 / -1;
+
+    &.open {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      left: -1.2rem;
+      right: -1.2rem;
+      top: 0;
+      min-height: var(--100dvh);
+      z-index: 999;
+      padding: 0 1.2rem;
+    }
+
+    .list {
+      > fieldset {
+      }
+    }
 
     .list,
     .list ul,
@@ -22,11 +41,7 @@
   .poet {
     .poet__info {
       grid-column: 1 / -1;
-      /* display: flex; */
-      /* gap: 1.2rem; */
-      /* align-items: flex-start; */
       margin-top: 1.2rem;
-      /* flex-direction: row-reverse; */
 
       p:last-child {
         margin-bottom: 0;

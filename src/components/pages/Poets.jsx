@@ -7,7 +7,7 @@ import { RadioButton } from "../RadioButton";
 
 import { useMobile } from "@/hooks/useMobile";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Markdown from "react-markdown";
 
@@ -41,6 +41,14 @@ export default function Poets({ poets, poetsIndex }) {
     }
   }, [activePoet]);
 
+  useEffect(() => {
+    if (poetsOpen) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+    }
+  }, [poetsOpen]);
+
   if (isMobile) {
     return (
       <main className="poets page subgrid">
@@ -49,7 +57,7 @@ export default function Poets({ poets, poetsIndex }) {
             <Markdown>{poetsIndex.pageDescription}</Markdown>
           )}
         </div>
-        <div className="sidebar">
+        <div className={`sidebar ${poetsOpen ? "open" : ""}`}>
           <div className="list">
             <h1
               className="body-text radio-button"

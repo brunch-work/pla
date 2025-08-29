@@ -1,9 +1,9 @@
 .page {
   min-height: var(--100dvh);
-  padding-top: var(--nav-height);
+  margin-top: var(--nav-height);
   grid-column: 2/-2;
 
   @media (min-width: 1400px) {
-    padding-top: calc(var(--nav-height) + 1.6rem);
+    margin-top: calc(var(--nav-height) + 1.6rem);
   }
 }
