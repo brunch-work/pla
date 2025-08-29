@@ -1,5 +1,4 @@
 .page {
-  min-height: var(--100dvh);
   margin-top: var(--nav-height);
   grid-column: 2/-2;
 

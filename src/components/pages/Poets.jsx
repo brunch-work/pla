@@ -42,7 +42,7 @@ export default function Poets({ poets, poetsIndex }) {
   }, [activePoet]);
 
   useEffect(() => {
-    if (poetsOpen) {
+    if (isMobile && poetsOpen) {
       document.documentElement.style.overflow = "hidden";
     } else {
       document.documentElement.style.overflow = "auto";

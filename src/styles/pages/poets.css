@@ -2,6 +2,8 @@
   position: relative;
 
   .sidebar {
+    position: sticky;
+    top: var(--nav-height);
     grid-column: 1 / -1;
 
     &.open {
@@ -84,6 +86,9 @@
         margin-top: 0;
         flex-direction: column;
         grid-column: 1 / span 3;
+        height: fit-content;
+        position: sticky;
+        top: calc(var(--nav-height) + 1.6rem);
 
         img {
           width: 100%;

@@ -33,6 +33,7 @@ export const Poet = ({ poet }) => {
       </div>
       <div className="poet__videos">
         {data?.youtubeVideoCollection?.items.map((video) => (
+          <>
           <VideoPlayer
             key={video._id}
             originalVideoUrl={video.videoUrl}
@@ -41,6 +42,47 @@ export const Poet = ({ poet }) => {
             description={video.description}
             publicationDate={video.publicationDate}
           />
+          <VideoPlayer
+            key={video._id}
+            originalVideoUrl={video.videoUrl}
+            thumbnailUrl={video.thumbnail.url}
+            title={video.title}
+            description={video.description}
+            publicationDate={video.publicationDate}
+          />
+          <VideoPlayer
+            key={video._id}
+            originalVideoUrl={video.videoUrl}
+            thumbnailUrl={video.thumbnail.url}
+            title={video.title}
+            description={video.description}
+            publicationDate={video.publicationDate}
+          />
+          <VideoPlayer
+            key={video._id}
+            originalVideoUrl={video.videoUrl}
+            thumbnailUrl={video.thumbnail.url}
+            title={video.title}
+            description={video.description}
+            publicationDate={video.publicationDate}
+          />
+          <VideoPlayer
+            key={video._id}
+            originalVideoUrl={video.videoUrl}
+            thumbnailUrl={video.thumbnail.url}
+            title={video.title}
+            description={video.description}
+            publicationDate={video.publicationDate}
+          />
+          <VideoPlayer
+            key={video._id}
+            originalVideoUrl={video.videoUrl}
+            thumbnailUrl={video.thumbnail.url}
+            title={video.title}
+            description={video.description}
+            publicationDate={video.publicationDate}
+          />
+          </>
         ))}
       </div>
     </div>
