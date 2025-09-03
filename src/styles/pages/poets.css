@@ -1,5 +1,7 @@
 .poets {
   position: relative;
+  display: flex !important;
+  flex-direction: column-reverse;
 
   .sidebar {
     position: sticky;
@@ -72,9 +74,10 @@
   }
 
   @media (min-width: 1400px) {
+    display: grid !important;
+
     .sidebar {
       grid-column: 1 / span 2;
-      /* top: calc(var(--nav-height) + 1.6rem); */
       position: static;
     }
 

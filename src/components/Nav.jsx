@@ -14,7 +14,6 @@ import { SubNav } from "./SubNav";
 export const Nav = () => {
   const route = usePathname();
   const [navOpen, setNavOpen] = useState(false);
-  const [hasActiveSubNav, setHasActiveSubNav] = useState(false);
   const [subNavProps, setSubNavProps] = useState({});
   const { navProps } = useNavContext();
 
@@ -61,12 +60,17 @@ export const Nav = () => {
     }
   }, [navOpen]);
 
-
-  console.log(subNavProps)
+  useEffect(() => {
+    if (isMobile && subNavProps.activeItem) {
+      document.body.classList.add("has-active-subnav");
+    } else {
+      document.body.classList.remove("has-active-subnav");
+    }
+  }, [subNavProps.activeItem]);
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen || subNavProps.subNavOpen ? " open" : ""}`} suppressHydrationWarning>
+      <nav className={`nav grid${navOpen ? " open" : ""}`} suppressHydrationWarning>
         <div className="subgrid">
           <div
             className="logo-wrapper"

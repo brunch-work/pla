@@ -17,7 +17,7 @@ export default function Poets({ poets, poetsIndex }) {
   const { setNavProps } = useNavContext();
   const isMobile = useMobile();
   const [activePoet, setActivePoet] = useState(searchParams.get("poet") || "");
-  const [poetsOpen, setPoetsOpen] = useState(!isMobile ? true : false);
+  const [poetsOpen, setPoetsOpen] = useState(!isMobile || (isMobile && !activePoet) ? true : false);
 
   // place each poet in the correct alphabetical list
   let poetsList = poets.sort().reduce(function (acc, poet) {
@@ -53,10 +53,10 @@ export default function Poets({ poets, poetsIndex }) {
     }
   }, [activePoet]);
 
-  return (
-    <main className="poets page subgrid">
+  const handleSidebar = () => {
 
-      {!isMobile && (
+    if (!isMobile || (isMobile && !activePoet)) {
+      return (
         <div className="sidebar">
           <div className="list">
             <h1
@@ -69,23 +69,32 @@ export default function Poets({ poets, poetsIndex }) {
             {poetsOpen && (
               <fieldset onChange={(e) => setActivePoet(e.target.value)}>
                 <ul>
-                  {Object.keys(poetsList).sort().map((letter) => {
-                    const poets = poetsList[letter];
-                    return (
-                      <AlphabeticalListSection
-                        key={letter}
-                        letter={letter}
-                        poets={poets}
-                        activePoet={activePoet}
-                      />
-                    );
-                  })}
+                  {Object.keys(poetsList)
+                    .sort()
+                    .map((letter) => {
+                      const poets = poetsList[letter];
+                      return (
+                        <AlphabeticalListSection
+                          key={letter}
+                          letter={letter}
+                          poets={poets}
+                          activePoet={activePoet}
+                        />
+                      );
+                    })}
                 </ul>
               </fieldset>
             )}
           </div>
         </div>
-      )}
+      );
+    }
+  }
+
+  return (
+    <main className="poets page subgrid">
+
+     {handleSidebar()}
 
       {/* MAIN CONTENT */}
       <div className="main-content">

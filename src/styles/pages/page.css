@@ -1,8 +1,14 @@
 .page {
-  margin-top: var(--nav-height);
+  margin-top: calc(var(--nav-height) + 0.8rem);
   grid-column: 2/-2;
 
   @media (min-width: 1400px) {
     margin-top: calc(var(--nav-height) + 1.6rem);
+  }
+}
+
+body.has-active-subnav {
+  .page {
+    margin-top: calc(var(--nav-height) * 2.5);
   }
 }
