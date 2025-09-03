@@ -3,20 +3,21 @@
 import { PlusButton } from "../PlusButton";
 import { AlphabeticalListSection } from "../AlphabeticalListSection";
 import { Poet } from "../Poet";
-import { RadioButton } from "../RadioButton";
+import { useNavContext } from "@/utils/navContextProvider";
 
 import { useMobile } from "@/hooks/useMobile";
 
-import { use, useEffect, useState } from "react";
+import { act, use, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Markdown from "react-markdown";
 
 export default function Poets({ poets, poetsIndex }) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { setNavProps } = useNavContext();
   const isMobile = useMobile();
   const [activePoet, setActivePoet] = useState(searchParams.get("poet") || "");
-  const [poetsOpen, setPoetsOpen] = useState(isMobile && activePoet ? false : true);
+  const [poetsOpen, setPoetsOpen] = useState(!isMobile ? true : false);
 
   // place each poet in the correct alphabetical list
   let poetsList = poets.sort().reduce(function (acc, poet) {
@@ -28,6 +29,17 @@ export default function Poets({ poets, poetsIndex }) {
     return acc;
   }, {});
 
+  useEffect(() => {
+    setNavProps({
+      list: poetsList,
+      subNavOpen: poetsOpen,
+      setSubNavOpen: setPoetsOpen,
+      activeItem: activePoet ? poets.find((p) => p.slug === activePoet).name : null,
+      setActiveItem: setActivePoet,
+      activeItemSlug: activePoet,
+      itemType: "Poets"
+    })
+  }, [setNavProps, poetsOpen])
 
   useEffect(() => {
     if (activePoet) {
@@ -41,23 +53,11 @@ export default function Poets({ poets, poetsIndex }) {
     }
   }, [activePoet]);
 
-  useEffect(() => {
-    if (isMobile && poetsOpen) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "auto";
-    }
-  }, [poetsOpen]);
+  return (
+    <main className="poets page subgrid">
 
-  if (isMobile) {
-    return (
-      <main className="poets page subgrid">
-          {!activePoet && poetsIndex.pageDescription && (
-            <div className="main-content">
-              <Markdown>{poetsIndex.pageDescription}</Markdown>
-            </div>
-          )}
-        <div className={`sidebar ${poetsOpen ? "open" : ""}`}>
+      {!isMobile && (
+        <div className="sidebar">
           <div className="list">
             <h1
               className="body-text radio-button"
@@ -66,71 +66,26 @@ export default function Poets({ poets, poetsIndex }) {
               <PlusButton isActive={poetsOpen} />
               <span>Poets</span>
             </h1>
-            {activePoet && !poetsOpen && (
-              <RadioButton
-                label={poets.find((p) => p.slug === activePoet).name}
-                name="active-poet"
-                value={poets.find((p) => p.slug === activePoet).slug}
-                active={true}
-              />
-            )}
             {poetsOpen && (
               <fieldset onChange={(e) => setActivePoet(e.target.value)}>
                 <ul>
-                  {Object.keys(poetsList)
-                    .sort()
-                    .map((letter) => {
-                      const poets = poetsList[letter];
-                      return (
-                        <AlphabeticalListSection
-                          key={letter}
-                          letter={letter}
-                          poets={poets}
-                          activePoet={activePoet}
-                        />
-                      );
-                    })}
+                  {Object.keys(poetsList).sort().map((letter) => {
+                    const poets = poetsList[letter];
+                    return (
+                      <AlphabeticalListSection
+                        key={letter}
+                        letter={letter}
+                        poets={poets}
+                        activePoet={activePoet}
+                      />
+                    );
+                  })}
                 </ul>
               </fieldset>
             )}
           </div>
         </div>
-        {activePoet && <Poet poet={poets.find((p) => p.slug === activePoet)} />}
-      </main>
-    );
-  }
-
-  return (
-    <main className="poets page subgrid">
-      {/* SIDEBAR */}
-      <div className="sidebar">
-        <div className="list">
-          <h1
-            className="body-text radio-button"
-            onClick={() => setPoetsOpen(!poetsOpen)}
-          >
-            <PlusButton isActive={poetsOpen} />
-            <span>Poets</span>
-          </h1>
-          {poetsOpen && (
-            <fieldset onChange={(e) => setActivePoet(e.target.value)}>
-              <ul>
-                {Object.keys(poetsList).sort().map((letter) => {
-                  const poets = poetsList[letter];
-                  return (
-                    <AlphabeticalListSection
-                      key={letter}
-                      letter={letter}
-                      poets={poets}
-                      activePoet={activePoet}
-                    />
-                  );
-                })}
-              </ul>
-            </fieldset>
-          )}
-        </div>
-      </div>
+      )}
 
       {/* MAIN CONTENT */}
       <div className="main-content">

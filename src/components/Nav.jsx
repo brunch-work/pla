@@ -2,16 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useMobile } from "../hooks/useMobile";
+import { useNavContext } from "@/utils/navContextProvider";
 
 import { Logo } from "./Logo";
 import { RadioButton } from "./RadioButton";
 import { PlusButton } from "./PlusButton";
+import { SubNav } from "./SubNav";
 
 export const Nav = () => {
   const route = usePathname();
   const [navOpen, setNavOpen] = useState(false);
+  const [hasActiveSubNav, setHasActiveSubNav] = useState(false);
+  const [subNavProps, setSubNavProps] = useState({});
+  const { navProps } = useNavContext();
 
   const isMobile = useMobile();
 
@@ -39,6 +44,10 @@ export const Nav = () => {
       ];
 
   useEffect(() => {
+    setSubNavProps({ ...navProps });
+  }, [navProps]);
+
+  useEffect(() => {
     if (isMobile) {
       setNavOpen(false);
     }
@@ -50,13 +59,19 @@ export const Nav = () => {
     } else {
       document.documentElement.style.overflow = "auto";
     }
-  }, [navOpen])
+  }, [navOpen]);
+
+
+  console.log(subNavProps)
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}`}>
+      <nav className={`nav grid${navOpen || subNavProps.subNavOpen ? " open" : ""}`} suppressHydrationWarning>
         <div className="subgrid">
-          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)} suppressHydrationWarning>
+          <div
+            className="logo-wrapper"
+            onClick={() => setNavOpen(!navOpen)}
+          >
             <PlusButton isActive={navOpen} />
             <Logo />
           </div>
@@ -77,12 +92,13 @@ export const Nav = () => {
             </ul>
           )}
         </div>
+        {subNavProps.activeItem && !navOpen && <SubNav {...subNavProps} />}
       </nav>
     );
   }
 
   return (
-    <nav className="nav grid">
+    <nav className="nav grid" suppressContentEditableWarning>
       <div className="subgrid">
         <Link href="/">
           <Logo />

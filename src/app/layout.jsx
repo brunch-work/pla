@@ -1,5 +1,6 @@
 import "@/styles/global.css";
 import { Nav } from "@/components/Nav";
+import { NavContextProvider } from "@/utils/navContextProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -10,8 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="grid">
-        <Nav />
-        {children}
+        <NavContextProvider>
+          <Nav />
+          {children}
+        </NavContextProvider>
       </body>
     </html>
   );
