@@ -1,6 +1,6 @@
 .home {
   grid-column: 2/-2;
-  height: var(--100ddvh);
+  height: calc(var(--100dvh) - var(--nav-height) - 0.8rem);
   padding-bottom: 1.6rem;
   grid-template-rows: 1fr auto;
 
@@ -86,6 +86,7 @@
 
   @media (min-width: 1400px) {
     grid-template-rows: auto 16dvh;
+    height: calc(var(--100dvh) - var(--nav-height) - 1.6rem);
 
     .top {
       height: fit-content;
