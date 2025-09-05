@@ -24,7 +24,7 @@ export const GET_HOME = gql`
 
 export const GET_POETS = gql`
   query getPoets {
-    poets: poetCollection {
+    poets: poetCollection  {
       items {
         _id
         name

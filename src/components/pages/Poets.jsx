@@ -7,7 +7,7 @@ import { useNavContext } from "@/utils/navContextProvider";
 
 import { useMobile } from "@/hooks/useMobile";
 
-import { act, use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Markdown from "react-markdown";
 
@@ -18,6 +18,8 @@ export default function Poets({ poets, poetsIndex }) {
   const isMobile = useMobile();
   const [activePoet, setActivePoet] = useState(searchParams.get("poet") || "");
   const [poetsOpen, setPoetsOpen] = useState(!isMobile || (isMobile && !activePoet) ? true : false);
+
+  console.log(poets)
 
   // place each poet in the correct alphabetical list
   let poetsList = poets.sort().reduce(function (acc, poet) {

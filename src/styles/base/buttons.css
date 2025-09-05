@@ -22,12 +22,14 @@
 
   input {
     appearance: none;
-    width: 1.35rem;
-    height: 1.35rem;
+    box-sizing: border-box;
+    width: 1.3rem;
+    height: 1.3rem;
     border-radius: 50%;
     cursor: pointer;
     outline: 1.5px solid var(--black);
     margin: 0;
+    position: relative;
 
     &::before {
       content: "";
@@ -38,6 +40,10 @@
       opacity: 0;
       transition: opacity 0.2s ease-in-out;
       display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     &:checked::before {
@@ -51,7 +57,7 @@
   }
 
   &:hover input::before {
-    transform: scale(1);
+    transform: scale(1) translate(-50%, -50%);
     opacity: 1;
   }
 }
@@ -61,7 +67,7 @@
   height: 15px;
 
   @media (min-width: 1400px) {
-    width: 15px;
-    height: 15px;
+    width: 16.5px;
+    height: 16.5px;
   }
 }

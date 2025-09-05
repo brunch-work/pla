@@ -1,7 +1,7 @@
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 
-import { act, useEffect, useState } from "react";
+import { useState } from "react";
 
 export const AlphabeticalListSection = ({ letter, poets, activePoet }) => {
   // Determine if the section is open based on the active poet
