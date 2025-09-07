@@ -8,7 +8,7 @@ import { useMobile } from "@/hooks/useMobile";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import Link from "next/link";
 
-export default function Homepage({homepage}) {
+export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -21,22 +21,12 @@ export default function Homepage({homepage}) {
   const thumbnailsRef = useRef([]);
   const carouselRef = useRef(null);
   const animationFrameRef = useRef(null);
-  const momentumRef = useRef(null);
-  const dragStateRef = useRef({
-    isDragging: false,
-    startX: 0,
-    startOffset: 0,
-    lastX: 0,
-    lastTime: 0,
-  });
-  const currentScrollOffsetRef = useRef(0);
   const featuredRef = useRef(null);
 
-  const { viewportHeight, viewportWidth } = useViewport();
+  const { viewportHeight } = useViewport();
 
   const thumbnailHeightVh = 13;
   const gap = 1.6;
-
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
   // Detect Safari
@@ -65,18 +55,6 @@ export default function Homepage({homepage}) {
     return calculateTotalWidth(thumbnailPositions, generatedThumbnailWidths);
   }, [thumbnailPositions, generatedThumbnailWidths]);
 
-  // Touch device detection
-  useEffect(() => {
-    const checkTouchDevice = () => {
-      setIsTouchDevice(
-        "ontouchstart" in window || navigator.maxTouchPoints > 0
-      );
-    };
-    checkTouchDevice();
-    window.addEventListener("resize", checkTouchDevice);
-    return () => window.removeEventListener("resize", checkTouchDevice);
-  }, []);
-
   const leftPadding = useMemo(() => {
     return isTouchDevice ? 1.2 : 1.6;
   }, [isTouchDevice]);
@@ -89,13 +67,6 @@ export default function Homepage({homepage}) {
         : -(thumbnailPositions[thumbnailPositions.length - 1] + leftPadding);
     return { minOffset: min, maxOffset: max };
   }, [thumbnailPositions, generatedThumbnailWidths.length]);
-
-  const updateScrollTransform = useCallback((offset) => {
-    if (carouselRef.current) {
-      carouselRef.current.style.transform = `translate3d(${offset}px, 0, 0)`;
-    }
-    currentScrollOffsetRef.current = offset;
-  }, []);
 
   // Active thumbnail detection based on scroll offset
   const updateActiveThumbnailFromOffset = useCallback(
@@ -126,101 +97,18 @@ export default function Homepage({homepage}) {
     [isKeyboardNavigating, thumbnailsList.length, thumbnailPositions]
   );
 
-  // Single RAF loop for momentum
-  const startAnimationLoop = useCallback(() => {
-    if (animationFrameRef.current) return;
-
-    const animate = () => {
-      let needsUpdate = false;
-
-      if (
-        Math.abs(momentumRef.current) > 0.1 &&
-        !dragStateRef.current.isDragging
-      ) {
-        const decayRate = isTouchDevice ? 0.92 : 0.95;
-        momentumRef.current *= decayRate;
-
-        const newOffset = clampOffset(
-          currentScrollOffsetRef.current + momentumRef.current,
-          minOffset,
-          maxOffset
-        );
-
-        setScrollOffset(newOffset);
-        updateScrollTransform(newOffset);
-        updateActiveThumbnailFromOffset(newOffset);
-
-        needsUpdate = true;
-
-        const stopThreshold = isTouchDevice ? 0.05 : 0.1;
-        if (Math.abs(momentumRef.current) < stopThreshold) {
-          momentumRef.current = 0;
-          // setTimeout(snapToPosition, isTouchDevice ? 100 : 200);
-        }
-      }
-
-      if (needsUpdate || Math.abs(momentumRef.current) > 0.1) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        animationFrameRef.current = null;
-      }
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
-  }, [
-    minOffset,
-    maxOffset,
-    updateScrollTransform,
-    updateActiveThumbnailFromOffset,
-    isTouchDevice,
-    isSafari,
-  ]);
-
+  // Wheel handling
   useEffect(() => {
     if (thumbnailsList.length === 0) return;
 
     const handleWheel = (e) => {
-      e.preventDefault();
-      setIsKeyboardNavigating(false);
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; //discard trackpad horizontal scrolls
 
-      if (isSafari) {
-        const scrollDelta = e.deltaY + e.deltaX;
-        const newOffset = clampOffset(
-          currentScrollOffsetRef.current - scrollDelta,
-          minOffset,
-          maxOffset
-        );
+      const scrollDeltaY = e.deltaY;
+      carouselRef.current.scrollBy({ left: scrollDeltaY, behavior: 'smooth' });
 
-        // Disable CSS transitions on Safari
-        if (carouselRef.current) {
-          carouselRef.current.style.transition = "none";
-        }
-
-        updateScrollTransform(newOffset);
-        updateActiveThumbnailFromOffset(newOffset);
-      } else {
-        // Other browsers: Use RAF
-        let ticking = false;
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            const scrollDelta = e.deltaY + e.deltaX;
-            momentumRef.current = 0;
-
-            const newOffset = clampOffset(
-              currentScrollOffsetRef.current - scrollDelta,
-              minOffset,
-              maxOffset
-            );
-
-            setScrollOffset(newOffset);
-            updateScrollTransform(newOffset);
-            updateActiveThumbnailFromOffset(newOffset);
-
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }
+      updateActiveThumbnailFromOffset();
+      return;
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -229,124 +117,6 @@ export default function Homepage({homepage}) {
     thumbnailsList.length,
     minOffset,
     maxOffset,
-    updateScrollTransform,
-    updateActiveThumbnailFromOffset,
-    isSafari,
-  ]);
-
-  // Touch handling
-  useEffect(() => {
-    if (thumbnailsList.length === 0) return;
-
-    const handleTouchStart = (e) => {
-      setIsKeyboardNavigating(false);
-      const touch = e.touches[0];
-
-      dragStateRef.current = {
-        isDragging: true,
-        startX: touch.clientX,
-        startOffset: currentScrollOffsetRef.current,
-        lastX: touch.clientX,
-        lastTime: performance.now(),
-        velocityHistory: [],
-      };
-      setIsDragging(true);
-      momentumRef.current = 0;
-
-      if (carouselRef.current) {
-        carouselRef.current.style.transition = "none";
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (!dragStateRef.current.isDragging) return;
-      e.preventDefault();
-
-      const touch = e.touches[0];
-      const currentTime = performance.now();
-      const deltaX = touch.clientX - dragStateRef.current.startX;
-      const newOffset = clampOffset(
-        dragStateRef.current.startOffset + deltaX,
-        minOffset,
-        maxOffset
-      );
-
-      setScrollOffset(newOffset);
-      updateScrollTransform(newOffset);
-      updateActiveThumbnailFromOffset(newOffset);
-
-      const timeDelta = currentTime - dragStateRef.current.lastTime;
-      const positionDelta = touch.clientX - dragStateRef.current.lastX;
-
-      if (timeDelta > 0) {
-        const velocity = positionDelta / timeDelta;
-
-        dragStateRef.current.velocityHistory.push({
-          velocity,
-          time: currentTime,
-        });
-
-        dragStateRef.current.velocityHistory =
-          dragStateRef.current.velocityHistory.filter(
-            (entry) => currentTime - entry.time < 100
-          );
-      }
-
-      dragStateRef.current.lastX = touch.clientX;
-      dragStateRef.current.lastTime = currentTime;
-    };
-
-    const handleTouchEnd = (e) => {
-      if (!dragStateRef.current.isDragging) return;
-
-      dragStateRef.current.isDragging = false;
-      setIsDragging(false);
-
-      // Mobile (all browsers) and non-Safari desktop: Calculate momentum
-      let finalVelocity = 0;
-
-      if (dragStateRef.current.velocityHistory.length > 0) {
-        const recentVelocities = dragStateRef.current.velocityHistory.slice(-3);
-        finalVelocity =
-          recentVelocities.reduce((sum, entry) => sum + entry.velocity, 0) /
-          recentVelocities.length;
-
-        const velocityMultiplier = isTouchDevice ? 20 : 16;
-        finalVelocity *= velocityMultiplier;
-
-        if (Math.abs(finalVelocity) > 2) {
-          finalVelocity =
-            Math.sign(finalVelocity) * Math.min(Math.abs(finalVelocity), 50);
-          momentumRef.current = finalVelocity;
-          startAnimationLoop();
-        }
-      }
-
-      setTimeout(() => {
-        if (carouselRef.current && !isTouchDevice) {
-          carouselRef.current.style.transition = "transform 0.3s ease-out";
-        }
-      }, 50);
-    };
-
-    document.addEventListener("touchstart", handleTouchStart, {
-      passive: false,
-    });
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.addEventListener("touchend", handleTouchEnd, { passive: false });
-
-    return () => {
-      document.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [
-    thumbnailsList.length,
-    minOffset,
-    maxOffset,
-    updateScrollTransform,
-    isTouchDevice,
-    startAnimationLoop,
     updateActiveThumbnailFromOffset,
     isSafari,
   ]);
@@ -358,8 +128,6 @@ export default function Homepage({homepage}) {
     const handleKeyDown = (e) => {
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         e.preventDefault();
-        setIsKeyboardNavigating(true);
-        momentumRef.current = 0;
 
         const currentActive = activeThumbnail;
         let newActive;
@@ -373,20 +141,7 @@ export default function Homepage({homepage}) {
               : currentActive;
         }
 
-        if (newActive !== currentActive) {
-          setActiveThumbnail(newActive);
-
-          const targetOffset = -thumbnailPositions[newActive];
-          const clampedOffset = clampOffset(targetOffset, minOffset, maxOffset);
-
-          setScrollOffset(clampedOffset);
-          updateScrollTransform(clampedOffset);
-        }
-
-        // Reset keyboard navigation mode
-        setTimeout(() => {
-          setIsKeyboardNavigating(false);
-        }, 500);
+        carouselRef.current.querySelectorAll("button")[newActive].click();
       }
     };
 
@@ -398,36 +153,6 @@ export default function Homepage({homepage}) {
     thumbnailPositions,
     minOffset,
     maxOffset,
-    updateScrollTransform,
-  ]);
-
-  // Update active thumbnail on scroll offset changes
-  useEffect(() => {
-    if (momentumRef.current === 0) {
-      updateActiveThumbnailFromOffset(currentScrollOffsetRef.current);
-    }
-  }, [scrollOffset, updateActiveThumbnailFromOffset]);
-
-  // Update active thumbnail on window resize
-  useEffect(() => {
-    if (thumbnailsList.length === 0) return;
-
-    const handleResize = () => {
-      if (!isKeyboardNavigating) {
-        requestAnimationFrame(() => {
-          if (momentumRef.current === 0) {
-            updateActiveThumbnailFromOffset(currentScrollOffsetRef.current);
-          }
-        });
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [
-    isKeyboardNavigating,
-    updateActiveThumbnailFromOffset,
-    thumbnailsList.length,
   ]);
 
   // Thumbnail click handler
@@ -435,20 +160,15 @@ export default function Homepage({homepage}) {
     (index) => {
       if (index >= thumbnailPositions.length) return;
 
-      setIsKeyboardNavigating(false);
+      const targetOffset = thumbnailPositions[index];
+      carouselRef.current.scrollTo(targetOffset, 0);
 
-      const targetOffset = -thumbnailPositions[index];
-      const clampedOffset = clampOffset(targetOffset, minOffset, maxOffset);
-
-      setScrollOffset(clampedOffset);
       setActiveThumbnail(index);
-      updateScrollTransform(clampedOffset);
     },
     [
       thumbnailPositions,
       minOffset,
       maxOffset,
-      updateScrollTransform,
       isTouchDevice,
     ]
   );
@@ -463,13 +183,11 @@ export default function Homepage({homepage}) {
   }, []);
 
   // Initialize
-  useEffect(() => {
-    setScrollOffset(0);
-    setActiveThumbnail(0);
-    updateScrollTransform(0);
-  }, [updateScrollTransform]);
+  /*   useEffect(() => {
+      setScrollOffset(0);
+    }, []); */
 
-  return (
+  return (<>
     <main className="home page subgrid">
       <div className="top subgrid">
         <div className="intro">
@@ -488,27 +206,25 @@ export default function Homepage({homepage}) {
       </div>
       <div className="thumbnails">
         <h3>Latest</h3>
-        <div className="carousel" ref={carouselRef}>
-          {homepage.youtubeVideoCollection.items.map((video, index) => (
-            <div
-              className={`carousel-item ${
-                index === activeThumbnail ? "active" : ""
-              }`}
-              key={index}
-              ref={thumbnailsRef[index]}
-              onClick={() => handleThumbnailClick(index)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && handleThumbnailClick(index)
-              }
-              tabIndex={0}
-              role="button"
-            >
-              <div className="overlay"/>
-              <img src={video.thumbnail.url} alt={video.title} />
-            </div>
-          ))}
+        <div className="carousel">
+          <ul className="carousel-track" ref={carouselRef}>
+            {homepage.youtubeVideoCollection.items.map((video, index) => (
+              <li
+                className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                  }`}
+                key={index}
+                ref={thumbnailsRef[index]}
+              >
+                <button
+                  onClick={() => handleThumbnailClick(index)}>
+                  <img src={video.thumbnail.url} alt={video.title} />
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>
+  </>
   );
 }
