@@ -67,3 +67,29 @@ export const GET_POET_VIDEOS = gql`
     }
   }
 `;
+
+
+export const GET_INTERVIEW_HOSTS = gql`
+  query getInterviewHosts {
+    interviewHosts: interviewHostCollection {
+      items {
+        _id
+        name
+        slug
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+    interviewsIndex: interviewsIndexCollection {
+      items {
+        pageContent
+        pageTitle
+      }
+    }
+  }
+`;
