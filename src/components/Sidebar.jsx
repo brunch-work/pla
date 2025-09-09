@@ -1,44 +1,64 @@
 "use client"
 
 import { PlusButton } from "./PlusButton";
+import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
 
 export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, setListOpen }) => {
 
-  if (pageType === "poets" ) {
+  const renderList = () => {
+    if (pageType === "Poets") {
+      return (
+        <ul>
+          {Object.keys(list)
+            .sort()
+            .map((letter) => {
+              const poets = list[letter];
+              return (
+                <AlphabeticalListSection
+                  key={letter}
+                  letter={letter}
+                  poets={poets}
+                  activePoet={activeItem}
+                />
+              );
+            })}
+        </ul>
+      );
+    }
+
     return (
-      <div className="sidebar">
-        <div className="list">
-          <h1
-            className="body-text radio-button"
-            onClick={() => setListOpen(!listOpen)}
-          >
-            <PlusButton isActive={listOpen} />
-            <span>Poets</span>
-          </h1>
-          {listOpen && (
-            <fieldset onChange={(e) => setActiveItem(e.target.value)}>
-              <ul>
-                {Object.keys(list)
-                  .sort()
-                  .map((letter) => {
-                    const poets = list[letter];
-                    return (
-                      <AlphabeticalListSection
-                        key={letter}
-                        letter={letter}
-                        poets={poets}
-                        activePoet={activeItem}
-                      />
-                    );
-                  })}
-              </ul>
-            </fieldset>
-          )}
-        </div>
-      </div>
+      <ul>
+        {list.map((item) => (
+          <li key={item._id}>
+            <RadioButton
+              active={activeItem === item.slug}
+              label={item.name}
+              name="poetsList"
+              value={item.slug}
+            />
+          </li>
+        ))}
+      </ul>
     );
   }
 
-  return null;
+  return (
+    <div className="sidebar">
+      <div className="list">
+        <h1
+          className="body-text radio-button"
+          onClick={() => setListOpen(!listOpen)}
+        >
+          <PlusButton isActive={listOpen} />
+          <span>{pageType}</span>
+        </h1>
+        {listOpen && (
+          <fieldset onChange={(e) => setActiveItem(e.target.value)}>
+            {renderList()}
+          </fieldset>
+        )}
+      </div>
+    </div>
+  );
 }

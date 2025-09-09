@@ -9,9 +9,9 @@ export default async function InterviewsPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <DefaultPage
-        list={interviewHosts}
-        pageDetails={interviewsIndex}
-        pageType="interviews"
+        list={interviewHosts.items}
+        pageDetails={interviewsIndex.items[0]}
+        pageType="Interviews"
         searchParam="interview"
       />
     </Suspense>

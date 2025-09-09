@@ -40,7 +40,7 @@ export const GET_POETS = gql`
     }
     poetsIndex: poetsIndexCollection {
       items {
-        pageDescription
+        pageContent
         pageTitle
       }
     }

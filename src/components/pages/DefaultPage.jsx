@@ -22,9 +22,10 @@ export default function DefaultPage({ list, pageDetails, pageType, searchParam }
   );
   let sortedList;
 
+  console.log(list)
 
   // build alphabetical list for poets page
-  if (pageType === "poets") {
+  if (pageType === "Poets") {
     sortedList = list.sort().reduce(function (acc, poet) {
       const firstLetter = poet.name[0].toUpperCase();
       if (!acc[firstLetter]) {
@@ -34,7 +35,7 @@ export default function DefaultPage({ list, pageDetails, pageType, searchParam }
       return acc;
     }, {});
   } else {
-    sortedList = list.items;
+    sortedList = list;
   }
 
   useEffect(() => {
@@ -83,8 +84,8 @@ export default function DefaultPage({ list, pageDetails, pageType, searchParam }
       {/* MAIN CONTENT */}
       <div className="main-content">
         {activeItem && <Poet poet={list.find((p) => p.slug === activeItem)} />}
-        {!activeItem && pageDetails.pageDescription && (
-          <Markdown>{pageDetails.pageDescription}</Markdown>
+        {!activeItem && pageDetails.pageContent && (
+          <Markdown>{pageDetails.pageContent}</Markdown>
         )}
       </div>
     </main>
