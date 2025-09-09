@@ -4,18 +4,12 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
 import { calculateImageWidth, calculateThumbnailPositions, calculateTotalWidth, clampOffset } from "@/utils/helpers";
 import { useViewport } from "@/hooks/useViewport";
-import { useMobile } from "@/hooks/useMobile";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import Link from "next/link";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
-  const [scrollOffset, setScrollOffset] = useState(0);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   const [isKeyboardNavigating, setIsKeyboardNavigating] = useState(false);
-  const [isSafari, setIsSafari] = useState(false);
-
 
   // Refs
   const thumbnailsRef = useRef([]);
@@ -28,12 +22,6 @@ export default function Homepage({ homepage }) {
   const thumbnailHeightVh = 13;
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
-
-  // Detect Safari
-  useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    setIsSafari(userAgent.includes("safari") && !userAgent.includes("chrome"));
-  }, []);
 
   // Memoized calculations
   const thumbnailHeight = useMemo(() => {
@@ -50,23 +38,6 @@ export default function Homepage({ homepage }) {
   const thumbnailPositions = useMemo(() => {
     return calculateThumbnailPositions(generatedThumbnailWidths, gap);
   }, [generatedThumbnailWidths, gap]);
-
-  const totalWidth = useMemo(() => {
-    return calculateTotalWidth(thumbnailPositions, generatedThumbnailWidths);
-  }, [thumbnailPositions, generatedThumbnailWidths]);
-
-  const leftPadding = useMemo(() => {
-    return isTouchDevice ? 1.2 : 1.6;
-  }, [isTouchDevice]);
-
-  const { minOffset, maxOffset } = useMemo(() => {
-    const max = 0;
-    const min =
-      generatedThumbnailWidths.length === 0
-        ? 0
-        : -(thumbnailPositions[thumbnailPositions.length - 1] + leftPadding);
-    return { minOffset: min, maxOffset: max };
-  }, [thumbnailPositions, generatedThumbnailWidths.length]);
 
   // Active thumbnail detection based on scroll offset
   const updateActiveThumbnailFromOffset = useCallback(
@@ -115,11 +86,38 @@ export default function Homepage({ homepage }) {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [
     thumbnailsList.length,
-    minOffset,
-    maxOffset,
     updateActiveThumbnailFromOffset,
-    isSafari,
   ]);
+
+
+  // scrollSnapchange event handling
+  useEffect(() => {
+    const handleScrollSnapChange = (e) => {
+      setActiveThumbnail([...thumbnailsRef.current].indexOf(e.snapTargetInline));
+    }
+
+    const handleScroll = (e) => {
+      thumbnailPositions.forEach((position, i) => {
+        if (e.target.scrollLeft >= thumbnailPositions[i] && activeThumbnail !== i) {
+
+          setActiveThumbnail(i);
+        } else {
+          return;
+        }
+      });
+    }
+
+    const carousel = carouselRef.current;
+
+    if (carousel && 'onscrollsnapchange' in carousel) {
+      carousel.addEventListener('scrollsnapchange', handleScrollSnapChange);
+      return () => carousel.removeEventListener("scrollsnapchange", handleScrollSnapChange);
+    } else {
+      console.log("scrollsnapchange event not supported in this browser");
+      carousel.addEventListener('scroll', handleScroll);
+      return () => carousel.removeEventListener("scroll", handleScroll);
+    }
+  });
 
   // Keyboard navigation
   useEffect(() => {
@@ -151,8 +149,6 @@ export default function Homepage({ homepage }) {
     thumbnailsList.length,
     activeThumbnail,
     thumbnailPositions,
-    minOffset,
-    maxOffset,
   ]);
 
   // Thumbnail click handler
@@ -161,32 +157,14 @@ export default function Homepage({ homepage }) {
       if (index >= thumbnailPositions.length) return;
 
       const targetOffset = thumbnailPositions[index];
-      carouselRef.current.scrollTo(targetOffset, 0);
 
+      carouselRef.current.scrollTo(targetOffset, 0);
       setActiveThumbnail(index);
     },
     [
-      thumbnailPositions,
-      minOffset,
-      maxOffset,
-      isTouchDevice,
+      thumbnailPositions
     ]
   );
-
-  // Cleanup
-  useEffect(() => {
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
-
-  // Initialize
-  /*   useEffect(() => {
-      setScrollOffset(0);
-    }, []); */
-
   return (<>
     <main className="home page subgrid">
       <div className="top subgrid">
@@ -213,7 +191,7 @@ export default function Homepage({ homepage }) {
                 className={`carousel-item ${index === activeThumbnail ? "active" : ""
                   }`}
                 key={index}
-                ref={thumbnailsRef[index]}
+                ref={el => thumbnailsRef.current[index] = el}
               >
                 <button
                   onClick={() => handleThumbnailClick(index)}>
