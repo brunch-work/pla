@@ -23,7 +23,7 @@ export const AlphabeticalListSection = ({ letter, poets, activePoet }) => {
             <li key={poet._id}>
               <RadioButton
                 active={activePoet === poet.slug}
-                label={poet.name}
+                label={poet.title}
                 name="poetsList"
                 value={poet.slug}
               />

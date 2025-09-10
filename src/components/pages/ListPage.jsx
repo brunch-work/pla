@@ -26,7 +26,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
   // build alphabetical list for poets page
   if (sidebarLabel === "Poets") {
     sortedList = list.sort().reduce(function (acc, poet) {
-      const firstLetter = poet.name[0].toUpperCase();
+      const firstLetter = poet.title[0].toUpperCase();
       if (!acc[firstLetter]) {
         acc[firstLetter] = [];
       }
@@ -44,7 +44,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
       subNavOpen: listOpen,
       setSubNavOpen: setListOpen,
       activeItem: activeItem
-        ? list.find((p) => p.slug === activeItem).name
+        ? list.find((p) => p.slug === activeItem).title
         : null,
       setActiveItem: setActiveItem,
       activeItemSlug: activeItem,
