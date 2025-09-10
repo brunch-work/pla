@@ -1,4 +1,4 @@
-import DefaultPage from "@/components/pages/DefaultPage";
+import ListPage from "@/components/pages/ListPage";
 import { getPropData } from "@/utils/client";
 import { GET_INTERVIEW_HOSTS } from "@/gql/queries";
 import { Suspense } from "react";
@@ -8,11 +8,11 @@ export default async function InterviewsPage() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <DefaultPage
+      <ListPage
         list={interviewHosts.items}
         pageDetails={interviewsIndex.items[0]}
         pageType="Interviews"
-        searchParam="interview"
+        searchParam="interview-host"
       />
     </Suspense>
   );

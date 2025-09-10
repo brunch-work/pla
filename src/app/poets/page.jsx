@@ -1,4 +1,4 @@
-import DefaultPage from "@/components/pages/DefaultPage";
+import ListPage from "@/components/pages/ListPage";
 import { getPropData } from "@/utils/client";
 import { GET_POETS } from "@/gql/queries";
 import { Suspense } from "react";
@@ -8,7 +8,7 @@ export default async function PoetsPage() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <DefaultPage
+      <ListPage
         list={poets.items}
         pageDetails={poetsIndex.items[0]}
         pageType="Poets"

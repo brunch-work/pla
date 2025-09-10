@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Markdown from "react-markdown";
 
-export default function DefaultPage({ list, pageDetails, pageType, searchParam }) {
+export default function ListPage({ list, pageDetails, pageType, searchParam }) {
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function DefaultPage({ list, pageDetails, pageType, searchParam }
   useEffect(() => {
     if (activeItem) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
-      current.set("poet", activeItem);
+      current.set(searchParam, activeItem);
       router.push(`?${current.toString()}`, { scroll: false });
     }
 
@@ -78,7 +78,7 @@ export default function DefaultPage({ list, pageDetails, pageType, searchParam }
   };
 
   return (
-    <main className="poets page subgrid">
+    <main className="list-page page subgrid">
       {handleSidebar()}
 
       {/* MAIN CONTENT */}

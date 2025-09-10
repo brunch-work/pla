@@ -1,4 +1,4 @@
-.poets {
+.list-page {
   position: relative;
   display: flex !important;
   flex-direction: column-reverse;
@@ -51,10 +51,8 @@
       }
 
       .img {
-        width: calc(50% - (1.2rem / 2));
         height: fit-content;
         margin: 0 0 0.8rem 0.8rem;
-        float: right;
 
         img {
           width: 100%;
