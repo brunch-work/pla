@@ -118,3 +118,28 @@ export const GET_SERIES = gql`
     }
   }
 `;
+
+export const GET_DOCUMENTARIES = gql`
+  query getDocumentaries {
+    documentaries: youtubeVideoCollection (where: {documentary_exists: true}, order: [publicationDate_DESC]) {
+      items {
+        _id
+        name: title
+        slug
+        description
+        photo: thumbnail {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+    documentariesIndex: documentariesIndexCollection {
+      items {
+        pageContent
+        pageTitle
+      }
+    }
+  }
+`;
