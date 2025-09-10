@@ -11,7 +11,7 @@ export default async function InterviewsPage() {
       <ListPage
         list={interviewHosts.items}
         pageDetails={interviewsIndex.items[0]}
-        pageType="Interviews"
+        sidebarLabel="Interview Hosts"
         searchParam="interview-host"
       />
     </Suspense>

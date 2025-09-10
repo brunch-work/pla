@@ -14,6 +14,8 @@ export const SubNav = ({
   setActiveItem
 }) => {
 
+  console.log(activeItem)
+
   const renderList = () => {
     if (itemType === "Poets") {
       return (
@@ -37,12 +39,12 @@ export const SubNav = ({
       return (
         <ul>
           {list.map((item) => (
-            <li key={item.id}>
+            <li key={item._id}>
               <RadioButton
                 label={item.name}
                 name="active-item"
-                value={item.id}
-                active={item.id === activeItem}
+                value={item.slug}
+                active={item.slug === activeItemSlug}
               />
             </li>
           ))}

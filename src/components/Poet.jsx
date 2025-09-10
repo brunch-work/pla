@@ -3,7 +3,7 @@ import { VideoPlayer } from "./VideoPlayer";
 
 import Markdown from "react-markdown";
 import useSWR from "swr";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SWRfetch } from "@/utils/client";
 
 export const Poet = ({ poet }) => {

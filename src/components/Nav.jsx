@@ -81,9 +81,6 @@ export const Nav = () => {
     }
   }, [subNavProps.activeItem, isMobile]);
 
-  console.log(isMobile)
-  console.log(subNavProps)
-
   if (!mounted) return (
     <nav className="nav loading grid">
       <div className="subgrid">
@@ -93,7 +90,7 @@ export const Nav = () => {
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}`}>
+      <nav className={`nav grid${navOpen ? " open" : ""}${subNavProps.subNavOpen && subNavProps.activeItem ? " subnav-open" : ""}`}>
         <div className="subgrid">
           <div
             className="logo-wrapper"

@@ -11,7 +11,7 @@ export default async function PoetsPage() {
       <ListPage
         list={poets.items}
         pageDetails={poetsIndex.items[0]}
-        pageType="Poets"
+        sidebarLabel="Poets"
         searchParam="poet"
       />
     </Suspense>

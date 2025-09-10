@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Markdown from "react-markdown";
 
-export default function ListPage({ list, pageDetails, pageType, searchParam }) {
+export default function ListPage({ list, pageDetails, searchParam, sidebarLabel }) {
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
   let sortedList;
 
   // build alphabetical list for poets page
-  if (pageType === "Poets") {
+  if (sidebarLabel === "Poets") {
     sortedList = list.sort().reduce(function (acc, poet) {
       const firstLetter = poet.name[0].toUpperCase();
       if (!acc[firstLetter]) {
@@ -47,7 +47,7 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
         : null,
       setActiveItem: setActiveItem,
       activeItemSlug: activeItem,
-      itemType: "Poets",
+      itemType: sidebarLabel,
     });
   }, [setNavProps, listOpen, router]);
 
@@ -68,7 +68,7 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
   const renderSidebar = () => {
     if (!isMobile || (isMobile && !activeItem)) {
       return <Sidebar
-        pageType={pageType}
+        pageType={sidebarLabel}
         list={sortedList}
         activeItem={activeItem}
         setActiveItem={setActiveItem}
