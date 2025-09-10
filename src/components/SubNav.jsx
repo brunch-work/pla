@@ -14,8 +14,6 @@ export const SubNav = ({
   setActiveItem
 }) => {
 
-  console.log(activeItem)
-
   const renderList = () => {
     if (itemType === "Poets") {
       return (
