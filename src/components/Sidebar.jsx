@@ -7,6 +7,8 @@ import { AlphabeticalListSection } from "./AlphabeticalListSection";
 export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, setListOpen }) => {
 
   const renderList = () => {
+
+    // Alphabetical list for poets page only
     if (pageType === "Poets") {
       return (
         <ul>

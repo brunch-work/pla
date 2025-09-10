@@ -22,8 +22,6 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
   );
   let sortedList;
 
-  console.log(list)
-
   // build alphabetical list for poets page
   if (pageType === "Poets") {
     sortedList = list.sort().reduce(function (acc, poet) {
@@ -38,6 +36,7 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
     sortedList = list;
   }
 
+  // props for mobile nav
   useEffect(() => {
     setNavProps({
       list: sortedList,
@@ -50,8 +49,9 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
       activeItemSlug: activeItem,
       itemType: "Poets",
     });
-  }, [setNavProps, listOpen]);
+  }, [setNavProps, listOpen, router]);
 
+  // update URL search params
   useEffect(() => {
     if (activeItem) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -62,9 +62,10 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
     if (isMobile && activeItem) {
       setListOpen(false);
     }
-  }, [activeItem]);
+  }, [activeItem, isMobile]);
 
-  const handleSidebar = () => {
+  // handle sidebar toggle
+  const renderSidebar = () => {
     if (!isMobile || (isMobile && !activeItem)) {
       return <Sidebar
         pageType={pageType}
@@ -79,7 +80,7 @@ export default function ListPage({ list, pageDetails, pageType, searchParam }) {
 
   return (
     <main className="list-page page subgrid">
-      {handleSidebar()}
+      {renderSidebar()}
 
       {/* MAIN CONTENT */}
       <div className="main-content">

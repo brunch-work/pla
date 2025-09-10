@@ -9,6 +9,10 @@
   backdrop-filter: blur(10px);
   row-gap: 0.4rem;
 
+  &.loading {
+    height: var(--nav-height);
+  }
+
   .subgrid {
     grid-column: 2/-2;
     height: 100%;

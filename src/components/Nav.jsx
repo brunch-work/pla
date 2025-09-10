@@ -14,7 +14,16 @@ import { SubNav } from "./SubNav";
 export const Nav = () => {
   const route = usePathname();
   const [navOpen, setNavOpen] = useState(false);
-  const [subNavProps, setSubNavProps] = useState({});
+  const [subNavProps, setSubNavProps] = useState({
+    list: [],
+    subNavOpen: false,
+    setSubNavOpen: () => {},
+    activeItem: null,
+    setActiveItem: () => {},
+    activeItemSlug: null,
+    itemType: "",
+  });
+  const [mounted, setMounted] = useState(false);
   const { navProps } = useNavContext();
 
   const isMobile = useMobile();
@@ -43,6 +52,10 @@ export const Nav = () => {
       ];
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     setSubNavProps({ ...navProps });
   }, [navProps]);
 
@@ -50,7 +63,7 @@ export const Nav = () => {
     if (isMobile) {
       setNavOpen(false);
     }
-  }, [route]);
+  }, [route, isMobile]);
 
   useEffect(() => {
     if (navOpen) {
@@ -66,11 +79,21 @@ export const Nav = () => {
     } else {
       document.body.classList.remove("has-active-subnav");
     }
-  }, [subNavProps.activeItem]);
+  }, [subNavProps.activeItem, isMobile]);
+
+  console.log(isMobile)
+  console.log(subNavProps)
+
+  if (!mounted) return (
+    <nav className="nav loading grid">
+      <div className="subgrid">
+      </div>
+    </nav>
+  );
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}`} suppressHydrationWarning>
+      <nav className={`nav grid${navOpen ? " open" : ""}`}>
         <div className="subgrid">
           <div
             className="logo-wrapper"
@@ -102,7 +125,7 @@ export const Nav = () => {
   }
 
   return (
-    <nav className="nav grid" suppressContentEditableWarning>
+    <nav className="nav grid">
       <div className="subgrid">
         <Link href="/">
           <Logo />

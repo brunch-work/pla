@@ -3,19 +3,30 @@ import { VideoPlayer } from "./VideoPlayer";
 
 import Markdown from "react-markdown";
 import useSWR from "swr";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
 
 export const Poet = ({ poet }) => {
-  const { data, error, mutate } = useSWR(GET_POET_VIDEOS, (query, variables) =>
+  // const [hasMounted, setHasMounted] = useState(false);
+
+  const { data, error, mutate, isLoading } = useSWR(GET_POET_VIDEOS, (query, variables) =>
     SWRfetch(query, { poetSlug: poet.slug })
   );
 
   useEffect(() => {
+    // setHasMounted(true);
     if (data) {
       mutate({ ...data, poetSlug: poet.slug });
     }
   }, [poet.slug]);
+
+  // if (!hasMounted) {
+  //   return null;
+  // }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="poet grid-right">

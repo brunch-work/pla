@@ -30,6 +30,7 @@
     outline: 1.5px solid var(--black);
     margin: 0;
     position: relative;
+    margin-right: 0.8rem;
 
     &::before {
       content: "";
