@@ -7,25 +7,32 @@ import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
 
 export const Poet = ({ poet }) => {
-  // const [hasMounted, setHasMounted] = useState(false);
 
   const { data, error, mutate, isLoading } = useSWR(GET_POET_VIDEOS, (query, variables) =>
     SWRfetch(query, { poetSlug: poet.slug })
   );
 
   useEffect(() => {
-    // setHasMounted(true);
     if (data) {
       mutate({ ...data, poetSlug: poet.slug });
     }
   }, [poet.slug]);
 
-  // if (!hasMounted) {
-  //   return null;
-  // }
-
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="poet grid-right">
+        <div className="poet__info">
+          <div className="img skeleton"/>
+        </div>
+        <div className="poet__videos">
+          <div className="video skeleton"/>
+          <div className="video skeleton"/>
+          <div className="video skeleton"/>
+          <div className="video skeleton"/>
+          <div className="video skeleton"/>
+        </div>
+      </div>
+    );
   }
 
   return (

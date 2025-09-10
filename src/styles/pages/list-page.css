@@ -1,3 +1,12 @@
+@keyframes skeleton-loading {
+  0% {
+    background-color: #f5f5f5;
+  }
+  100% {
+    background-color: #e2e2e2;
+  }
+}
+
 .list-page {
   position: relative;
   display: flex !important;
@@ -52,11 +61,15 @@
 
       .img {
         height: fit-content;
-        margin: 0 0 0.8rem 0.8rem;
 
         img {
           width: 100%;
           height: auto;
+        }
+
+        &.skeleton {
+          animation: skeleton-loading 1s linear infinite alternate;
+          aspect-ratio: 1/1;
         }
       }
 
@@ -68,6 +81,15 @@
     .poet__videos {
       grid-column: 1 / -1;
       margin-top: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+
+      .video.skeleton {
+        animation: skeleton-loading 1s linear infinite alternate;
+        aspect-ratio: 16/9;
+        margin-bottom: 0.4rem;
+      }
     }
   }
 
