@@ -3,6 +3,7 @@
 import { Poet } from "../Poet";
 import { useNavContext } from "@/utils/navContextProvider";
 import { Sidebar } from "../Sidebar";
+import { VideoPlayer } from "../VideoPlayer";
 
 import { useMobile } from "@/hooks/useMobile";
 
@@ -84,7 +85,8 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
 
       {/* MAIN CONTENT */}
       <div className="main-content">
-        {activeItem && <Poet poet={list.find((p) => p.slug === activeItem)} />}
+        {activeItem && sidebarLabel !== "Documentaries" && <Poet poet={list.find((p) => p.slug === activeItem)} />}
+        {activeItem && sidebarLabel === "Documentaries" && <VideoPlayer video={list.find((d) => d.slug === activeItem)} />}
         {!activeItem && pageDetails?.pageContent && (
           <Markdown>{pageDetails.pageContent}</Markdown>
         )}

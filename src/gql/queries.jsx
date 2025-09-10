@@ -27,7 +27,7 @@ export const GET_POETS = gql`
     poets: poetCollection  {
       items {
         _id
-        name
+        title: name
         slug
         bio
         photo {
@@ -74,7 +74,7 @@ export const GET_INTERVIEW_HOSTS = gql`
     interviewHosts: interviewHostCollection {
       items {
         _id
-        name
+        title: name
         slug
         bio
         photo {
@@ -99,7 +99,7 @@ export const GET_SERIES = gql`
     series: seriesCollection {
       items {
         _id
-        name: title
+        title
         slug
         description
         photo: image {
@@ -121,13 +121,18 @@ export const GET_SERIES = gql`
 
 export const GET_DOCUMENTARIES = gql`
   query getDocumentaries {
-    documentaries: youtubeVideoCollection (where: {documentary_exists: true}, order: [publicationDate_DESC]) {
+    documentaries: youtubeVideoCollection(
+      where: { documentary: true }
+      order: [publicationDate_DESC]
+    ) {
       items {
         _id
-        name: title
+        title
         slug
         description
-        photo: thumbnail {
+        videoUrl
+        publicationDate
+        thumbnail {
           url
           width
           height

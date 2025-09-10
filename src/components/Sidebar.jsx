@@ -35,7 +35,7 @@ export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, s
           <li key={item._id}>
             <RadioButton
               active={activeItem === item.slug}
-              label={item.name}
+              label={item.title}
               name="poetsList"
               value={item.slug}
             />

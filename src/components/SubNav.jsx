@@ -39,7 +39,7 @@ export const SubNav = ({
           {list.map((item) => (
             <li key={item._id}>
               <RadioButton
-                label={item.name}
+                label={item.title}
                 name="active-item"
                 value={item.slug}
                 active={item.slug === activeItemSlug}
