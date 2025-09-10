@@ -93,3 +93,28 @@ export const GET_INTERVIEW_HOSTS = gql`
     }
   }
 `;
+
+export const GET_SERIES = gql`
+  query getSeries {
+    series: seriesCollection {
+      items {
+        _id
+        name: title
+        slug
+        description
+        photo: image {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+    seriesIndex: seriesIndexCollection {
+      items {
+        pageContent
+        pageTitle
+      }
+    }
+  }
+`;

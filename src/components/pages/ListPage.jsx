@@ -85,7 +85,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
       {/* MAIN CONTENT */}
       <div className="main-content">
         {activeItem && <Poet poet={list.find((p) => p.slug === activeItem)} />}
-        {!activeItem && pageDetails.pageContent && (
+        {!activeItem && pageDetails?.pageContent && (
           <Markdown>{pageDetails.pageContent}</Markdown>
         )}
       </div>
