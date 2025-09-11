@@ -90,7 +90,7 @@ export const Nav = () => {
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}${subNavProps.subNavOpen && subNavProps.activeItem ? " subnav-open" : ""}`}>
+      <nav className={`nav grid${navOpen ? " open" : ""}${subNavProps.subNavOpen && subNavProps.activeItem ? " subnav-open" : ""}`} aria-labelledby="main navigation">
         <div className="subgrid">
           <div
             className="logo-wrapper"
@@ -122,7 +122,7 @@ export const Nav = () => {
   }
 
   return (
-    <nav className="nav grid">
+    <nav className="nav grid" aria-labelledby="main navigation">
       <div className="subgrid">
         <Link href="/">
           <Logo />

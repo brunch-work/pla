@@ -56,9 +56,9 @@ export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, s
           <span>{pageType}</span>
         </h1>
         {listOpen && (
-          <fieldset onChange={(e) => setActiveItem(e.target.value)}>
+          <nav onChange={(e) => setActiveItem(e.target.value)} aria-labelledby={`${pageType} navigation`}>
             {renderList()}
-          </fieldset>
+          </nav>
         )}
       </div>
     </div>
