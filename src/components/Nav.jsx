@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import { useMobile } from "../hooks/useMobile";
@@ -70,12 +70,12 @@ export const Nav = () => {
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}`} suppressHydrationWarning>
+      <nav
+        className={`nav grid${navOpen ? " open" : ""}`}
+        suppressHydrationWarning
+      >
         <div className="subgrid">
-          <div
-            className="logo-wrapper"
-            onClick={() => setNavOpen(!navOpen)}
-          >
+          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
             <PlusButton isActive={navOpen} />
             <Logo />
           </div>
@@ -83,14 +83,13 @@ export const Nav = () => {
             <ul className="menu">
               {menu.map((item, index) => (
                 <li key={index} className="menu-item">
-                  <Link href={item.route}>
-                    <RadioButton
-                      active={route === item.route}
-                      label={item.name}
-                      value={item.route}
-                      name="nav"
-                    />
-                  </Link>
+                  <RadioButton
+                    active={route === item.route}
+                    label={item.name}
+                    value={item.route}
+                    name="nav"
+                    href={item.route}
+                  />
                 </li>
               ))}
             </ul>
@@ -111,14 +110,13 @@ export const Nav = () => {
         <ul className="menu">
           {menu.map((item, index) => (
             <li key={index} className="menu-item">
-              <Link href={item.route}>
-                <RadioButton
-                  active={route === item.route}
-                  label={item.name}
-                  value={item.route}
-                  name="nav"
-                />
-              </Link>
+              <RadioButton
+                active={route === item.route}
+                label={item.name}
+                value={item.route}
+                name="nav"
+                href={item.route}
+              />
             </li>
           ))}
         </ul>

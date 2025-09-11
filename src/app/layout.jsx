@@ -1,6 +1,7 @@
 import "@/styles/global.css";
 import { Nav } from "@/components/Nav";
 import { NavContextProvider } from "@/utils/navContextProvider";
+import { ViewTransitions } from "next-view-transitions";
 
 export const metadata = {
   title: "Create Next App",
@@ -9,13 +10,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="grid">
-        <NavContextProvider>
-          <Nav />
-          {children}
-        </NavContextProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body className="grid">
+          <NavContextProvider>
+            <Nav />
+            {children}
+          </NavContextProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
