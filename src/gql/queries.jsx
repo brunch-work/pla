@@ -162,78 +162,76 @@ export const GET_DOCUMENTARIES = gql`
 `;
 
 export const GET_POETS_LIST = gql`
-  query getPoetsList {
-    list: poetCollection(order: [name_ASC]) {
+  query getPoetsList($activeItem: String) {
+    list: poetCollection(limit: 1000, order: [name_ASC]) {
       items {
         _id
         title: name
         slug
-        bio
-        photo {
-          url
-          width
-          height
-          title
-        }
+      }
+    }
+    activeItem: poetCollection(where: { slug: $activeItem }) {
+      items {
+        _id
+        title:name
+        slug
       }
     }
   }
 `;
 
 export const GET_INTERVIEWS_LIST = gql`
-  query getInterviewsList {
+  query getInterviewsList($activeItem: String) {
     list: interviewCollection(order: [name_ASC]) {
       items {
         _id
         title: name
         slug
-        bio
-        photo {
-          url
-          width
-          height
-          title
-        }
+      }
+    }
+    activeItem: interviewHostCollection(where: { slug: $activeItem }) {
+      items {
+        _id
+        title: name
+        slug
       }
     }
   }
 `;
 
 export const GET_SERIES_LIST = gql`
-  query getSeriesList {
+  query getSeriesList($activeItem: String) {
     list: seriesCollection(order: [name_ASC]) {
       items {
         _id
-        title: name
+        title
         slug
-        bio
-        photo {
-          url
-          width
-          height
-          title
-        }
+      }
+    }
+    activeItem: seriesCollection(where: { slug: $activeItem }) {
+      items {
+        _id
+        title
+        slug
       }
     }
   }
 `;
 
 export const GET_DOCUMENTARIES_LIST = gql`
-  query getDocumentariesList {
+  query getDocumentariesList($activeItem: String) {
     list: youtubeVideoCollection(where: { documentary: true }, order: [publicationDate_DESC]) {
       items {
         _id
         title
         slug
-        description
-        videoUrl
-        publicationDate
-        thumbnail {
-          url
-          width
-          height
-          title
-        }
+      }
+    }
+    activeItem: youtubeVideoCollection(where: { slug: $activeItem }) {
+      items {
+        _id
+        title
+        slug
       }
     }
   }

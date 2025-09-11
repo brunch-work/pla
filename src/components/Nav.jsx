@@ -119,7 +119,7 @@ export const Nav = () => {
           <SubNav
             {...navProps}
             pathname={pathname}
-            activeItem={activeItem}
+            activeItemSlug={activeItem}
             subNavOpen={subNavOpen}
             setSubNavOpen={setSubNavOpen}
           />

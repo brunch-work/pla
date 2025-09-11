@@ -12,16 +12,17 @@ import { GET_POETS_LIST, GET_INTERVIEWS_LIST, GET_SERIES_LIST, GET_DOCUMENTARIES
 export const SubNav = ({
   subNavOpen,
   setSubNavOpen,
-  activeItem,
+  activeItemSlug,
   itemType,
-  activeItemTitle,
   pathname,
   searchParam,
   pageType,
 }) => {
 
   let query;
+
   const [list, setList] = useState([]);
+  const [activeItem, setActiveItem] = useState({});
 
   if (itemType === "Poets") {
     query = GET_POETS_LIST;
@@ -34,13 +35,13 @@ export const SubNav = ({
   }
 
   const { data, error, mutate, isLoading } = useSWR(query, (query, variables) =>
-    SWRfetch(query)
+    SWRfetch(query, { activeItem: activeItemSlug })
   );
 
   useEffect(() => {
     if (data) {
       mutate(data);
-
+      setActiveItem(data.activeItem.items[0]);
       if (itemType === "Poets") {
         setList(data.list.items.reduce(function (acc, poet) {
           const firstLetter = poet.title[0].toUpperCase();
@@ -55,7 +56,9 @@ export const SubNav = ({
       }
     }
 
-  }, [searchParam, data]);
+  }, [data, activeItemSlug]);
+
+  console.log(data)
 
   const renderList = () => {
     if (itemType === "Poets") {
@@ -70,7 +73,7 @@ export const SubNav = ({
                   key={letter}
                   letter={letter}
                   poets={poets}
-                  activePoet={activeItem}
+                  activePoet={activeItemSlug}
                   pathname={pathname}
                   searchParam={searchParam}
                 />
@@ -108,13 +111,13 @@ export const SubNav = ({
           <PlusButton isActive={subNavOpen} />
           <span>{itemType}</span>
         </h1>
-        {activeItem && !subNavOpen && (
+        {activeItemSlug && !subNavOpen && (
           <RadioButton
-            label={activeItemTitle}
+            label={activeItem.title}
             name="active-item"
-            value={activeItem}
+            value={activeItemSlug}
             active={true}
-            url={`${pathname}?${searchParam}=${activeItem}`}
+            url={`${pathname}?${searchParam}=${activeItemSlug}`}
             ariaCurrent="page"
           />
         )}

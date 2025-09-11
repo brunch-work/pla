@@ -42,7 +42,6 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
   useEffect(() => {
     setNavProps({
       itemType: sidebarLabel,
-      activeItemTitle: activeItem ? list.find((p) => p.slug === activeItem).title : null,
       searchParam: searchParam,
       pageType: sidebarLabel,
     });

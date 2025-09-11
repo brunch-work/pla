@@ -7,17 +7,20 @@ import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
 
 export const Poet = ({ activeItem }) => {
-
   const [poet, setPoet] = useState({});
+  const [videos, setVideos] = useState([]);
 
-  const { data, error, mutate, isLoading } = useSWR(GET_POET_CONTENT, (query, variables) =>
-    SWRfetch(query, { poetSlug: activeItem })
+  // fetch poet content
+  const { data, error, mutate, isLoading } = useSWR(
+    GET_POET_CONTENT,
+    (query, variables) => SWRfetch(query, { poetSlug: activeItem })
   );
 
   useEffect(() => {
     if (data) {
       mutate({ ...data, poetSlug: activeItem });
       setPoet(data.poet.items[0]);
+      setVideos(data.youtubeVideoCollection.items);
     }
   }, [activeItem, data]);
 
@@ -25,14 +28,14 @@ export const Poet = ({ activeItem }) => {
     return (
       <div className="poet grid-right">
         <div className="poet__info">
-          <div className="img skeleton"/>
+          <div className="img skeleton" />
         </div>
         <div className="poet__videos">
-          <div className="video skeleton"/>
-          <div className="video skeleton"/>
-          <div className="video skeleton"/>
-          <div className="video skeleton"/>
-          <div className="video skeleton"/>
+          <div className="video skeleton" />
+          <div className="video skeleton" />
+          <div className="video skeleton" />
+          <div className="video skeleton" />
+          <div className="video skeleton" />
         </div>
       </div>
     );
@@ -53,16 +56,17 @@ export const Poet = ({ activeItem }) => {
         )}
       </div>
       <div className="poet__videos">
-        {data?.youtubeVideoCollection?.items.map((video) => (
-          <VideoPlayer
-            key={video._id}
-            originalVideoUrl={video.videoUrl}
-            thumbnailUrl={video.thumbnail.url}
-            title={video.title}
-            description={video.description}
-            publicationDate={video.publicationDate}
-          />
-        ))}
+        {videos &&
+          videos.map((video) => (
+            <VideoPlayer
+              key={video._id}
+              originalVideoUrl={video.videoUrl}
+              thumbnailUrl={video.thumbnail.url}
+              title={video.title}
+              description={video.description}
+              publicationDate={video.publicationDate}
+            />
+          ))}
       </div>
     </div>
   );
