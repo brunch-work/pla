@@ -45,6 +45,7 @@ export default function Homepage({ homepage }) {
     const handleWheel = (e) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; //discard trackpad horizontal scrolls
 
+      e.preventDefault();
       const scrollDeltaY = e.deltaY;
       carouselRef.current.scrollBy({ left: scrollDeltaY, behavior: 'smooth' });
       return;
@@ -73,7 +74,7 @@ export default function Homepage({ homepage }) {
         // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
         for (let i = 0; i < thumbnailPositions.length; i++) {
           if (scrollLeft >= thumbnailPositions[i] &&
-            scrollLeft < (thumbnailPositions[i] + generatedThumbnailWidths[i] + (i * gap * 10)) &&
+            scrollLeft < (thumbnailPositions[i] + generatedThumbnailWidths[i]) &&
             activeThumbnail !== i) {
             setActiveThumbnail(i);
             break;
@@ -91,7 +92,7 @@ export default function Homepage({ homepage }) {
       carousel.addEventListener('scroll', handleScroll);
       return () => carousel.removeEventListener("scroll", handleScroll);
     }
-  });
+  }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
 
   // Keyboard navigation
   useEffect(() => {
