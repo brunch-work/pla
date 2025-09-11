@@ -27,7 +27,7 @@ export const GET_POETS = gql`
     poets: poetCollection  {
       items {
         _id
-        name
+        title: name
         slug
         bio
         photo {
@@ -40,7 +40,7 @@ export const GET_POETS = gql`
     }
     poetsIndex: poetsIndexCollection {
       items {
-        pageDescription
+        pageContent
         pageTitle
       }
     }
