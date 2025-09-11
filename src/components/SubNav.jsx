@@ -26,7 +26,7 @@ export const SubNav = ({
 
   if (itemType === "Poets") {
     query = GET_POETS_LIST;
-  } else if (itemType === "Interviews") {
+  } else if (itemType === "Interview Hosts") {
     query = GET_INTERVIEWS_LIST;
   } else if (itemType === "Series") {
     query = GET_SERIES_LIST;

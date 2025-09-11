@@ -43,6 +43,7 @@
   }
 
   .main-content {
+    margin-top: 1rem;
     grid-column: 1/-1;
 
     > *:first-child {
@@ -103,6 +104,7 @@
     }
 
     .main-content {
+      margin-top: 0;
       grid-column: 5 / -1;
     }
 

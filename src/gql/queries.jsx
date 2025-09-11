@@ -46,11 +46,11 @@ export const GET_POETS = gql`
 `;
 
 export const GET_POET_CONTENT = gql`
-  query getPoetContent($poetSlug: String!) {
-    poet: poetCollection(where: { slug: $poetSlug }) {
+  query getPoetContent($slug: String!) {
+    poet: poetCollection(where: { slug: $slug }) {
       items {
         _id
-        name
+        title: name
         slug
         bio
         photo {
@@ -61,7 +61,7 @@ export const GET_POET_CONTENT = gql`
         }
       }
     }
-    youtubeVideoCollection(where: { poets: { slug: $poetSlug } }) {
+    youtubeVideoCollection(where: { poets: { slug: $slug } }) {
       items {
         _id
         title
@@ -80,7 +80,6 @@ export const GET_POET_CONTENT = gql`
   }
 `;
 
-
 export const GET_INTERVIEW_HOSTS = gql`
   query getInterviewHosts {
     interviewHosts: interviewHostCollection {
@@ -88,13 +87,6 @@ export const GET_INTERVIEW_HOSTS = gql`
         _id
         title: name
         slug
-        bio
-        photo {
-          url
-          width
-          height
-          title
-        }
       }
     }
     interviewsIndex: interviewsIndexCollection {
@@ -106,9 +98,62 @@ export const GET_INTERVIEW_HOSTS = gql`
   }
 `;
 
+export const GET_INTERVIEW_CONTENT = gql`
+  query getInterviewContent($slug: String!) {
+    poet: interviewHostCollection(where: { slug: $slug }) {
+      items {
+        _id
+        slug
+        title: name
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+    youtubeVideoCollection(where: {interviewHost: {slug: $slug}}) {
+      items {
+        _id
+        title
+        videoUrl
+        description
+        publicationDate
+        thumbnail {
+          url
+          width
+          height
+          description
+          contentType
+        }
+      }
+    }
+  }
+`;
+
 export const GET_SERIES = gql`
   query getSeries {
     series: seriesCollection {
+      items {
+        _id
+        title
+        slug
+      }
+    }
+    seriesIndex: seriesIndexCollection {
+      items {
+        pageContent
+        pageTitle
+      }
+    }
+  }
+`;
+
+export const GET_SERIES_CONTENT = gql`
+  query getSeriesContent($slug: String!) {
+    poet: seriesCollection(where: { slug: $slug }) {
       items {
         _id
         title
@@ -122,10 +167,20 @@ export const GET_SERIES = gql`
         }
       }
     }
-    seriesIndex: seriesIndexCollection {
+    youtubeVideoCollection(where: { series: { slug: $slug } }) {
       items {
-        pageContent
-        pageTitle
+        _id
+        title
+        videoUrl
+        description
+        publicationDate
+        thumbnail {
+          url
+          width
+          height
+          description
+          contentType
+        }
       }
     }
   }
@@ -173,7 +228,7 @@ export const GET_POETS_LIST = gql`
     activeItem: poetCollection(where: { slug: $activeItem }) {
       items {
         _id
-        title:name
+        title: name
         slug
       }
     }
@@ -182,7 +237,7 @@ export const GET_POETS_LIST = gql`
 
 export const GET_INTERVIEWS_LIST = gql`
   query getInterviewsList($activeItem: String) {
-    list: interviewCollection(order: [name_ASC]) {
+    list: interviewHostCollection(order: [name_ASC]) {
       items {
         _id
         title: name
@@ -201,7 +256,7 @@ export const GET_INTERVIEWS_LIST = gql`
 
 export const GET_SERIES_LIST = gql`
   query getSeriesList($activeItem: String) {
-    list: seriesCollection(order: [name_ASC]) {
+    list: seriesCollection(order: [title_ASC]) {
       items {
         _id
         title
@@ -220,7 +275,10 @@ export const GET_SERIES_LIST = gql`
 
 export const GET_DOCUMENTARIES_LIST = gql`
   query getDocumentariesList($activeItem: String) {
-    list: youtubeVideoCollection(where: { documentary: true }, order: [publicationDate_DESC]) {
+    list: youtubeVideoCollection(
+      where: { documentary: true }
+      order: [publicationDate_DESC]
+    ) {
       items {
         _id
         title

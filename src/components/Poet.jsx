@@ -1,4 +1,4 @@
-import { GET_POET_CONTENT } from "@/gql/queries";
+import { GET_POET_CONTENT, GET_SERIES_CONTENT, GET_INTERVIEW_CONTENT } from "@/gql/queries";
 import { VideoPlayer } from "./VideoPlayer";
 
 import Markdown from "react-markdown";
@@ -6,19 +6,28 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
 
-export const Poet = ({ activeItem }) => {
+export const Poet = ({ activeItem, pageType }) => {
+  let query;
   const [poet, setPoet] = useState({});
   const [videos, setVideos] = useState([]);
 
+  if (pageType === "Poets") {
+    query = GET_POET_CONTENT;
+  } else if (pageType === "Series") {
+    query = GET_SERIES_CONTENT;
+  } else if (pageType === "Interview Hosts") {
+    query = GET_INTERVIEW_CONTENT;
+  }
+
   // fetch poet content
   const { data, error, mutate, isLoading } = useSWR(
-    GET_POET_CONTENT,
-    (query, variables) => SWRfetch(query, { poetSlug: activeItem })
+    query,
+    (query, variables) => SWRfetch(query, { slug: activeItem })
   );
 
   useEffect(() => {
     if (data) {
-      mutate({ ...data, poetSlug: activeItem });
+      mutate({ ...data, slug: activeItem });
       setPoet(data.poet.items[0]);
       setVideos(data.youtubeVideoCollection.items);
     }
