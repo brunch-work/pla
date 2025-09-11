@@ -22,6 +22,9 @@ export const Nav = () => {
     setActiveItem: () => {},
     activeItemSlug: null,
     itemType: "",
+    pathname: "",
+    searchParam: "",
+    pageType: "",
   });
   const [mounted, setMounted] = useState(false);
   const { navProps } = useNavContext();
@@ -81,21 +84,24 @@ export const Nav = () => {
     }
   }, [subNavProps.activeItem, isMobile]);
 
-  if (!mounted) return (
-    <nav className="nav loading grid">
-      <div className="subgrid">
-      </div>
-    </nav>
-  );
+  if (!mounted) {
+      return (
+        <nav className="nav loading grid">
+          <div className="subgrid"></div>
+        </nav>
+      );
+  }
 
   if (isMobile) {
     return (
-      <nav className={`nav grid${navOpen ? " open" : ""}${subNavProps.subNavOpen && subNavProps.activeItem ? " subnav-open" : ""}`} aria-labelledby="main navigation">
+      <nav
+        className={`nav grid${navOpen ? " open" : ""}${
+          subNavProps.subNavOpen && subNavProps.activeItem ? " subnav-open" : ""
+        }`}
+        aria-labelledby="main navigation"
+      >
         <div className="subgrid">
-          <div
-            className="logo-wrapper"
-            onClick={() => setNavOpen(!navOpen)}
-          >
+          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
             <PlusButton isActive={navOpen} />
             <Logo />
           </div>
@@ -103,14 +109,14 @@ export const Nav = () => {
             <ul className="menu">
               {menu.map((item, index) => (
                 <li key={index} className="menu-item">
-                  <Link href={item.route}>
-                    <RadioButton
-                      active={route === item.route}
-                      label={item.name}
-                      value={item.route}
-                      name="nav"
-                    />
-                  </Link>
+                  <RadioButton
+                    active={route === item.route}
+                    label={item.name}
+                    value={item.route}
+                    name="nav"
+                    ariaCurrent={route === item.route ? "page" : undefined}
+                    url={item.route}
+                  />
                 </li>
               ))}
             </ul>
@@ -131,14 +137,14 @@ export const Nav = () => {
         <ul className="menu">
           {menu.map((item, index) => (
             <li key={index} className="menu-item">
-              <Link href={item.route}>
-                <RadioButton
-                  active={route === item.route}
-                  label={item.name}
-                  value={item.route}
-                  name="nav"
-                />
-              </Link>
+              <RadioButton
+                active={route === item.route}
+                label={item.name}
+                value={item.route}
+                name="nav"
+                ariaCurrent={route === item.route ? "page" : undefined}
+                url={item.route}
+              />
             </li>
           ))}
         </ul>

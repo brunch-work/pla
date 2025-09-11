@@ -19,6 +19,11 @@
   display: flex;
   gap: 0.8rem;
   align-items: baseline;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 
   input {
     appearance: none;

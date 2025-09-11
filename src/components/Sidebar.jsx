@@ -4,7 +4,7 @@ import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
 
-export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, setListOpen }) => {
+export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, setListOpen, pathname, searchParam }) => {
 
   const renderList = () => {
 
@@ -22,6 +22,8 @@ export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, s
                   letter={letter}
                   poets={poets}
                   activePoet={activeItem}
+                  pathname={pathname}
+                  searchParam={searchParam}
                 />
               );
             })}
@@ -38,6 +40,8 @@ export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, s
               label={item.title}
               name="poetsList"
               value={item.slug}
+              url={`${pathname}?${searchParam}=${item.slug}`}
+              ariaCurrent={activeItem === item.slug ? "page" : undefined}
             />
           </li>
         ))}

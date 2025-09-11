@@ -3,7 +3,7 @@ import { RadioButton } from "./RadioButton";
 
 import { useState } from "react";
 
-export const AlphabeticalListSection = ({ letter, poets, activePoet }) => {
+export const AlphabeticalListSection = ({ letter, poets, activePoet, pathname, searchParam }) => {
   // Determine if the section is open based on the active poet
   const [isOpen, setIsOpen] = useState(
     activePoet && activePoet[0].toLowerCase() === letter.toLowerCase()
@@ -26,6 +26,8 @@ export const AlphabeticalListSection = ({ letter, poets, activePoet }) => {
                 label={poet.title}
                 name="poetsList"
                 value={poet.slug}
+                url={`${pathname}?${searchParam}=${poet.slug}`}
+                ariaCurrent={activePoet === poet.slug ? "page" : undefined}
               />
             </li>
           ))}

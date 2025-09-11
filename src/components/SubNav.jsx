@@ -11,7 +11,10 @@ export const SubNav = ({
   activeItem,
   itemType,
   activeItemSlug,
-  setActiveItem
+  setActiveItem,
+  pathname,
+  searchParam,
+  pageType,
 }) => {
 
   const renderList = () => {
@@ -28,6 +31,8 @@ export const SubNav = ({
                   letter={letter}
                   poets={poets}
                   activePoet={activeItemSlug}
+                  pathname={pathname}
+                  searchParam={searchParam}
                 />
               );
             })}
@@ -43,6 +48,8 @@ export const SubNav = ({
                 name="active-item"
                 value={item.slug}
                 active={item.slug === activeItemSlug}
+                url={`${pathname}?${searchParam}=${item.slug}`}
+                ariaCurrent={item.slug === activeItemSlug ? "page" : undefined}
               />
             </li>
           ))}
@@ -67,12 +74,14 @@ export const SubNav = ({
             name="active-item"
             value={activeItemSlug}
             active={true}
+            url={`${pathname}?${searchParam}=${activeItemSlug}`}
+            ariaCurrent="page"
           />
         )}
         {list && subNavOpen && (
-          <fieldset onChange={(e) => setActiveItem(e.target.value)}>
+          <nav onChange={(e) => setActiveItem(e.target.value)} aria-labelledby={`${pageType} navigation`}>
             {renderList()}
-          </fieldset>
+          </nav>
         )}
       </div>
     </div>

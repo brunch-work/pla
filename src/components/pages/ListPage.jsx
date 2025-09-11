@@ -8,13 +8,14 @@ import { VideoPlayer } from "../VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Markdown from "react-markdown";
 
 export default function ListPage({ list, pageDetails, searchParam, sidebarLabel }) {
 
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const { setNavProps } = useNavContext();
   const isMobile = useMobile();
   const [activeItem, setActiveItem] = useState(searchParams.get(searchParam) || "");
@@ -49,21 +50,20 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
       setActiveItem: setActiveItem,
       activeItemSlug: activeItem,
       itemType: sidebarLabel,
+      pathname: pathname,
+      searchParam: searchParam,
+      pageType: sidebarLabel,
     });
-  }, [setNavProps, listOpen, router]);
+  }, [setNavProps, listOpen, router, searchParams]);
 
-  // update URL search params
+  // handle search param change
   useEffect(() => {
-    if (activeItem) {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
-      current.set(searchParam, activeItem);
-      router.push(`?${current.toString()}`, { scroll: false });
+    const newActiveItem = searchParams.get(searchParam);
+    console.log(newActiveItem);
+    if (newActiveItem !== activeItem) {
+      setActiveItem(newActiveItem);
     }
-
-    if (isMobile && activeItem) {
-      setListOpen(false);
-    }
-  }, [activeItem, isMobile]);
+  }, [searchParams, isMobile]);
 
   // handle sidebar toggle
   const renderSidebar = () => {
@@ -75,6 +75,8 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
         setActiveItem={setActiveItem}
         listOpen={listOpen}
         setListOpen={setListOpen}
+        pathname={pathname}
+        searchParam={searchParam}
       />;
     }
   };
