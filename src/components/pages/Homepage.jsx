@@ -9,12 +9,11 @@ import Link from "next/link";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
-  const [isKeyboardNavigating, setIsKeyboardNavigating] = useState(false);
 
   // Refs
   const thumbnailsRef = useRef([]);
   const carouselRef = useRef(null);
-  const animationFrameRef = useRef(null);
+  const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
 
   const { viewportHeight } = useViewport();
@@ -39,36 +38,7 @@ export default function Homepage({ homepage }) {
     return calculateThumbnailPositions(generatedThumbnailWidths, gap);
   }, [generatedThumbnailWidths, gap]);
 
-  // Active thumbnail detection based on scroll offset
-  const updateActiveThumbnailFromOffset = useCallback(
-    (offset) => {
-      if (
-        isKeyboardNavigating ||
-        thumbnailsList.length === 0 ||
-        thumbnailPositions.length === 0
-      )
-        return;
-
-      const adjustedOffset = -offset;
-      let closestIndex = 0;
-      let closestDistance = Math.abs(adjustedOffset - thumbnailPositions[0]);
-
-      for (let i = 1; i < thumbnailPositions.length; i++) {
-        const distance = Math.abs(adjustedOffset - thumbnailPositions[i]);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      }
-
-      if (closestIndex < thumbnailsList.length) {
-        setActiveThumbnail(closestIndex);
-      }
-    },
-    [isKeyboardNavigating, thumbnailsList.length, thumbnailPositions]
-  );
-
-  // Wheel handling
+  // Wheel or trackpad y-scroll to x-scroll conversion
   useEffect(() => {
     if (thumbnailsList.length === 0) return;
 
@@ -77,8 +47,6 @@ export default function Homepage({ homepage }) {
 
       const scrollDeltaY = e.deltaY;
       carouselRef.current.scrollBy({ left: scrollDeltaY, behavior: 'smooth' });
-
-      updateActiveThumbnailFromOffset();
       return;
     };
 
@@ -86,25 +54,32 @@ export default function Homepage({ homepage }) {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [
     thumbnailsList.length,
-    updateActiveThumbnailFromOffset,
   ]);
 
-
-  // scrollSnapchange event handling
+  // scrollSnapchange and scroll (if scrollSnapChange isn't supported) event handling
   useEffect(() => {
     const handleScrollSnapChange = (e) => {
       setActiveThumbnail([...thumbnailsRef.current].indexOf(e.snapTargetInline));
     }
 
+    // Debounce handleScroll so it only runs 100ms after the last scroll event
+    // Move scrollTimeoutRef outside useEffect to avoid invalid hook call
     const handleScroll = (e) => {
-      thumbnailPositions.forEach((position, i) => {
-        if (e.target.scrollLeft >= thumbnailPositions[i] && activeThumbnail !== i) {
-
-          setActiveThumbnail(i);
-        } else {
-          return;
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      const scrollLeft = e.target.scrollLeft;
+      scrollTimeoutRef.current = setTimeout(() => {
+        // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
+        for (let i = 0; i < thumbnailPositions.length; i++) {
+          if (scrollLeft >= thumbnailPositions[i] &&
+            scrollLeft < (thumbnailPositions[i] + generatedThumbnailWidths[i] + (i * gap * 10)) &&
+            activeThumbnail !== i) {
+            setActiveThumbnail(i);
+            break;
+          }
         }
-      });
+      }, 100);
     }
 
     const carousel = carouselRef.current;
@@ -113,7 +88,6 @@ export default function Homepage({ homepage }) {
       carousel.addEventListener('scrollsnapchange', handleScrollSnapChange);
       return () => carousel.removeEventListener("scrollsnapchange", handleScrollSnapChange);
     } else {
-      console.log("scrollsnapchange event not supported in this browser");
       carousel.addEventListener('scroll', handleScroll);
       return () => carousel.removeEventListener("scroll", handleScroll);
     }

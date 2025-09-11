@@ -87,6 +87,11 @@
       }
     }
   }
+  .carousel-item:last-child {
+    margin-right: calc(
+      100vw - 100%
+    ); /* ensures the carousel is fully scrollable to the end */
+  }
 
   @media (min-width: 1400px) {
     grid-template-rows: auto 16dvh;
