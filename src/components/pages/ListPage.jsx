@@ -41,16 +41,8 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
   // props for mobile nav
   useEffect(() => {
     setNavProps({
-      list: sortedList,
-      subNavOpen: listOpen,
-      setSubNavOpen: setListOpen,
-      activeItem: activeItem
-        ? list.find((p) => p.slug === activeItem).title
-        : null,
-      setActiveItem: setActiveItem,
-      activeItemSlug: activeItem,
       itemType: sidebarLabel,
-      pathname: pathname,
+      activeItemTitle: activeItem ? list.find((p) => p.slug === activeItem).title : null,
       searchParam: searchParam,
       pageType: sidebarLabel,
     });
@@ -59,7 +51,6 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
   // handle search param change
   useEffect(() => {
     const newActiveItem = searchParams.get(searchParam);
-    console.log(newActiveItem);
     if (newActiveItem !== activeItem) {
       setActiveItem(newActiveItem);
     }
@@ -72,7 +63,6 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
         pageType={sidebarLabel}
         list={sortedList}
         activeItem={activeItem}
-        setActiveItem={setActiveItem}
         listOpen={listOpen}
         setListOpen={setListOpen}
         pathname={pathname}
@@ -87,8 +77,8 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
 
       {/* MAIN CONTENT */}
       <div className="main-content">
-        {activeItem && sidebarLabel !== "Documentaries" && <Poet poet={list.find((p) => p.slug === activeItem)} />}
-        {activeItem && sidebarLabel === "Documentaries" && <VideoPlayer video={list.find((d) => d.slug === activeItem)} />}
+        {activeItem && sidebarLabel !== "Documentaries" && <Poet activeItem={activeItem} />}
+        {activeItem && sidebarLabel === "Documentaries" && <VideoPlayer video={activeItem} />}
         {!activeItem && pageDetails?.pageContent && (
           <Markdown>{pageDetails.pageContent}</Markdown>
         )}

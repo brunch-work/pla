@@ -1,22 +1,25 @@
-import { GET_POET_VIDEOS } from "@/gql/queries";
+import { GET_POET_CONTENT } from "@/gql/queries";
 import { VideoPlayer } from "./VideoPlayer";
 
 import Markdown from "react-markdown";
 import useSWR from "swr";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
 
-export const Poet = ({ poet }) => {
+export const Poet = ({ activeItem }) => {
 
-  const { data, error, mutate, isLoading } = useSWR(GET_POET_VIDEOS, (query, variables) =>
-    SWRfetch(query, { poetSlug: poet.slug })
+  const [poet, setPoet] = useState({});
+
+  const { data, error, mutate, isLoading } = useSWR(GET_POET_CONTENT, (query, variables) =>
+    SWRfetch(query, { poetSlug: activeItem })
   );
 
   useEffect(() => {
     if (data) {
-      mutate({ ...data, poetSlug: poet.slug });
+      mutate({ ...data, poetSlug: activeItem });
+      setPoet(data.poet.items[0]);
     }
-  }, [poet.slug]);
+  }, [activeItem, data]);
 
   if (isLoading) {
     return (

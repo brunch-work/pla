@@ -22,12 +22,35 @@ export const GET_HOME = gql`
   }
 `;
 
+export const GET_POETS_INDEX = gql`
+  query getPoetsIndex {
+    poetsIndex: poetsIndexCollection {
+      items {
+        pageContent
+        pageTitle
+      }
+    }
+  }
+`;
+
 export const GET_POETS = gql`
   query getPoets {
-    poets: poetCollection  {
+    poets: poetCollection(limit: 1000) {
       items {
         _id
         title: name
+        slug
+      }
+    }
+  }
+`;
+
+export const GET_POET_CONTENT = gql`
+  query getPoetContent($poetSlug: String!) {
+    poet: poetCollection(where: { slug: $poetSlug }) {
+      items {
+        _id
+        name
         slug
         bio
         photo {
@@ -38,17 +61,6 @@ export const GET_POETS = gql`
         }
       }
     }
-    poetsIndex: poetsIndexCollection {
-      items {
-        pageContent
-        pageTitle
-      }
-    }
-  }
-`;
-
-export const GET_POET_VIDEOS = gql`
-  query getPoetVideos($poetSlug: String!) {
     youtubeVideoCollection(where: { poets: { slug: $poetSlug } }) {
       items {
         _id
@@ -144,6 +156,84 @@ export const GET_DOCUMENTARIES = gql`
       items {
         pageContent
         pageTitle
+      }
+    }
+  }
+`;
+
+export const GET_POETS_LIST = gql`
+  query getPoetsList {
+    list: poetCollection(order: [name_ASC]) {
+      items {
+        _id
+        title: name
+        slug
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const GET_INTERVIEWS_LIST = gql`
+  query getInterviewsList {
+    list: interviewCollection(order: [name_ASC]) {
+      items {
+        _id
+        title: name
+        slug
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const GET_SERIES_LIST = gql`
+  query getSeriesList {
+    list: seriesCollection(order: [name_ASC]) {
+      items {
+        _id
+        title: name
+        slug
+        bio
+        photo {
+          url
+          width
+          height
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const GET_DOCUMENTARIES_LIST = gql`
+  query getDocumentariesList {
+    list: youtubeVideoCollection(where: { documentary: true }, order: [publicationDate_DESC]) {
+      items {
+        _id
+        title
+        slug
+        description
+        videoUrl
+        publicationDate
+        thumbnail {
+          url
+          width
+          height
+          title
+        }
       }
     }
   }

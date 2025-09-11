@@ -4,7 +4,7 @@ import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
 
-export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, setListOpen, pathname, searchParam }) => {
+export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pathname, searchParam }) => {
 
   const renderList = () => {
 
@@ -60,7 +60,7 @@ export const Sidebar = ({ pageType, list, activeItem, setActiveItem, listOpen, s
           <span>{pageType}</span>
         </h1>
         {listOpen && (
-          <nav onChange={(e) => setActiveItem(e.target.value)} aria-labelledby={`${pageType} navigation`}>
+          <nav aria-labelledby={`${pageType} navigation`}>
             {renderList()}
           </nav>
         )}

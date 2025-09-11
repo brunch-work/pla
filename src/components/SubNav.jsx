@@ -4,18 +4,58 @@ import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
 
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+import { SWRfetch } from "@/utils/client";
+import { GET_POETS_LIST, GET_INTERVIEWS_LIST, GET_SERIES_LIST, GET_DOCUMENTARIES_LIST } from "@/gql/queries";
+
 export const SubNav = ({
   subNavOpen,
   setSubNavOpen,
-  list,
   activeItem,
   itemType,
-  activeItemSlug,
-  setActiveItem,
+  activeItemTitle,
   pathname,
   searchParam,
   pageType,
 }) => {
+
+  let query;
+  const [list, setList] = useState([]);
+
+  if (itemType === "Poets") {
+    query = GET_POETS_LIST;
+  } else if (itemType === "Interviews") {
+    query = GET_INTERVIEWS_LIST;
+  } else if (itemType === "Series") {
+    query = GET_SERIES_LIST;
+  } else if (itemType === "Documentaries") {
+    query = GET_DOCUMENTARIES_LIST;
+  }
+
+  const { data, error, mutate, isLoading } = useSWR(query, (query, variables) =>
+    SWRfetch(query)
+  );
+
+  useEffect(() => {
+    if (data) {
+      mutate(data);
+
+      if (itemType === "Poets") {
+        setList(data.list.items.reduce(function (acc, poet) {
+          const firstLetter = poet.title[0].toUpperCase();
+          if (!acc[firstLetter]) {
+            acc[firstLetter] = [];
+          }
+          acc[firstLetter].push(poet);
+          return acc;
+        }, {}));
+      } else {
+        setList(data.list.items);
+      }
+    }
+
+  }, [searchParam, data]);
 
   const renderList = () => {
     if (itemType === "Poets") {
@@ -30,7 +70,7 @@ export const SubNav = ({
                   key={letter}
                   letter={letter}
                   poets={poets}
-                  activePoet={activeItemSlug}
+                  activePoet={activeItem}
                   pathname={pathname}
                   searchParam={searchParam}
                 />
@@ -70,16 +110,16 @@ export const SubNav = ({
         </h1>
         {activeItem && !subNavOpen && (
           <RadioButton
-            label={activeItem}
+            label={activeItemTitle}
             name="active-item"
-            value={activeItemSlug}
+            value={activeItem}
             active={true}
-            url={`${pathname}?${searchParam}=${activeItemSlug}`}
+            url={`${pathname}?${searchParam}=${activeItem}`}
             ariaCurrent="page"
           />
         )}
         {list && subNavOpen && (
-          <nav onChange={(e) => setActiveItem(e.target.value)} aria-labelledby={`${pageType} navigation`}>
+          <nav aria-labelledby={`${pageType} navigation`}>
             {renderList()}
           </nav>
         )}
