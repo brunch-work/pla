@@ -57,16 +57,7 @@ export const Poet = ({ activeItem }) => {
       </div>
       <div className="poet__videos">
         {videos &&
-          videos.map((video) => (
-            <VideoPlayer
-              key={video._id}
-              originalVideoUrl={video.videoUrl}
-              thumbnailUrl={video.thumbnail.url}
-              title={video.title}
-              description={video.description}
-              publicationDate={video.publicationDate}
-            />
-          ))}
+          videos.map((video) => <VideoPlayer video={video} key={video._id} />)}
       </div>
     </div>
   );

@@ -58,8 +58,6 @@ export const SubNav = ({
 
   }, [data, activeItemSlug]);
 
-  console.log(data)
-
   const renderList = () => {
     if (itemType === "Poets") {
       return (
