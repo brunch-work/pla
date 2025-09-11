@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useEffect, use } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useMobile } from "../hooks/useMobile";
 import { useNavContext } from "@/utils/navContextProvider";
 
@@ -13,6 +13,7 @@ import { SubNav } from "./SubNav";
 
 export const Nav = () => {
   const route = usePathname();
+  const searchParams = useSearchParams();
   const [navOpen, setNavOpen] = useState(false);
   const [subNavProps, setSubNavProps] = useState({
     list: [],
