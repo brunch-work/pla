@@ -1,6 +1,4 @@
-import { gql } from "graphql-request";
-
-export const GET_HOME = gql`
+export const GET_HOME = `
   query getHome {
     youtubeVideoCollection(limit: 12, order: [publicationDate_DESC]) {
       items {
@@ -22,7 +20,7 @@ export const GET_HOME = gql`
   }
 `;
 
-export const GET_POETS = gql`
+export const GET_POETS = `
   query getPoets {
     poets: poetCollection  {
       items {
@@ -47,7 +45,7 @@ export const GET_POETS = gql`
   }
 `;
 
-export const GET_POET_VIDEOS = gql`
+export const GET_POET_VIDEOS = `
   query getPoetVideos($poetSlug: String!) {
     youtubeVideoCollection(where: { poets: { slug: $poetSlug } }) {
       items {
