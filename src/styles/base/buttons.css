@@ -19,6 +19,11 @@
   display: flex;
   gap: 0.8rem;
   align-items: baseline;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 
   input {
     appearance: none;
@@ -30,6 +35,7 @@
     outline: 1.5px solid var(--black);
     margin: 0;
     position: relative;
+    margin-right: 0.8rem;
 
     &::before {
       content: "";

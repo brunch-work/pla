@@ -1,5 +1,5 @@
 .page {
-  margin-top: calc(var(--nav-height) + 0.8rem);
+  margin-top: 3rem;
   grid-column: 2/-2;
 
   @media (min-width: 1400px) {

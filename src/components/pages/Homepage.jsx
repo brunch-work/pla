@@ -478,11 +478,12 @@ export default function Homepage({homepage}) {
         </div>
         <div className="featured" ref={featuredRef}>
           <VideoPlayer
-            originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
-            thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
-            title={thumbnailsList[activeThumbnail].title}
-            description={thumbnailsList[activeThumbnail].description}
-            publicationDate={thumbnailsList[activeThumbnail].publicationDate}
+            video={thumbnailsList[activeThumbnail]}
+            // originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
+            // thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
+            // title={thumbnailsList[activeThumbnail].title}
+            // description={thumbnailsList[activeThumbnail].description}
+            // publicationDate={thumbnailsList[activeThumbnail].publicationDate}
           />
         </div>
       </div>
