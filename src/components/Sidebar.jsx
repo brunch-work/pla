@@ -61,12 +61,13 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
             }
           }}
           tabIndex={0}
+          id="sidebar-heading"
         >
           <PlusButton isActive={listOpen} />
           <span>{pageType}</span>
         </h1>
         {listOpen && (
-          <nav aria-labelledby={`${pageType} navigation`}>
+          <nav aria-labelledby="sidebar-heading">
             {renderList()}
           </nav>
         )}
