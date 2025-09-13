@@ -103,8 +103,14 @@ export const SubNav = ({
     <div className="subgrid">
       <div className={`subnav ${subNavOpen ? "open" : ""}`}>
         <h1
-          className="body-text radio-button"
+          className="body-text"
           onClick={() => setSubNavOpen(!subNavOpen)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setSubNavOpen(!subNavOpen);
+            }
+          }}
+          tabIndex={0}
         >
           <PlusButton isActive={subNavOpen} />
           <span>{itemType}</span>
