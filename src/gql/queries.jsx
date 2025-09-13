@@ -25,7 +25,7 @@ export const GET_POETS = `
     poets: poetCollection  {
       items {
         _id
-        name
+        title: name
         slug
         bio
         photo {
@@ -38,7 +38,7 @@ export const GET_POETS = `
     }
     poetsIndex: poetsIndexCollection {
       items {
-        pageDescription
+        pageContent
         pageTitle
       }
     }
