@@ -4,6 +4,12 @@
   --nav-height: 3.2rem;
   --base-font-size: clamp(1.6rem, 1.3vw, 2rem);
 
+  @property --logo-letter-ml {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+
   @media (min-width: 1400px) {
     --nav-height: 5.2rem;
   }

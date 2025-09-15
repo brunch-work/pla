@@ -1,3 +1,17 @@
+@keyframes logo-timeline {
+  0% {
+    --logo-letter-ml: 0px;
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    --logo-letter-ml: -45px;
+    opacity: 0;
+  }
+}
+
 .nav {
   padding-block: 0.8rem 0.4rem;
   position: fixed;
@@ -24,6 +38,11 @@
     display: flex;
     align-items: center;
     width: fit-content;
+
+    .letters {
+      margin-left: var(--logo-letter-ml);
+      animation: logo-timeline 1.4s ease-in-out 3s forwards;
+    }
 
     svg {
       height: var(--base-font-size);
