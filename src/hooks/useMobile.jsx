@@ -1,16 +1,11 @@
 "use client";
 
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function useMobile(breakpoint = 1400) {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < breakpoint;
-    }
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(false); // Always false on SSR
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < breakpoint);
     };
