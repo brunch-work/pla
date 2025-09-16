@@ -38,8 +38,15 @@
     display: flex;
     align-items: center;
     width: fit-content;
+    overflow-x: clip;
+
+    .P {
+      background-color: var(--white);
+      z-index: 1;
+    }
 
     .letters {
+      position: relative;
       margin-left: var(--logo-letter-ml);
       animation: logo-timeline 1.4s ease-in-out 3s forwards;
     }
