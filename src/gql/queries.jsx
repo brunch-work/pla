@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3c9340b59ccce71cdaaeef77ecd3024a0380cb11
 export const GET_HOME = `
   query getHome {
     youtubeVideoCollection(limit: 12, order: [publicationDate_DESC]) {
@@ -21,6 +24,7 @@ export const GET_HOME = `
   }
 `;
 
+<<<<<<< HEAD
 export const GET_POETS_INDEX = `
   query getPoetsIndex {
     poetsIndex: poetsIndexCollection {
@@ -32,6 +36,8 @@ export const GET_POETS_INDEX = `
   }
 `;
 
+=======
+>>>>>>> 3c9340b59ccce71cdaaeef77ecd3024a0380cb11
 export const GET_POETS = `
   query getPoets {
     poets: poetCollection(limit: 1000) {
@@ -60,7 +66,22 @@ export const GET_POET_CONTENT = `
         }
       }
     }
+<<<<<<< HEAD
     youtubeVideoCollection(where: { poets: { slug: $slug } }) {
+=======
+    poetsIndex: poetsIndexCollection {
+      items {
+        pageDescription
+        pageTitle
+      }
+    }
+  }
+`;
+
+export const GET_POET_VIDEOS = `
+  query getPoetVideos($poetSlug: String!) {
+    youtubeVideoCollection(where: { poets: { slug: $poetSlug } }) {
+>>>>>>> 3c9340b59ccce71cdaaeef77ecd3024a0380cb11
       items {
         _id
         title
