@@ -24,8 +24,9 @@ export const Poet = ({ activeItem, pageType }) => {
   }
 
   // fetch poet content
-  const { data, error, mutate, isLoading } = useSWR(query, (query, variables) =>
-    SWRfetch(query, { slug: activeItem })
+  const { data, error, mutate, isLoading } = useSWR(
+    [query, activeItem],
+    ([query, activeItem]) => SWRfetch(query, { slug: activeItem })
   );
 
   useEffect(() => {
