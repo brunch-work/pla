@@ -27,7 +27,6 @@ export const Poet = ({ activeItem, pageType }) => {
 
   useEffect(() => {
     if (data) {
-      mutate({ ...data, slug: activeItem });
       setPoet(data.poet.items[0]);
       setVideos(data.youtubeVideoCollection.items);
     }
