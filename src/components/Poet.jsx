@@ -54,7 +54,7 @@ export const Poet = ({ activeItem, pageType }) => {
       <div className="poet__info">
         {poet.photo && (
           <div className="img">
-            <img src={poet.photo.url} alt={poet.name} className="poet__photo" />
+            <img src={poet.photo.url} alt={poet.title} className="poet__photo" />
           </div>
         )}
         {poet.bio && (

@@ -53,14 +53,21 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
     <div className="sidebar">
       <div className="list">
         <h1
-          className="body-text radio-button"
+          className="body-text"
           onClick={() => setListOpen(!listOpen)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setListOpen(!listOpen);
+            }
+          }}
+          tabIndex={0}
+          id="sidebar-heading"
         >
           <PlusButton isActive={listOpen} />
           <span>{pageType}</span>
         </h1>
         {listOpen && (
-          <nav aria-labelledby={`${pageType} navigation`}>
+          <nav aria-labelledby="sidebar-heading">
             {renderList()}
           </nav>
         )}

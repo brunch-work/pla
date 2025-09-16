@@ -25,46 +25,24 @@
     text-decoration: none;
   }
 
-  input {
-    appearance: none;
-    box-sizing: border-box;
-    width: 1.3rem;
-    height: 1.3rem;
+  &::before {
+    content: "";
+    width: 1.35rem;
+    height: 1.35rem;
     border-radius: 50%;
-    cursor: pointer;
+    box-sizing: border-box;
     outline: 1.5px solid var(--black);
+    outline-offset: 0rem;
     margin: 0;
     position: relative;
-    margin-right: 0.8rem;
-
-    &::before {
-      content: "";
-      width: 1.35rem;
-      height: 1.35rem;
-      border-radius: 50%;
-      background-color: var(--black);
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    &:checked::before {
-      opacity: 1;
-    }
+    background-color: transparent;
+    transition-property: background-color outline-offset;
+    transition: 0.2s ease-in-out;
   }
-
-  &:hover * {
-    cursor: pointer;
-    text-decoration: none !important;
-  }
-
-  &:hover input::before {
-    transform: scale(1) translate(-50%, -50%);
-    opacity: 1;
+  &[aria-current="page"]::before,
+  &:hover::before {
+    content: "";
+    background-color: var(--black);
   }
 }
 

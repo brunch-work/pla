@@ -13,7 +13,14 @@ export const AlphabeticalListSection = ({ letter, poets, activePoet, pathname, s
 
   return (
     <li key={letter}>
-      <h2 className="body-text radio-button" onClick={() => setIsOpen(!isOpen)}>
+      <h2 className="body-text"
+        onClick={() => setIsOpen(!isOpen)}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsOpen(!isOpen);
+          }
+        }}>
         <PlusButton isActive={isOpen} />
         <span className="letter">{letter}</span>
       </h2>

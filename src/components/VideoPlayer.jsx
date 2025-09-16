@@ -56,7 +56,7 @@ export const VideoPlayer = ({
           tabIndex={0}
           role="button"
         >
-          <img src={thumbnail.url} alt={thumbnail.title} />
+          <img src={thumbnail.url} alt={thumbnail.description} />
           <Playbutton />
         </div>
       </div>

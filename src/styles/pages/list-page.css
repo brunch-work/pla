@@ -28,17 +28,21 @@
       z-index: 999;
     }
 
-    .list {
-      > fieldset {
-      }
-    }
-
     .list,
     .list ul,
     .list li {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      .body-text {
+        cursor: pointer;
+      }
+      h1,
+      h2 {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+      }
     }
   }
 
