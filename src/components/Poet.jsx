@@ -1,4 +1,8 @@
-import { GET_POET_CONTENT, GET_SERIES_CONTENT, GET_INTERVIEW_CONTENT } from "@/gql/queries";
+import {
+  GET_POET_CONTENT,
+  GET_SERIES_CONTENT,
+  GET_INTERVIEW_CONTENT,
+} from "@/gql/queries";
 import { VideoPlayer } from "./VideoPlayer";
 
 import Markdown from "react-markdown";
@@ -20,9 +24,8 @@ export const Poet = ({ activeItem, pageType }) => {
   }
 
   // fetch poet content
-  const { data, error, mutate, isLoading } = useSWR(
-    query,
-    (query, variables) => SWRfetch(query, { slug: activeItem })
+  const { data, error, mutate, isLoading } = useSWR(query, (query, variables) =>
+    SWRfetch(query, { slug: activeItem })
   );
 
   useEffect(() => {
@@ -54,7 +57,11 @@ export const Poet = ({ activeItem, pageType }) => {
       <div className="poet__info">
         {poet.photo && (
           <div className="img">
-            <img src={poet.photo.url} alt={poet.title} className="poet__photo" />
+            <img
+              src={poet.photo.url}
+              alt={poet.title}
+              className="poet__photo"
+            />
           </div>
         )}
         {poet.bio && (
