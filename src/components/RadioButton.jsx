@@ -1,8 +1,13 @@
-export const RadioButton = ({active, label, name, value}) => {
+import Link from "next/link";
+
+export const RadioButton = ({
+  label,
+  url,
+  ariaCurrent,
+}) => {
   return (
-    <div className="radio-button">
-      <input type="radio" id={label} name={name} checked={active} value={value} readOnly/>
-      <label htmlFor={label}>{label}</label>
-    </div>
+    <Link className="radio-button" href={url} aria-current={ariaCurrent}>
+      {label}
+    </Link>
   );
 };

@@ -6,16 +6,21 @@ import { getVideoUid } from "@/utils/getVideoUid";
 import { useMobile } from "@/hooks/useMobile";
 
 export const VideoPlayer = ({
-  originalVideoUrl,
-  thumbnailUrl,
-  title,
-  description,
-  publicationDate,
+  video
 }) => {
+
+  const {
+    videoUrl,
+    thumbnail,
+    title,
+    description,
+    publicationDate
+  } = video;
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [videoUrl, setVideoUrl] = useState(originalVideoUrl);
-  const [videoId, setVideoId] = useState(getVideoUid(originalVideoUrl));
+  const [videoPlayerUrl, setVideoPlayerUrl] = useState(videoUrl);
+  const [videoId, setVideoId] = useState(getVideoUid(videoUrl));
   const isMobile = useMobile();
 
   const date = new Date(publicationDate);
@@ -23,21 +28,21 @@ export const VideoPlayer = ({
   useEffect(() => {
     setIsPlaying(false);
     setShowDescription(false);
-    setVideoId(getVideoUid(originalVideoUrl));
-    setVideoUrl(`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`);
-  }, [originalVideoUrl]);
+    setVideoId(getVideoUid(videoUrl));
+    setVideoPlayerUrl(`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`);
+  }, [videoUrl]);
 
   const handlePlay = () => {
     setIsPlaying(true);
-    setVideoUrl(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
+    setVideoPlayerUrl(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
   };
 
   return (
     <div className="video-player">
       <div className="video">
-        {videoUrl && (
+        {videoPlayerUrl && (
           <iframe
-            src={videoUrl}
+            src={videoPlayerUrl}
             alt=""
             frameBorder="0"
             allow="autoplay"
@@ -51,7 +56,7 @@ export const VideoPlayer = ({
           tabIndex={0}
           role="button"
         >
-          <img src={thumbnailUrl} alt={title} />
+          <img src={thumbnail.url} alt={thumbnail.description} />
           <Playbutton />
         </div>
       </div>
