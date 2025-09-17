@@ -55,9 +55,6 @@ export default function Homepage({ homepage }) {
 
   // scrollSnapchange and scroll (if scrollSnapChange isn't supported) event handling
   useEffect(() => {
-    const handleScrollSnapChange = (e) => {
-      setActiveThumbnail([...thumbnailsRef.current].indexOf(e.snapTargetInline));
-    }
 
     // Debounce handleScroll so it only runs 100ms after the last scroll event
     // Move scrollTimeoutRef outside useEffect to avoid invalid hook call
@@ -72,22 +69,15 @@ export default function Homepage({ homepage }) {
           if (scrollLeft >= thumbnailPositions[i] &&
             scrollLeft < (thumbnailPositions[i] + generatedThumbnailWidths[i]) &&
             activeThumbnail !== i) {
-            setActiveThumbnail(i);
+            handleThumbnailClick(i);
             break;
           }
         }
       }, 100);
     }
 
-    const carousel = carouselRef.current;
-
-    if (carousel && 'onscrollsnapchange' in carousel) {
-      carousel.addEventListener('scrollsnapchange', handleScrollSnapChange);
-      return () => carousel.removeEventListener("scrollsnapchange", handleScrollSnapChange);
-    } else {
-      carousel.addEventListener('scroll', handleScroll);
-      return () => carousel.removeEventListener("scroll", handleScroll);
-    }
+    carouselRef.current.addEventListener('scroll', handleScroll);
+    return () => carouselRef.current.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
 
   // Keyboard navigation
@@ -125,16 +115,14 @@ export default function Homepage({ homepage }) {
   // Thumbnail click handler
   const handleThumbnailClick = useCallback(
     (index) => {
-      if (index >= thumbnailPositions.length) return;
+      if (index >= carouselRef.current.children.length) return;
 
-      const targetOffset = thumbnailPositions[index];
+      let targetOffset = carouselRef.current.children[index].offsetLeft - 12; // 12 is the page's left gap
 
-      carouselRef.current.scrollTo(targetOffset, 0);
+      carouselRef.current.scrollTo({ left: targetOffset, behavior: 'smooth' });
       setActiveThumbnail(index);
     },
-    [
-      thumbnailPositions
-    ]
+    []
   );
   return (<>
     <main className="home page subgrid">
