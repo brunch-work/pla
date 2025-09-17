@@ -87,7 +87,7 @@
   }
   .carousel-item:last-child {
     margin-right: calc(
-      100vw - 100%
+      100vw - var(--w) - (2 * var(--gap))
     ); /* ensures the carousel is fully scrollable to the end */
   }
 

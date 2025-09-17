@@ -150,6 +150,7 @@ export default function Homepage({ homepage }) {
               <li
                 className={`carousel-item ${index === activeThumbnail ? "active" : ""
                   }`}
+                style={{ "--w": `${generatedThumbnailWidths[index]}px` }}
                 key={index}
                 ref={el => thumbnailsRef.current[index] = el}
               >
