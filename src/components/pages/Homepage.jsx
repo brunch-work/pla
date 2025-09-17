@@ -40,15 +40,11 @@ export default function Homepage({ homepage }) {
 
   // Wheel or trackpad y-scroll to x-scroll conversion
   useEffect(() => {
-    if (thumbnailsList.length === 0) return;
+    if (thumbnailsList.length === 0 || !carouselRef.current) return;
 
     const handleWheel = (e) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; //discard trackpad horizontal scrolls
-
-      e.preventDefault();
-      const scrollDeltaY = e.deltaY;
-      carouselRef.current.scrollBy({ left: scrollDeltaY, behavior: 'smooth' });
-      return;
+      const scrollDelta = Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY) ? -e.wheelDeltaX : -e.wheelDeltaY;
+      carouselRef.current.scrollBy({ left: scrollDelta });
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -150,11 +146,11 @@ export default function Homepage({ homepage }) {
         <div className="featured" ref={featuredRef}>
           <VideoPlayer
             video={thumbnailsList[activeThumbnail]}
-            // originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
-            // thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
-            // title={thumbnailsList[activeThumbnail].title}
-            // description={thumbnailsList[activeThumbnail].description}
-            // publicationDate={thumbnailsList[activeThumbnail].publicationDate}
+          // originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
+          // thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
+          // title={thumbnailsList[activeThumbnail].title}
+          // description={thumbnailsList[activeThumbnail].description}
+          // publicationDate={thumbnailsList[activeThumbnail].publicationDate}
           />
         </div>
       </div>
