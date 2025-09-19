@@ -33,6 +33,14 @@ export default async function AboutPage() {
       <div className="main-content">
         <Markdown>{aboutPage.pageContent}</Markdown>
       </div>
+      <footer className="footer">
+        <span className="body-text copyright">
+          © {new Date().getFullYear()}
+        </span>
+        <div className="credits">
+          <span className="body-text">Site by <a href="https://brunch.work" target="_blank" rel="noreferrer">Brunch</a></span>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -1,0 +1,17 @@
+.about-page {
+  display: flex !important;
+  flex-direction: column-reverse;
+
+  .sidebar {
+    margin-top: 2.4rem;
+    padding: 0;
+  }
+
+  @media (min-width: 1400px) {
+    display: grid !important;
+
+    .sidebar {
+      margin: 0;
+    }
+  }
+}
