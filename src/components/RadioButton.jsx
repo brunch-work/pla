@@ -1,12 +1,13 @@
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
-export const RadioButton = ({active, label, name, value, href}) => {
+export const RadioButton = ({
+  label,
+  url,
+  ariaCurrent,
+}) => {
   return (
-    <Link href={href}>
-      <div className="radio-button">
-        <input type="radio" id={label} name={name} checked={active} value={value} readOnly/>
-        <label htmlFor={label}>{label}</label>
-      </div>
+    <Link className="radio-button" href={url} aria-current={ariaCurrent}>
+      {label}
     </Link>
   );
 };
