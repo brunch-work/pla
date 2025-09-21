@@ -101,6 +101,12 @@
     flex-direction: column;
     gap: 0.4rem;
 
+    h1,
+    h2 {
+      display: flex;
+      gap: 0.8rem;
+    }
+
     ul,
     li {
       display: flex;

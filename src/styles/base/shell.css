@@ -1,6 +1,6 @@
 :root {
   view-transition-name: root;
-  --100dvh: calc(100vh - env(safe-area-inset-bottom));
+  --100dvh: calc(100dvh - env(safe-area-inset-bottom));
   --nav-height: 3.2rem;
   --base-font-size: clamp(1.6rem, 1.3vw, 2rem);
 
@@ -49,7 +49,7 @@ body,
   box-sizing: border-box;
 }
 
-*::selection {
+::selection {
   color: var(--red);
   background-color: var(--yellow);
 }

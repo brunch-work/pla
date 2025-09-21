@@ -22,7 +22,7 @@ export const calculateThumbnailPositions = (thumbnailWidths, gap) => {
     if (index === 0) {
       acc.push(0);
     } else {
-      acc.push(acc[index - 1] + thumbnailWidths[index - 1] + gap);
+      acc.push(acc[index - 1] + thumbnailWidths[index - 1]);
     }
     return acc;
   }, []);

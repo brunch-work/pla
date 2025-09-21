@@ -1,4 +1,3 @@
-
 export const GET_HOME = `
   query getHome {
     youtubeVideoCollection(limit: 12, order: [publicationDate_DESC]) {
