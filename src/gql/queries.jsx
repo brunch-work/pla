@@ -293,6 +293,24 @@ export const GET_DOCUMENTARIES_LIST = `
   }
 `;
 
+export const GET_ABOUT = `
+query getAbout {
+  aboutPageCollection {
+    items {
+      pageTitleSeo
+      pageContent
+      email
+      teamMembersCollection {
+        items {
+          name
+          role
+        }
+      }
+    }
+  }
+}
+`;
+
 export const GET_RESOURCES = `
 query getResources {
   resourcesPageCollection {
