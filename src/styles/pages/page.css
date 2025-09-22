@@ -19,6 +19,17 @@
       z-index: 999;
     }
 
+    .resource-item a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+
+      svg {
+        width: calc(var(--base-font-size) * 0.65);
+        height: calc(var(--base-font-size) * 0.65);
+      }
+    }
+
     .sidebar__section {
       display: flex;
       gap: 1.6rem;
