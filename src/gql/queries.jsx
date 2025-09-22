@@ -292,3 +292,20 @@ export const GET_DOCUMENTARIES_LIST = `
     }
   }
 `;
+
+export const GET_RESOURCES = `
+query getResources {
+  resourcesPageCollection {
+    items {
+      pageTitleSeo
+      pageContent
+      resourcesCollection {
+        items {
+          name
+          url
+        }
+      }
+    }
+  }
+}
+`;
