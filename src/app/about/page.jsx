@@ -33,7 +33,7 @@ export default async function AboutPage() {
       <div className="main-content">
         <Markdown>{aboutPage.pageContent}</Markdown>
       </div>
-      <footer className="footer">
+      <footer className="footer subgrid">
         <span className="body-text copyright">
           © {new Date().getFullYear()}
         </span>
