@@ -7,24 +7,22 @@ export default async function AboutPage() {
 
   const aboutPage = aboutPageCollection.items[0];
 
-  console.log(aboutPage);
-
   return (
     <main className="about-page page subgrid">
       <div className="sidebar">
         <div className="team sidebar__section">
-          <h1 className="body-text">T</h1>
+          <h2 className="body-text" aria-label="Team">T</h2>
           <ul>
             {aboutPage.teamMembersCollection.items.map((member) => (
               <li key={member.name}>
-                <h2 className="body-text">{member.name}</h2>
+                <h3 className="body-text">{member.name}</h3>
                 <p>, {member.role}</p>
               </li>
             ))}
           </ul>
         </div>
         <div className="sidebar__section mail">
-          <h1 className="body-text">M</h1>
+          <h2 className="body-text" aria-label="Mail">M</h2>
           <a href={`mailto:${aboutPage.email}`} className="body-text">
             {aboutPage.email}
           </a>
