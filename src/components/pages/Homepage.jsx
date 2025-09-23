@@ -77,7 +77,7 @@ export default function Homepage({ homepage }) {
     }
 
     carouselRef.current.addEventListener('scroll', handleScroll);
-    return () => carouselRef.current.removeEventListener("scroll", handleScroll);
+    return () => carouselRef?.current?.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
 
   // Keyboard navigation
