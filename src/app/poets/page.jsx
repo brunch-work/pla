@@ -9,9 +9,9 @@ export async function generateMetadata({ searchParams }) {
   let title = "Poets";
   let image = "/images/png/og-image.png";
 
-  const data = await getPropData(GET_POET_CONTENT, { slug });
+  const data = slug && await getPropData(GET_POET_CONTENT, { slug });
 
-  if (data.poet.items[0].title) {
+  if (data?.poet?.items[0]?.title) {
     title = data.poet.items[0].title;
     image = data.poet.items[0].photo;
   }
