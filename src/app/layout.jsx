@@ -8,9 +8,10 @@ const APP_DEFAULT_TITLE = "Poetry LA";
 const APP_TITLE_TEMPLATE = "%s | Poetry LA";
 const APP_DESCRIPTION =
   "A Video Gallery of Poets in Southern California";
-const APP_BASE_URL = "https://poetry.la";
+const APP_BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://poetry.la";
 
 export const metadata = {
+  metadataBase: APP_BASE_URL,
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
