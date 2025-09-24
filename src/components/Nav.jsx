@@ -81,7 +81,6 @@ export const Nav = () => {
 
   const openSearch = () => {
     if (searchDialogRef.current) {
-      console.log("open search");
       searchDialogRef.current.showModal();
       searchDialogRef.current.querySelector('input[type="search"]').focus();
     }
