@@ -9,11 +9,11 @@ export async function generateMetadata({ searchParams }) {
   let title = "Documentaries";
   let image = "/images/png/og-image.png";
 
-  const { activeItem } = slug && (await getPropData(GET_DOCUMENTARIES_LIST, { activeItem: slug }));
+  const data = slug && (await getPropData(GET_DOCUMENTARIES_LIST, { activeItem: slug }));
 
-  if (activeItem?.items?.[0]?.title) {
-    title = activeItem.items[0].title;
-    image = activeItem.items[0].thumbnail;
+  if (data?.activeItem?.items?.[0]?.title) {
+    title = data.activeItem.items[0].title;
+    image = data.activeItem.items[0].thumbnail;
   }
 
   return {
