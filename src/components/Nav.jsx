@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMobile } from "../hooks/useMobile";
 import { useNavContext } from "@/utils/navContextProvider";
 
@@ -10,6 +10,7 @@ import { Logo } from "./Logo";
 import { RadioButton } from "./RadioButton";
 import { PlusButton } from "./PlusButton";
 import { SubNav } from "./SubNav";
+import { Search } from "./Search";
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -20,30 +21,31 @@ export const Nav = () => {
   const [mounted, setMounted] = useState(false);
   const { navProps } = useNavContext();
 
+  const searchDialogRef = useRef(null);
   const isMobile = useMobile();
 
   const menu = isMobile
     ? [
-        { name: "Home", route: "/" },
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ]
+      { name: "Home", route: "/" },
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ]
     : [
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ];
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ];
 
   useEffect(() => {
     setMounted(true);
@@ -77,11 +79,28 @@ export const Nav = () => {
     }
   }, [activeItem, isMobile]);
 
+  const openSearch = () => {
+    if (searchDialogRef.current) {
+      searchDialogRef.current.showModal();
+      searchDialogRef.current.querySelector('input[type="search"]').focus();
+    }
+  }
+
+  const closeSearch = () => {
+    if (searchDialogRef.current) {
+      searchDialogRef.current.close();
+    }
+  };
+
   const renderNavItem = (item) => {
-    // TODO: Search
-    // if (item.name === "Search") {
-    //   ...
-    // }
+
+    if (item.name === "Search") {
+      return (<li key={item.name} className="menu-item">
+        <button className="radio-button" onClick={openSearch}>
+          {item.name}
+        </button>
+      </li>);
+    }
 
     if (item.name === "Donate") {
       return (
@@ -113,47 +132,52 @@ export const Nav = () => {
 
   if (isMobile) {
     return (
-      <nav
-        className={`nav grid${navOpen ? " open" : ""}${
-          subNavOpen && activeItem ? " subnav-open" : ""
-        }`}
-        aria-labelledby="main navigation"
-      >
-        <div className="subgrid">
-          <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
-            <PlusButton isActive={navOpen} />
-            <Logo />
+      <>
+        <Search ref={searchDialogRef} closeSearch={closeSearch} />
+        <nav
+          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
+            }`}
+          aria-labelledby="main navigation"
+        >
+          <div className="subgrid">
+            <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
+              <PlusButton isActive={navOpen} />
+              <Logo />
+            </div>
+            {navOpen && (
+              <ul className="menu">
+                {menu.map((item, index) => renderNavItem(item, index))}
+              </ul>
+            )}
           </div>
-          {navOpen && (
-            <ul className="menu">
-              {menu.map((item, index) => renderNavItem(item, index))}
-            </ul>
+          {activeItem && !navOpen && (
+            <SubNav
+              {...navProps}
+              pathname={pathname}
+              activeItemSlug={activeItem}
+              subNavOpen={subNavOpen}
+              setSubNavOpen={setSubNavOpen}
+            />
           )}
-        </div>
-        {activeItem && !navOpen && (
-          <SubNav
-            {...navProps}
-            pathname={pathname}
-            activeItemSlug={activeItem}
-            subNavOpen={subNavOpen}
-            setSubNavOpen={setSubNavOpen}
-          />
-        )}
-      </nav>
+        </nav>
+      </>
     );
   }
 
   return (
-    <nav className="nav grid" aria-labelledby="main navigation">
-      <div className="subgrid">
-        <Link href="/">
-          <Logo />
-        </Link>
+    <>
+      <Search ref={searchDialogRef} closeSearch={closeSearch} />
+      <nav className="nav grid" aria-labelledby="main navigation">
+        <div className="subgrid">
+          <Link href="/">
+            <Logo />
+          </Link>
 
-        <ul className="menu">
-          {menu.map((item, index) => renderNavItem(item, index))}
-        </ul>
-      </div>
-    </nav>
+          <ul className="menu">
+            {menu.map((item, index) => renderNavItem(item, index))}
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 };
