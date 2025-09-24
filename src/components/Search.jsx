@@ -22,7 +22,7 @@ export const Search = forwardRef(function Search(props, ref) {
                     value={searchVal}
                     onChange={handleSearchChange}
                     ref={searchInputRef}
-                    onKeyDown={(e) => { e.key == "Enter" && e.target.blur() && e.preventDefault() }} />
+                    onKeyDown={(e) => { e.key === "Enter" && e.target.blur() && e.preventDefault() }} />
             </form>
         </search>
     </dialog>;
