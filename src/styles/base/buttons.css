@@ -21,6 +21,14 @@
   align-items: baseline;
   text-decoration: none;
 
+  /* Reset button styles */
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+  line-height: inherit;
+
   &:hover {
     text-decoration: none;
   }
