@@ -288,6 +288,12 @@ export const GET_DOCUMENTARIES_LIST = `
         _id
         title
         slug
+        thumbnail {
+          url
+          width
+          height
+          title
+        }
       }
     }
   }
