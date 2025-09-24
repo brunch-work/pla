@@ -50,6 +50,7 @@ export const metadata = {
       default: APP_DEFAULT_TITLE,
       template: APP_TITLE_TEMPLATE,
     },
+    images: ["/images/png/og-image.png"],
     description: APP_DESCRIPTION,
   },
   authors: [
