@@ -28,7 +28,11 @@ export async function generateMetadata({ searchParams }) {
           alt: image.title,
         },
       ],
-    }
+    },
+    twitter: {
+      title,
+      images: [image.url],
+    },
   };
 }
 
