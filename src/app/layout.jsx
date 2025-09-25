@@ -2,6 +2,7 @@ import "@/styles/global.css";
 import { Nav } from "@/components/Nav";
 import { NavContextProvider } from "@/utils/navContextProvider";
 import { ViewTransitions } from "next-view-transitions";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Create Next App",
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className="grid">
           <NavContextProvider>
-            <Nav />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Nav />
+            </Suspense>
             {children}
           </NavContextProvider>
         </body>
