@@ -303,7 +303,7 @@ export const GET_ABOUT = `
 query getAbout {
   aboutPageCollection {
     items {
-      pageTitleSeo
+      pageTitle
       pageContent
       email
       teamMembersCollection {
@@ -321,7 +321,7 @@ export const GET_RESOURCES = `
 query getResources {
   resourcesPageCollection {
     items {
-      pageTitleSeo
+      pageTitle
       pageContent
       resourcesCollection {
         items {
