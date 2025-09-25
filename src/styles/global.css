@@ -8,8 +8,10 @@
 
 @import "./components/nav.css";
 @import "./components/video-player.css";
+@import "./components/search.css";
 
 @import "./pages/home.css";
 @import "./pages/not-found.css";
 @import "./pages/page.css";
 @import "./pages/list-page.css";
+@import "./pages/about.css";

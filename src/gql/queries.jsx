@@ -292,3 +292,38 @@ export const GET_DOCUMENTARIES_LIST = `
     }
   }
 `;
+
+export const GET_ABOUT = `
+query getAbout {
+  aboutPageCollection {
+    items {
+      pageTitle
+      pageContent
+      email
+      teamMembersCollection {
+        items {
+          name
+          role
+        }
+      }
+    }
+  }
+}
+`;
+
+export const GET_RESOURCES = `
+query getResources {
+  resourcesPageCollection {
+    items {
+      pageTitle
+      pageContent
+      resourcesCollection {
+        items {
+          name
+          url
+        }
+      }
+    }
+  }
+}
+`;
