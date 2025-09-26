@@ -2,6 +2,10 @@ import { GET_ABOUT } from "@/gql/queries";
 import { getPropData } from "@/utils/client";
 import Markdown from "react-markdown";
 
+export const metadata = {
+  title: "About",
+};
+
 export default async function AboutPage() {
   const { aboutPageCollection } = await getPropData(GET_ABOUT);
 

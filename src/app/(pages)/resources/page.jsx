@@ -2,6 +2,10 @@ import { GET_RESOURCES } from "@/gql/queries";
 import { getPropData } from "@/utils/client";
 import Markdown from "react-markdown";
 
+export const metadata = {
+  title: "Resources",
+}
+
 export default async function ResourcesPage() {
   const { resourcesPageCollection } = await getPropData(GET_RESOURCES);
   const resourcePage = resourcesPageCollection.items[0];
