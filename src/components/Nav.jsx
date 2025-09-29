@@ -4,14 +4,15 @@ import { Link } from "next-view-transitions";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useMobile } from "../hooks/useMobile";
-import { useNavContext } from "@/utils/navContextProvider";
+import { motion } from "motion/react";
 
 import { Logo } from "./Logo";
 import { RadioButton } from "./RadioButton";
 import { PlusButton } from "./PlusButton";
 import { SubNav } from "./SubNav";
 import { Search } from "./Search";
-import { motion } from "motion/react";
+import { useNavContext } from "@/utils/navContextProvider";
+import { menuVariants, menuItemVariants } from "@/motion/menus";
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -91,42 +92,6 @@ export const Nav = () => {
     if (searchDialogRef.current) {
       searchDialogRef.current.close();
     }
-  };
-
-  const menuVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.01,
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.5,
-      },
-    },
-  };
-
-  const menuItemVariants = {
-    hidden: {
-      opacity: 0,
-      y: -5,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
   };
 
   const renderNavItem = (item) => {

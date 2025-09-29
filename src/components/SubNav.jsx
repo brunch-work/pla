@@ -3,11 +3,12 @@
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
+import { SWRfetch } from "@/utils/client";
+import { GET_POETS_LIST, GET_INTERVIEWS_LIST, GET_SERIES_LIST, GET_DOCUMENTARIES_LIST } from "@/gql/queries";
+import { menuVariants, menuItemVariants } from "@/motion/menus";
 
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { SWRfetch } from "@/utils/client";
-import { GET_POETS_LIST, GET_INTERVIEWS_LIST, GET_SERIES_LIST, GET_DOCUMENTARIES_LIST } from "@/gql/queries";
 import { motion } from "motion/react";
 
 export const SubNav = ({
@@ -58,42 +59,6 @@ export const SubNav = ({
     }
 
   }, [data, activeItemSlug]);
-
-  const menuVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.01,
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.5,
-      },
-    },
-  };
-
-  const menuItemVariants = {
-    hidden: {
-      opacity: 0,
-      y: -5,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-  };
 
   const renderList = () => {
     if (itemType === "Poets") {

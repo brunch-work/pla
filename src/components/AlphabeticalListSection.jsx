@@ -1,8 +1,8 @@
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
-import { motion } from "motion/react";
-import { useMobile } from "@/hooks/useMobile";
+import { menuItemVariants } from "@/motion/menus";
 
+import { motion } from "motion/react";
 import { useState } from "react";
 
 export const AlphabeticalListSection = ({
@@ -18,28 +18,6 @@ export const AlphabeticalListSection = ({
       ? true
       : false
   );
-
-  const menuItemVariants = {
-    hidden: {
-      opacity: 0,
-      y: -5,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        staggerChildren: 0.01,
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-  };
 
   return (
     <motion.li key={letter} variants={menuItemVariants} >
