@@ -3,6 +3,7 @@
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
+import { AnimatePresence, motion } from "motion/react";
 
 export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pathname, searchParam }) => {
 
@@ -56,7 +57,7 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
           className="body-text"
           onClick={() => setListOpen(!listOpen)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               setListOpen(!listOpen);
             }
           }}
@@ -66,11 +67,33 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
           <PlusButton isActive={listOpen} />
           <span>{pageType}</span>
         </h1>
-        {listOpen && (
-          <nav aria-labelledby="sidebar-heading">
-            {renderList()}
-          </nav>
-        )}
+        <AnimatePresence>
+          {listOpen && (
+            <motion.nav
+              initial={{
+                opacity: 0,
+                height: 0,
+                y: -25,
+              }}
+              animate={{
+                opacity: 1,
+                height: "auto",
+                y: 0,
+              }}
+              exit={{ opacity: 0, height: 0, y: -25 }}
+              transition={{
+                opacity: { duration: 0.2, delay: listOpen ? 0 : 0.2 },
+                height: { duration: 0.4 },
+                y: { duration: 0.2 },
+                ease: [0, 0.55, 0.45, 1],
+                type: "tween",
+              }}
+              aria-labelledby="sidebar-heading"
+            >
+              {renderList()}
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
