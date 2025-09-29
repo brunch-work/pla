@@ -19,21 +19,6 @@ export const AlphabeticalListSection = ({
       : false
   );
 
-  const menuVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.02,
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.5,
-      },
-    },
-  };
-
   const menuItemVariants = {
     hidden: {
       opacity: 0,
@@ -57,7 +42,7 @@ export const AlphabeticalListSection = ({
   };
 
   return (
-    <motion.li key={letter} variants={menuVariants} initial="hidden" animate="visible">
+    <motion.li key={letter} variants={menuItemVariants} >
       <h2
         className="body-text"
         onClick={() => setIsOpen(!isOpen)}
