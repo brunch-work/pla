@@ -7,12 +7,49 @@ import { AnimatePresence, motion } from "motion/react";
 
 export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pathname, searchParam }) => {
 
+   const menuVariants = {
+     hidden: {
+       opacity: 0,
+     },
+     visible: {
+       opacity: 1,
+       transition: {
+         staggerChildren: 0.02,
+         ease: [0, 0.55, 0.45, 1],
+         type: "tween",
+         duration: 0.5,
+       },
+     },
+   };
+
+   const menuItemVariants = {
+     hidden: {
+       opacity: 0,
+       y: -5,
+       transition: {
+         ease: [0, 0.55, 0.45, 1],
+         type: "tween",
+         duration: 0.3,
+       },
+     },
+     visible: {
+       opacity: 1,
+       y: 0,
+       transition: {
+         staggerChildren: 0.01,
+         ease: [0, 0.55, 0.45, 1],
+         type: "tween",
+         duration: 0.3,
+       },
+     },
+   };
+
   const renderList = () => {
 
     // Alphabetical list for poets page only
     if (pageType === "Poets") {
       return (
-        <ul>
+        <motion.ul variants={menuVariants} initial="hidden" animate="visible">
           {Object.keys(list)
             .sort()
             .map((letter) => {
@@ -28,14 +65,14 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
                 />
               );
             })}
-        </ul>
+        </motion.ul>
       );
     }
 
     return (
-      <ul>
+      <motion.ul variants={menuVariants} initial="hidden" animate="visible">
         {list.map((item) => (
-          <li key={item._id}>
+          <motion.li key={item._id} variants={menuItemVariants}>
             <RadioButton
               active={activeItem === item.slug}
               label={item.title}
@@ -44,9 +81,9 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
               url={`${pathname}?${searchParam}=${item.slug}`}
               ariaCurrent={activeItem === item.slug ? "page" : undefined}
             />
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     );
   }
 
@@ -67,33 +104,13 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
           <PlusButton isActive={listOpen} />
           <span>{pageType}</span>
         </h1>
-        <AnimatePresence>
           {listOpen && (
-            <motion.nav
-              initial={{
-                opacity: 0,
-                height: 0,
-                y: -25,
-              }}
-              animate={{
-                opacity: 1,
-                height: "auto",
-                y: 0,
-              }}
-              exit={{ opacity: 0, height: 0, y: -25 }}
-              transition={{
-                opacity: { duration: 0.2, delay: listOpen ? 0 : 0.2 },
-                height: { duration: 0.4 },
-                y: { duration: 0.2 },
-                ease: [0, 0.55, 0.45, 1],
-                type: "tween",
-              }}
+            <nav
               aria-labelledby="sidebar-heading"
             >
               {renderList()}
-            </motion.nav>
+            </nav>
           )}
-        </AnimatePresence>
       </div>
     </div>
   );
