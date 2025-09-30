@@ -19,7 +19,6 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
   row-gap: 0.4rem;
 
@@ -59,7 +58,6 @@
 
   /* &.open,
   &.subnav-open {
-    background: rgba(255, 255, 255, 0.75);
     height: auto;
     backdrop-filter: blur(10px);
     position: fixed;
