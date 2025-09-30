@@ -16,6 +16,25 @@
     width: 100%;
     height: 100%;
     backdrop-filter: blur(20px);
+    transition-property: display, opacity, overlay;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+    transition-behavior: allow-discrete;
+
+    opacity: 0;
+
+    &[open] {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      .search--input {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
 
     &::backdrop {
       background-color: transparent;
@@ -30,6 +49,15 @@
       margin: 0 auto;
       border: solid var(--black) 1px;
       background-color: rgb(255 255 255 / 0.5);
+      transition-property: transform, opacity, display;
+      transition-duration: 0.3s;
+      transition-delay: 0.25s;
+      transition-timing-function: ease-in-out;
+      transition-behavior: allow-discrete;
+      @starting-style {
+        transform: translateY(15px);
+        opacity: 0;
+      }
     }
 
     input[type="search"]::-webkit-search-cancel-button {
