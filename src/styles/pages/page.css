@@ -48,8 +48,7 @@
     }
 
     .list,
-    .list ul,
-    .list li {
+    .list ul {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
@@ -62,6 +61,10 @@
         gap: 0.8rem;
         align-items: center;
       }
+    }
+
+    .poets-list > li:first-child {
+      padding-top: 0.4rem;
     }
   }
 

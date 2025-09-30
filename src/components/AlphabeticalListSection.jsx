@@ -2,7 +2,7 @@ import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { menuItemVariants } from "@/motion/menus";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 
 export const AlphabeticalListSection = ({
@@ -20,7 +20,7 @@ export const AlphabeticalListSection = ({
   );
 
   return (
-    <motion.li key={letter} variants={menuItemVariants} >
+    <motion.li key={letter} variants={menuItemVariants}>
       <h2
         className="body-text"
         onClick={() => setIsOpen(!isOpen)}
@@ -34,25 +34,31 @@ export const AlphabeticalListSection = ({
         <PlusButton isActive={isOpen} />
         <span className="letter">{letter}</span>
       </h2>
-      {isOpen && (
-        <motion.ul
-          className="poets-list"
-          variants={menuItemVariants}
-        >
-          {poets.map((poet) => (
-            <motion.li key={poet._id} variants={menuItemVariants}>
-              <RadioButton
-                active={activePoet === poet.slug}
-                label={poet.title}
-                name="poetsList"
-                value={poet.slug}
-                url={`${pathname}?${searchParam}=${poet.slug}`}
-                ariaCurrent={activePoet === poet.slug ? "page" : undefined}
-              />
-            </motion.li>
-          ))}
-        </motion.ul>
-      )}
+      <AnimatePresence mode="wait">
+        {isOpen && (
+          <motion.ul
+            className="poets-list"
+            variants={menuItemVariants}
+            key={letter}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+              {poets.map((poet) => (
+                <motion.li key={poet._id} variants={menuItemVariants}>
+                  <RadioButton
+                    active={activePoet === poet.slug}
+                    label={poet.title}
+                    name="poetsList"
+                    value={poet.slug}
+                    url={`${pathname}?${searchParam}=${poet.slug}`}
+                    ariaCurrent={activePoet === poet.slug ? "page" : undefined}
+                  />
+                </motion.li>
+              ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </motion.li>
   );
 };
