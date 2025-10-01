@@ -29,26 +29,26 @@ export const Nav = () => {
 
   const menu = isMobile
     ? [
-        { name: "Home", route: "/" },
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ]
+      { name: "Home", route: "/" },
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ]
     : [
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ];
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ];
 
   useEffect(() => {
     setMounted(true);
@@ -156,9 +156,8 @@ export const Nav = () => {
       <>
         <Search ref={searchDialogRef} closeSearch={closeSearch} />
         <nav
-          className={`nav grid${navOpen ? " open" : ""}${
-            subNavOpen && activeItem ? " subnav-open" : ""
-          }`}
+          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
+            }`}
           aria-labelledby="main navigation"
         >
           <div className="subgrid">
@@ -207,7 +206,7 @@ export const Nav = () => {
 
   return (
     <>
-      <Search ref={searchDialogRef} closeSearch={closeSearch} />
+      <Search ref={searchDialogRef} closeSearch={closeSearch} renderNavItem={renderNavItem} />
       <nav className="nav grid" aria-labelledby="main navigation">
         <div className="subgrid">
           <Link href="/">

@@ -2,6 +2,8 @@
 
 import { forwardRef, useEffect, useRef, useState, useMemo } from "react";
 import { fetchGraphQL } from '../utils/client';
+import { menuVariants, menuItemVariants } from "@/motion/menus";
+import { motion, AnimatePresence } from "motion/react";
 import { GET_SEARCH } from '../gql/queries';
 
 export const Search = forwardRef(function Search(props, ref) {
@@ -53,29 +55,39 @@ export const Search = forwardRef(function Search(props, ref) {
         </search>
         <section className="search-results">
             {isLoading ? (
-                <p className="search-loading">Searchgin...</p>
+                <p className="search-loading">Searching...</p>
             ) : searchResults && searchResults.items ? (
                 searchResults.items.length > 0 ? (
-                    <ul className="search-results-list">
-                        {searchResults.items.map((item) => (
-                            <li key={item._id} className="search-results-item">
-                                <a href={item.videoUrl} target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src={item.thumbnail?.url}
-                                        alt={item.thumbnail?.description || item.title}
-                                    />
-                                    <div>
-                                        <span className="search-results-title">{item.title}</span>
-                                        <div className="search-results-description">
-                                            {item.description}
+                    <AnimatePresence>
+                        <motion.ul variants={menuVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            className="search-results-list">
+                            {searchResults.items.map((item) => (
+                                <motion.li variants={menuItemVariants} key={item._id} className="search-results-item">
+                                    <a href={item.videoUrl} target="_blank" rel="noopener noreferrer">
+                                        <img
+                                            src={item.thumbnail?.url}
+                                            alt={item.thumbnail?.description || item.title}
+                                        />
+                                        <div>
+                                            <span className="search-results-title">{item.title}</span>
+                                            <div className="search-results-description">
+                                                {item.description}
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                                    </a>
+                                </motion.li>
+                            ))}
+                        </motion.ul>
+                    </AnimatePresence>
                 ) : (
-                    <p className="search-no-results">No results found.</p>
+                    <motion.p initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={menuItemVariants}
+                        className="search-no-results">No results found.</motion.p>
                 )
             ) : null}
         </section>
