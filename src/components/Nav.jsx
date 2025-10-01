@@ -166,16 +166,6 @@ export const Nav = () => {
               <PlusButton isActive={navOpen} />
               <Logo />
             </div>
-            {/* {navOpen && (
-              <motion.ul
-                className="menu"
-                initial="hidden"
-                animate="visible"
-                variants={menuVariants}
-              >
-                {menu.map((item, index) => renderNavItem(item, index))}
-              </motion.ul>
-            )} */}
           </div>
           {activeItem && !navOpen && (
             <SubNav

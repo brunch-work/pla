@@ -21,3 +21,25 @@ export const navVariants = {
     },
   }
 }
+
+export const subNavActiveItemVariants = {
+  hidden: {
+    opacity: 0,
+    display: "none",
+    transition: {
+      ease: [0, 0.55, 0.45, 1],
+      type: "tween",
+      duration: 0,
+    },
+  },
+  visible: {
+    opacity: 1,
+    display: "block",
+    transition: {
+      delay: 0.5,
+      ease: [0, 0.55, 0.45, 1],
+      type: "tween",
+      duration: 0.3,
+    },
+  }
+}
