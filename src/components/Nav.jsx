@@ -1,16 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useMobile } from "../hooks/useMobile";
-import { useNavContext } from "@/utils/navContextProvider";
+import { AnimatePresence, motion } from "motion/react";
 
 import { Logo } from "./Logo";
 import { RadioButton } from "./RadioButton";
 import { PlusButton } from "./PlusButton";
 import { SubNav } from "./SubNav";
 import { Search } from "./Search";
+import { useNavContext } from "@/utils/navContextProvider";
+import { menuVariants, menuItemVariants } from "@/motion/menus";
+import { navVariants } from "@/motion/nav";
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -26,26 +29,26 @@ export const Nav = () => {
 
   const menu = isMobile
     ? [
-      { name: "Home", route: "/" },
-      { name: "Poets", route: "/poets" },
-      { name: "Interviews", route: "/interviews" },
-      { name: "Series", route: "/series" },
-      { name: "Documentaries", route: "/documentaries" },
-      { name: "Resources", route: "/resources" },
-      { name: "About", route: "/about" },
-      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-      { name: "Search", route: "/search" },
-    ]
+        { name: "Home", route: "/" },
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+        { name: "Search", route: "/search" },
+      ]
     : [
-      { name: "Poets", route: "/poets" },
-      { name: "Interviews", route: "/interviews" },
-      { name: "Series", route: "/series" },
-      { name: "Documentaries", route: "/documentaries" },
-      { name: "Resources", route: "/resources" },
-      { name: "About", route: "/about" },
-      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-      { name: "Search", route: "/search" },
-    ];
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+        { name: "Search", route: "/search" },
+      ];
 
   useEffect(() => {
     setMounted(true);
@@ -84,7 +87,7 @@ export const Nav = () => {
       searchDialogRef.current.showModal();
       searchDialogRef.current.querySelector('input[type="search"]').focus();
     }
-  }
+  };
 
   const closeSearch = () => {
     if (searchDialogRef.current) {
@@ -93,32 +96,50 @@ export const Nav = () => {
   };
 
   const renderNavItem = (item) => {
-
     if (item.name === "Search") {
-      return (<li key={item.name} className="menu-item">
-        <button className="radio-button" onClick={openSearch}>
-          {item.name}
-        </button>
-      </li>);
+      return (
+        <motion.li
+          key={item.name}
+          className="menu-item"
+          variants={menuItemVariants}
+        >
+          <button className="radio-button" onClick={openSearch}>
+            {item.name}
+          </button>
+        </motion.li>
+      );
     }
 
     if (item.name === "Donate") {
       return (
-        <li key={item.name} className="menu-item">
-          <a href={item.route} className="radio-button" target="_blank" rel="noreferrer">
+        <motion.li
+          key={item.name}
+          className="menu-item"
+          variants={menuItemVariants}
+        >
+          <a
+            href={item.route}
+            className="radio-button"
+            target="_blank"
+            rel="noreferrer"
+          >
             {item.name}
           </a>
-        </li>
-      )
+        </motion.li>
+      );
     }
     return (
-      <li key={item.name} className="menu-item">
+      <motion.li
+        key={item.name}
+        className="menu-item"
+        variants={menuItemVariants}
+      >
         <RadioButton
           label={item.name}
           ariaCurrent={pathname === item.route ? "page" : undefined}
           url={item.route}
         />
-      </li>
+      </motion.li>
     );
   };
 
@@ -135,8 +156,9 @@ export const Nav = () => {
       <>
         <Search ref={searchDialogRef} closeSearch={closeSearch} />
         <nav
-          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
-            }`}
+          className={`nav grid${navOpen ? " open" : ""}${
+            subNavOpen && activeItem ? " subnav-open" : ""
+          }`}
           aria-labelledby="main navigation"
         >
           <div className="subgrid">
@@ -144,11 +166,6 @@ export const Nav = () => {
               <PlusButton isActive={navOpen} />
               <Logo />
             </div>
-            {navOpen && (
-              <ul className="menu">
-                {menu.map((item, index) => renderNavItem(item, index))}
-              </ul>
-            )}
           </div>
           {activeItem && !navOpen && (
             <SubNav
@@ -160,6 +177,30 @@ export const Nav = () => {
             />
           )}
         </nav>
+        <AnimatePresence>
+          {navOpen && (
+            <motion.div
+              className="nav nav__overlay grid"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={navVariants}
+            >
+              <div className="subgrid">
+                <div
+                  className="logo-wrapper"
+                  onClick={() => setNavOpen(!navOpen)}
+                >
+                  <PlusButton isActive={navOpen} />
+                  <Logo />
+                </div>
+                <ul className="menu">
+                  {menu.map((item, index) => renderNavItem(item, index))}
+                </ul>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </>
     );
   }

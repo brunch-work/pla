@@ -48,8 +48,7 @@
     }
 
     .list,
-    .list ul,
-    .list li {
+    .list ul {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
@@ -63,15 +62,22 @@
         align-items: center;
       }
     }
+
+    .poets-list > li:first-child {
+      padding-top: 0.4rem;
+    }
   }
 
   .main-content {
-    margin-top: 1rem;
     grid-column: 1/-1;
 
     > *:first-child {
       margin-top: 0;
     }
+  }
+
+  .main-content:has(> *:first-child) {
+    margin-top: 1rem;
   }
 
   @media (min-width: 1400px) {

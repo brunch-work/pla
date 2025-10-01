@@ -11,9 +11,12 @@
   position: relative;
   display: flex !important;
   flex-direction: column-reverse;
+  justify-content: flex-end;
 
   .poet {
     .poet__info {
+      will-change: opacity;
+      transform: translate3d(0, 0, 0);
       grid-column: 1 / -1;
       margin-top: 1.2rem;
 
@@ -27,11 +30,6 @@
         img {
           width: 100%;
           height: auto;
-        }
-
-        &.skeleton {
-          animation: skeleton-loading 1s linear infinite alternate;
-          aspect-ratio: 1/1;
         }
       }
 
@@ -47,10 +45,9 @@
       flex-direction: column;
       gap: 0.8rem;
 
-      .video.skeleton {
-        animation: skeleton-loading 1s linear infinite alternate;
-        aspect-ratio: 16/9;
-        margin-bottom: 0.4rem;
+      .video {
+        will-change: transform, opacity;
+        transform: translate3d(0, 0, 0);
       }
     }
   }
