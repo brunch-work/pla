@@ -9,6 +9,7 @@ import Markdown from "react-markdown";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import { SWRfetch } from "@/utils/client";
+import { motion } from "motion/react";
 
 export const Poet = ({ activeItem, pageType }) => {
   let query;
@@ -36,45 +37,93 @@ export const Poet = ({ activeItem, pageType }) => {
     }
   }, [activeItem, data]);
 
-  if (isLoading) {
-    return (
-      <div className="poet grid-right">
-        <div className="poet__info">
-          <div className="img skeleton" />
-        </div>
-        <div className="poet__videos">
-          <div className="video skeleton" />
-          <div className="video skeleton" />
-          <div className="video skeleton" />
-          <div className="video skeleton" />
-          <div className="video skeleton" />
-        </div>
-      </div>
-    );
-  }
+  const infoVariants = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        ease: [0, 0.55, 0.45, 1],
+        type: "tween",
+        duration: 0.3,
+      },
+    },
+    exit: {
+      opacity: 0,
+    },
+  };
+
+  const videosVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        ease: [0, 0.55, 0.45, 1],
+        type: "tween",
+        duration: 0.3,
+      },
+    },
+  };
+
+  const videoVariants = {
+    hidden: {
+      opacity: 0,
+      y: 10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        ease: [0, 0.55, 0.45, 1],
+        type: "tween",
+        duration: 0.3,
+      },
+    },
+  };
 
   return (
     <div className="poet grid-right">
-      <div className="poet__info">
-        {poet.photo && (
-          <div className="img">
-            <img
-              src={poet.photo.url}
-              alt={poet.title}
-              className="poet__photo"
-            />
-          </div>
-        )}
-        {poet.bio && (
-          <div className="bio">
-            <Markdown>{poet.bio}</Markdown>
-          </div>
-        )}
-      </div>
-      <div className="poet__videos">
-        {videos &&
-          videos.map((video) => <VideoPlayer video={video} key={video._id} />)}
-      </div>
+      {!isLoading && poet && poet._id && (
+        <motion.div className="poet__info" {...infoVariants}>
+          {poet.photo && (
+            <div className="img">
+              <img
+                src={poet.photo.url}
+                alt={poet.title}
+                className="poet__photo"
+              />
+            </div>
+          )}
+          {poet.bio && (
+            <div className="bio">
+              <Markdown>{poet.bio}</Markdown>
+            </div>
+          )}
+        </motion.div>
+      )}
+      {!isLoading && videos && videos.length > 0 && (
+        <motion.div
+          key={poet._id}
+          className="poet__videos"
+          initial="hidden"
+          animate="visible"
+          variants={videosVariants}
+        >
+          {videos.map((video) => (
+            <motion.div
+              key={video._id}
+              className="video"
+              variants={videoVariants}
+            >
+              <VideoPlayer video={video} />
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 };

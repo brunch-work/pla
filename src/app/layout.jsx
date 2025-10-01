@@ -1,6 +1,7 @@
 import "@/styles/global.css";
 import { Nav } from "@/components/Nav";
 import { NavContextProvider } from "@/utils/navContextProvider";
+import { ViewTransitions } from "next-view-transitions";
 import { Suspense } from "react";
 
 const APP_NAME = "Poetry LA";
@@ -61,15 +62,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="grid">
-        <NavContextProvider>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Nav />
-          </Suspense>
-          {children}
-        </NavContextProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body className="grid">
+          <NavContextProvider>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Nav />
+            </Suspense>
+            {children}
+          </NavContextProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

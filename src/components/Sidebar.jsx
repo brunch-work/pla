@@ -1,17 +1,31 @@
-"use client"
+"use client";
 
 import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
+import { motion, AnimatePresence } from "motion/react";
+import { menuVariants, menuItemVariants } from "@/motion/menus";
 
-export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pathname, searchParam }) => {
-
+export const Sidebar = ({
+  pageType,
+  list,
+  activeItem,
+  listOpen,
+  setListOpen,
+  pathname,
+  searchParam,
+}) => {
   const renderList = () => {
-
     // Alphabetical list for poets page only
     if (pageType === "Poets") {
       return (
-        <ul>
+        <motion.ul
+          variants={menuVariants}
+          key={pageType}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
           {Object.keys(list)
             .sort()
             .map((letter) => {
@@ -27,14 +41,20 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
                 />
               );
             })}
-        </ul>
+        </motion.ul>
       );
     }
 
     return (
-      <ul>
+      <motion.ul
+        variants={menuVariants}
+        key={pageType}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+      >
         {list.map((item) => (
-          <li key={item._id}>
+          <motion.li key={item._id} variants={menuItemVariants}>
             <RadioButton
               active={activeItem === item.slug}
               label={item.title}
@@ -43,11 +63,11 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
               url={`${pathname}?${searchParam}=${item.slug}`}
               ariaCurrent={activeItem === item.slug ? "page" : undefined}
             />
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     );
-  }
+  };
 
   return (
     <div className="sidebar">
@@ -56,7 +76,7 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
           className="body-text"
           onClick={() => setListOpen(!listOpen)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               setListOpen(!listOpen);
             }
           }}
@@ -66,12 +86,12 @@ export const Sidebar = ({ pageType, list, activeItem, listOpen, setListOpen, pat
           <PlusButton isActive={listOpen} />
           <span>{pageType}</span>
         </h1>
-        {listOpen && (
-          <nav aria-labelledby="sidebar-heading">
-            {renderList()}
-          </nav>
-        )}
+        <AnimatePresence>
+          {listOpen && (
+            <nav aria-labelledby="sidebar-heading">{renderList()}</nav>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
-}
+};

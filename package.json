@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "datocms-structured-text-to-html-string": "^5.0.0",
+    "motion": "^12.23.22",
     "next": "15.4.5",
+    "next-view-transitions": "^0.3.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-markdown": "^10.1.0",

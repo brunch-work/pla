@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { calculateImageWidth, calculateThumbnailPositions, calculateTotalWidth, clampOffset } from "@/utils/helpers";
 import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
@@ -134,11 +134,6 @@ export default function Homepage({ homepage }) {
         <div className="featured" ref={featuredRef}>
           <VideoPlayer
             video={thumbnailsList[activeThumbnail]}
-          // originalVideoUrl={thumbnailsList[activeThumbnail].videoUrl}
-          // thumbnailUrl={thumbnailsList[activeThumbnail].thumbnail.url}
-          // title={thumbnailsList[activeThumbnail].title}
-          // description={thumbnailsList[activeThumbnail].description}
-          // publicationDate={thumbnailsList[activeThumbnail].publicationDate}
           />
         </div>
       </div>
