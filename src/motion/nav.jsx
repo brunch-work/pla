@@ -1,13 +1,14 @@
 import { stagger } from "motion";
 
-export const menuVariants = {
+export const navVariants = {
   hidden: {
     opacity: 0,
     transition: {
-      delayChildren: stagger(0.01, { from: "last" }),
+      delayChildren: stagger(0.01, {from: "last"}),
+      delay: 0.2,
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
-      duration: 0.2,
+      duration: 0.3,
     },
   },
   visible: {
@@ -18,30 +19,27 @@ export const menuVariants = {
       type: "tween",
       duration: 0.5,
     },
-  },
-};
+  }
+}
 
-export const menuItemVariants = {
+export const subNavActiveItemVariants = {
   hidden: {
     opacity: 0,
-    y: -5,
-    height: 0,
+    display: "none",
     transition: {
-      delayChildren: stagger(0.015, { from: "last" }),
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
-      duration: 0.2,
+      duration: 0,
     },
   },
   visible: {
     opacity: 1,
-    y: 0,
-    height: "auto",
+    display: "block",
     transition: {
-      delayChildren: stagger(0.015),
+      delay: 0.5,
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
       duration: 0.3,
     },
-  },
-};
+  }
+}
