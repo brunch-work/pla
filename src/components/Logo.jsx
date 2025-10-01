@@ -1,7 +1,9 @@
 export const Logo = ({ fill = "#1b1917" }) => (
   <div className="logo">
     <span className="P">P</span>
-    <span className="letters">oetry</span>
+    <span>
+      <span className="letters">oetry</span>
+    </span>
     <svg
       width="32"
       height="52"

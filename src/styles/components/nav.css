@@ -1,13 +1,13 @@
 @keyframes logo-timeline {
   0% {
-    --logo-letter-ml: 0px;
+    --logo-letter-ml: 0ch;
     opacity: 1;
   }
   90% {
     opacity: 0;
   }
   100% {
-    --logo-letter-ml: -45px;
+    --logo-letter-ml: -3.72ch;
     opacity: 0;
   }
 }
@@ -20,6 +20,7 @@
   right: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
+  background-color: var(--white-75);
   row-gap: 0.4rem;
 
   &.loading {
@@ -39,9 +40,8 @@
     width: fit-content;
     overflow-x: clip;
 
-    .P {
-      background-color: var(--white);
-      z-index: 1;
+    .P ~ span {
+      overflow: clip;
     }
 
     .letters {
