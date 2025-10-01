@@ -1,5 +1,11 @@
-export const Playbutton = () => (
-  <div className="play-button">
+export const Playbutton = ({ handlePlay }) => (
+  <div
+    className="play-button"
+    onClick={() => handlePlay()}
+    onKeyDown={(e) => e.key === "Enter" && handlePlay()}
+    tabIndex={0}
+    role="button"
+  >
     <svg
       width="51"
       height="51"
