@@ -92,11 +92,13 @@
   }
 
   @media (min-width: 1400px) {
-    grid-template-rows: auto 16dvh;
+    row-gap: 2.2rem !important;
     height: calc(var(--100dvh) - var(--nav-height) - 1.6rem);
 
     .top {
-      height: fit-content;
+      /* height: calc(100% / 3 - 2.2rem); */
+      display: flex;
+      align-items: flex-end;
     }
 
     .intro {
@@ -109,6 +111,17 @@
 
     .thumbnails {
       justify-content: space-between;
+
+      .carousel-item {
+        height: 65dvh;
+        aspect-ratio: 16/9;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
     }
   }
 }
