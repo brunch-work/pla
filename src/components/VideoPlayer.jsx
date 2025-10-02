@@ -139,7 +139,7 @@ export const VideoPlayer = ({ video }) => {
                   {description && <PlusButton isActive={showDescription} color="#fff" />}
                 </div>
               </div>
-              <span className="date">
+              <span className="date body-text">
                 {new Intl.DateTimeFormat("en-US", {
                   dateStyle: isMobile ? "medium" : "long",
                 }).format(date)}
@@ -148,7 +148,7 @@ export const VideoPlayer = ({ video }) => {
             <AnimatePresence>
               {showDescription && (
                 <motion.div className="description show" variants={videoPlayerVariants} initial="hidden" animate="visible" exit="hidden">
-                  <p>{description}</p>
+                  <p className="body-text">{description}</p>
                 </motion.div>
               )}
             </AnimatePresence>
