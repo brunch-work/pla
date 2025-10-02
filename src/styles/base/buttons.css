@@ -20,6 +20,7 @@
   gap: 0.8rem;
   align-items: baseline;
   text-decoration: none;
+  color: inherit; /* fixes issue with Safari iOS */
 
   /* Reset button styles */
   background-color: transparent;

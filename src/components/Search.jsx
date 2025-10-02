@@ -4,6 +4,11 @@ import { forwardRef, useEffect, useRef, useState, useMemo } from "react";
 import { fetchGraphQL } from '../utils/client';
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
+import { Link } from "next-view-transitions";
+import { Logo } from "./Logo";
+import { SubNav } from "./SubNav";
+import { useMobile } from "../hooks/useMobile";
+import { getMenu, renderNavItem } from './Nav';
 import { GET_SEARCH } from '../gql/queries';
 
 export const Search = forwardRef(function Search(props, ref) {
@@ -11,6 +16,9 @@ export const Search = forwardRef(function Search(props, ref) {
     const [searchVal, setSearchVal] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
+    const isMobile = useMobile();
+    const menu = getMenu(isMobile);
+    const pathname = '/search'; // I'm cheating. sue me.
 
     const fetchSearchResults = useMemo(() => {
         return async (term) => {
@@ -40,7 +48,20 @@ export const Search = forwardRef(function Search(props, ref) {
     }
 
     return <dialog ref={ref} className="search-dialog" closedby="any">
-        {/*<button onClick={props.closeSearch}>[x]</button>*/}
+        <nav className="nav grid" aria-labelledby="main navigation">
+            <div className="subgrid">
+                <Link href="/">
+                    <Logo />
+                </Link>
+                {isMobile ?
+                    <ul className="menu">
+                        {renderNavItem({ name: "Search", route: "/search" }, pathname)}
+                    </ul>
+                    : <ul className="menu">
+                        {menu.map((item, index) => renderNavItem(item, pathname))}
+                    </ul>}
+            </div>
+        </nav>
         <search>
             <form name='search--form' className='search--form' action="">
                 <input type="search"
