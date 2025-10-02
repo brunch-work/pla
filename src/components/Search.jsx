@@ -6,7 +6,6 @@ import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "next-view-transitions";
 import { Logo } from "./Logo";
-import { SubNav } from "./SubNav";
 import { useMobile } from "../hooks/useMobile";
 import { getMenu, renderNavItem } from './Nav';
 import { GET_SEARCH } from '../gql/queries';
@@ -47,12 +46,16 @@ export const Search = forwardRef(function Search(props, ref) {
         setSearchVal(e.target.value);
     }
 
+    const handleDialogClose = () => {
+        document.querySelector('.search-dialog').close();
+    }
+
     return <dialog ref={ref} className="search-dialog" closedby="any">
         <nav className="nav grid" aria-labelledby="main navigation">
             <div className="subgrid">
-                <Link href="/">
+                <button onClick={handleDialogClose} className="logo-wrapper">
                     <Logo />
-                </Link>
+                </button>
                 {isMobile ?
                     <ul className="menu">
                         {renderNavItem({ name: "Search", route: "/search" }, pathname)}

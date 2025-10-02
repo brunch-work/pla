@@ -55,6 +55,7 @@
   .search-results {
     margin: 0 auto;
     margin-block-start: 3.5rem;
+    width: calc(100% - 3.2rem);
     max-width: 47.5rem;
 
     .search-results-list {

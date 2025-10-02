@@ -166,10 +166,10 @@ export const Nav = () => {
           aria-labelledby="main navigation"
         >
           <div className="subgrid">
-            <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
+            <button className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
               <PlusButton isActive={navOpen} />
               <Logo />
-            </div>
+            </button>
           </div>
           {activeItem && !navOpen && (
             <SubNav
@@ -191,13 +191,13 @@ export const Nav = () => {
               variants={navVariants}
             >
               <div className="subgrid">
-                <div
+                <button
                   className="logo-wrapper"
                   onClick={() => setNavOpen(!navOpen)}
                 >
                   <PlusButton isActive={navOpen} />
                   <Logo />
-                </div>
+                </button>
                 <ul className="menu">
                   {menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
                 </ul>
