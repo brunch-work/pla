@@ -22,7 +22,7 @@ export default function Homepage({ homepage }) {
 
   const { viewportHeight } = useViewport();
 
-  const thumbnailHeightVh = 13;
+  const thumbnailHeightVh = isMobile ? 13 : 65;
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
@@ -189,7 +189,9 @@ export default function Homepage({ homepage }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
               >
-                <VideoPlayer video={video} />
+                <button onClick={() => handleThumbnailClick(index)}>
+                  <VideoPlayer video={video} />
+                </button>
               </li>
             ))}
           </ul>
