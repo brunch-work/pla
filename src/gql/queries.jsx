@@ -333,3 +333,29 @@ query getResources {
   }
 }
 `;
+
+export const GET_SEARCH = `
+query getSearch($searchTerm: String) {
+  youtubeVideoCollection(where: {
+    OR: [
+      { series: { title_contains: $searchTerm } }
+      { poets: { name_contains: $searchTerm } }
+      { interviewHost: { name_contains: $searchTerm } }
+    ]
+  }) {
+    items {
+      _id
+      title
+      videoUrl
+      description
+      publicationDate
+      thumbnail {
+        url
+        width
+        height
+        description
+        contentType
+      }
+    }
+    }
+}`;

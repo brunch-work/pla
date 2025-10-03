@@ -12,8 +12,82 @@ import { PlusButton } from "./PlusButton";
 import { SubNav } from "./SubNav";
 import { Search } from "./Search";
 import { useNavContext } from "@/utils/navContextProvider";
-import { menuVariants, menuItemVariants } from "@/motion/menus";
+import { menuItemVariants } from "@/motion/menus";
 import { navVariants } from "@/motion/nav";
+
+export const getMenu = (isMobile) => {
+  return isMobile
+    ? [
+      { name: "Home", route: "/" },
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ]
+    : [
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ];
+};
+
+export const renderNavItem = (item, pathname, openSearch) => {
+
+  if (item.name === "Search") {
+    return (
+      <motion.li
+        key={item.name}
+        className="menu-item"
+        variants={menuItemVariants}
+      >
+        <button className="radio-button" onClick={openSearch ? openSearch : null} aria-current={pathname === item.route ? "page" : undefined}>
+          {item.name}
+        </button>
+      </motion.li>
+    );
+  }
+
+  if (item.name === "Donate") {
+    return (
+      <motion.li
+        key={item.name}
+        className="menu-item"
+        variants={menuItemVariants}
+      >
+        <a
+          href={item.route}
+          className="radio-button"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {item.name}
+        </a>
+      </motion.li>
+    );
+  }
+  return (
+    <motion.li
+      key={item.name}
+      className="menu-item"
+      variants={menuItemVariants}
+    >
+      <RadioButton
+        label={item.name}
+        ariaCurrent={pathname === item.route ? "page" : undefined}
+        url={item.route}
+      />
+    </motion.li>
+  );
+};
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -27,28 +101,7 @@ export const Nav = () => {
   const searchDialogRef = useRef(null);
   const isMobile = useMobile();
 
-  const menu = isMobile
-    ? [
-        { name: "Home", route: "/" },
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ]
-    : [
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ];
+  const menu = getMenu(isMobile);
 
   useEffect(() => {
     setMounted(true);
@@ -95,54 +148,6 @@ export const Nav = () => {
     }
   };
 
-  const renderNavItem = (item) => {
-    if (item.name === "Search") {
-      return (
-        <motion.li
-          key={item.name}
-          className="menu-item"
-          variants={menuItemVariants}
-        >
-          <button className="radio-button" onClick={openSearch}>
-            {item.name}
-          </button>
-        </motion.li>
-      );
-    }
-
-    if (item.name === "Donate") {
-      return (
-        <motion.li
-          key={item.name}
-          className="menu-item"
-          variants={menuItemVariants}
-        >
-          <a
-            href={item.route}
-            className="radio-button"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {item.name}
-          </a>
-        </motion.li>
-      );
-    }
-    return (
-      <motion.li
-        key={item.name}
-        className="menu-item"
-        variants={menuItemVariants}
-      >
-        <RadioButton
-          label={item.name}
-          ariaCurrent={pathname === item.route ? "page" : undefined}
-          url={item.route}
-        />
-      </motion.li>
-    );
-  };
-
   if (!mounted) {
     return (
       <nav className="nav loading grid">
@@ -156,16 +161,15 @@ export const Nav = () => {
       <>
         <Search ref={searchDialogRef} closeSearch={closeSearch} />
         <nav
-          className={`nav grid${navOpen ? " open" : ""}${
-            subNavOpen && activeItem ? " subnav-open" : ""
-          }`}
+          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
+            }`}
           aria-labelledby="main navigation"
         >
           <div className="subgrid">
-            <div className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
+            <button className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
               <PlusButton isActive={navOpen} />
               <Logo />
-            </div>
+            </button>
           </div>
           {activeItem && !navOpen && (
             <SubNav
@@ -187,15 +191,15 @@ export const Nav = () => {
               variants={navVariants}
             >
               <div className="subgrid">
-                <div
+                <button
                   className="logo-wrapper"
                   onClick={() => setNavOpen(!navOpen)}
                 >
                   <PlusButton isActive={navOpen} />
                   <Logo />
-                </div>
+                </button>
                 <ul className="menu">
-                  {menu.map((item, index) => renderNavItem(item, index))}
+                  {menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
                 </ul>
               </div>
             </motion.div>
@@ -215,7 +219,7 @@ export const Nav = () => {
           </Link>
 
           <ul className="menu">
-            {menu.map((item, index) => renderNavItem(item, index))}
+            {menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
           </ul>
         </div>
       </nav>
