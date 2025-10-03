@@ -63,3 +63,7 @@
     height: 16.5px;
   }
 }
+
+button {
+  border: none;
+}

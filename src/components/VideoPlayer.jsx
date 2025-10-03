@@ -60,17 +60,19 @@ export const VideoPlayer = ({ video }) => {
         </div>
         <div className="info">
           <div className="top">
-            <div
+            <button
               className={`title ${description ? "active" : ""}`}
               onClick={() =>
                 description && setShowDescription(!showDescription)
               }
+              aria-label="Toggle video description"
+              aria-expanded={description}
             >
               <div className="title__title">
                 <h3>{title}</h3>
                 {description && <PlusButton isActive={showDescription} />}
               </div>
-            </div>
+            </button>
             <span className="date">
               {new Intl.DateTimeFormat("en-US", {
                 dateStyle: isMobile ? "medium" : "long",
@@ -133,6 +135,8 @@ export const VideoPlayer = ({ video }) => {
                 onClick={() =>
                   description && setShowDescription(!showDescription)
                 }
+                aria-label="Toggle video description"
+                aria-expanded={description}
               >
                 <div className="title__title">
                   <h3>{title}</h3>
