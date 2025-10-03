@@ -1,10 +1,8 @@
-export const Playbutton = ({ handlePlay }) => (
-  <div
+export const Playbutton = ({ handlePlay, title }) => (
+  <button
     className="play-button"
-    onClick={() => handlePlay()}
-    onKeyDown={(e) => e.key === "Enter" && handlePlay()}
-    tabIndex={0}
-    role="button"
+    onClick={handlePlay}
+    aria-label={`Play ${title}`}
   >
     <svg
       width="51"
@@ -18,5 +16,5 @@ export const Playbutton = ({ handlePlay }) => (
         fill="white"
       />
     </svg>
-  </div>
+  </button>
 );

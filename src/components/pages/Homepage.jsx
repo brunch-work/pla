@@ -189,9 +189,9 @@ export default function Homepage({ homepage }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
               >
-                <button onClick={() => handleThumbnailClick(index)}>
+                <div className="button" onClick={() => handleThumbnailClick(index)} role="button" tabIndex={0}>
                   <VideoPlayer video={video} />
-                </button>
+                </div>
               </li>
             ))}
           </ul>

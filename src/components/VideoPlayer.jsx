@@ -55,7 +55,7 @@ export const VideoPlayer = ({ video }) => {
             role="button"
           >
             <img src={thumbnail.url} alt={thumbnail.description} />
-            <Playbutton handlePlay={handlePlay} />
+            <Playbutton handlePlay={handlePlay} title={title} />
           </div>
         </div>
         <div className="info">
@@ -125,10 +125,10 @@ export const VideoPlayer = ({ video }) => {
             ></div>
           </div>
           <img src={thumbnail.url} alt={thumbnail.description || ""} />
-          <Playbutton handlePlay={handlePlay} />
+          <Playbutton handlePlay={handlePlay} title={title} />
           <div className="info">
             <div className="top">
-              <div
+              <button
                 className={`title ${description ? "active" : ""}`}
                 onClick={() =>
                   description && setShowDescription(!showDescription)
@@ -138,7 +138,7 @@ export const VideoPlayer = ({ video }) => {
                   <h3>{title}</h3>
                   {description && <PlusButton isActive={showDescription} color="#fff" />}
                 </div>
-              </div>
+              </button>
               <span className="date body-text">
                 {new Intl.DateTimeFormat("en-US", {
                   dateStyle: isMobile ? "medium" : "long",
