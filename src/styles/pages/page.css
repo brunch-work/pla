@@ -80,7 +80,7 @@
     margin-top: 1rem;
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     padding-top: calc(var(--nav-height) + 1.6rem);
 
     .sidebar {

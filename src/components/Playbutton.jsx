@@ -1,5 +1,9 @@
-export const Playbutton = () => (
-  <div className="play-button">
+export const Playbutton = ({ handlePlay, title }) => (
+  <button
+    className="play-button"
+    onClick={handlePlay}
+    aria-label={`Play ${title}`}
+  >
     <svg
       width="51"
       height="51"
@@ -12,5 +16,5 @@ export const Playbutton = () => (
         fill="white"
       />
     </svg>
-  </div>
+  </button>
 );

@@ -127,7 +127,7 @@ body:has(.search-dialog[open]) {
     }
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     padding-block: 1.6rem;
 
     .menu {

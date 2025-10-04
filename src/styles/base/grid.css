@@ -14,7 +14,7 @@
   row-gap: 0;
   grid-auto-rows: min-content;
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     --columns: 12;
     --padding: 1.6rem;
     --gap: 1.6rem;
@@ -37,7 +37,7 @@
   row-gap: 0;
   grid-auto-rows: min-content;
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     grid-column: 5 / -1;
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }
