@@ -35,6 +35,11 @@
 
   .nav {
     position: static;
+    background-color: transparent;
+
+    .logo-wrapper {
+      grid-column: 1 / 2;
+    }
   }
 
   .search--input {
