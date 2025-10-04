@@ -123,7 +123,7 @@
       }
 
       .carousel-item {
-        height: 65dvh;
+        height: 50dvh;
         max-width: var(--main-width);
         aspect-ratio: 16/9;
 
@@ -132,6 +132,12 @@
           height: 100%;
         }
       }
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .carousel-item {
+      height: 65dvh;
     }
   }
 }

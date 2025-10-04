@@ -20,16 +20,25 @@ export default function Homepage({ homepage }) {
   const featuredRef = useRef(null);
   const isMobile = useMobile();
 
-  const { viewportHeight } = useViewport();
+  const { viewportHeight, viewportWidth } = useViewport();
 
-  const thumbnailHeightVh = isMobile ? 13 : 65;
+  const thumbnailHeightVh = () => {
+    if (isMobile) {
+      return 13;
+    } else if (viewportWidth > 768 && viewportWidth < 1080) {
+      return 50;
+    } else {
+      return 65;
+    }
+  }
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
   // Memoized calculations
   const thumbnailHeight = useMemo(() => {
+    const thumbnailHeight = thumbnailHeightVh();
     if (viewportHeight === 0) return 75;
-    return Math.floor((viewportHeight * thumbnailHeightVh) / 100);
+    return Math.floor((viewportHeight * thumbnailHeight) / 100);
   }, [viewportHeight, thumbnailHeightVh]);
 
   const generatedThumbnailWidths = useMemo(() => {
