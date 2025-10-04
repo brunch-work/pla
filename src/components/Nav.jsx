@@ -120,14 +120,6 @@ export const Nav = () => {
   }, [pathname, isMobile, searchParams]);
 
   useEffect(() => {
-    if (navOpen) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "auto";
-    }
-  }, [navOpen]);
-
-  useEffect(() => {
     if (isMobile && activeItem) {
       document.body.classList.add("has-active-subnav");
     } else {

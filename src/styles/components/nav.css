@@ -12,6 +12,11 @@
   }
 }
 
+body:has(.nav.open),
+body:has(.search-dialog[open]) {
+  overflow: hidden;
+}
+
 .nav {
   padding-block: 0.8rem 0.4rem;
   position: fixed;
