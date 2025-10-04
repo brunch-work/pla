@@ -65,7 +65,7 @@
   width: 15px;
   height: 15px;
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     width: 16.5px;
     height: 16.5px;
   }

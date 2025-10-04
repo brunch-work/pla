@@ -107,7 +107,9 @@ export default function Homepage({ homepage }) {
               : currentActive;
         }
 
-        carouselRef.current.querySelectorAll("button")[newActive].click();
+        requestAnimationFrame(() => {
+          carouselRef.current.querySelectorAll("button")[newActive].click();
+        });
       }
     };
 
@@ -121,7 +123,9 @@ export default function Homepage({ homepage }) {
 
     let targetOffset = carouselRef.current.children[index].offsetLeft - 12; // 12 is the page's left gap
 
-    carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
+    requestAnimationFrame(() => {
+      carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
+    });
     setActiveThumbnail(index);
   }, []);
 
