@@ -15,6 +15,7 @@ export const Search = forwardRef(function Search(props, ref) {
     const [searchVal, setSearchVal] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
     const isMobile = useMobile();
     const menu = getMenu(isMobile);
     const pathname = '/search'; // I'm cheating. sue me.
@@ -29,6 +30,34 @@ export const Search = forwardRef(function Search(props, ref) {
             }
         };
     }, []);
+
+    useEffect(() => {
+        const dialog = ref?.current;
+        if (!dialog) return;
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'open') {
+                    setIsOpen(dialog.hasAttribute('open'));
+                }
+            });
+        });
+
+        observer.observe(dialog, { attributes: true });
+
+        // Check initial state
+        setIsOpen(dialog.hasAttribute('open'));
+
+        return () => observer.disconnect();
+    }, [ref]);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.documentElement.style.overflow = "hidden";
+        } else {
+            document.documentElement.style.overflow = "auto";
+        }
+    }, [isOpen]);
 
     useEffect(() => {
         if (searchVal.length > 2) {
