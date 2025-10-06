@@ -62,13 +62,8 @@
 }
 
 .plus-button {
-  width: 15px;
-  height: 15px;
-
-  @media (min-width: 768px) {
-    width: 16.5px;
-    height: 16.5px;
-  }
+  width: 1lh;
+  height: 1lh;
 }
 
 button {

@@ -97,6 +97,7 @@
   @media (min-width: 768px) {
     row-gap: 2.2rem !important;
     height: calc(var(--100dvh) - var(--nav-height) - 1.6rem);
+    grid-template-rows: 0.4fr 1fr;
 
     .top {
       display: flex;
@@ -123,9 +124,8 @@
       }
 
       .carousel-item {
-        height: 50dvh;
-        max-width: var(--main-width);
         aspect-ratio: 16/9;
+        height: 36dvh;
 
         > button {
           width: 100%;
@@ -136,6 +136,8 @@
   }
 
   @media (min-width: 1080px) {
+    grid-template-rows: 1fr auto;
+
     .thumbnails {
       .carousel-item {
         height: 65dvh;

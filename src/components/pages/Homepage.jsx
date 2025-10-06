@@ -26,7 +26,7 @@ export default function Homepage({ homepage }) {
     if (isMobile) {
       return 13;
     } else if (viewportWidth >= 768 && viewportWidth <= 1080) {
-      return 50;
+      return 36;
     } else {
       return 65;
     }

@@ -55,7 +55,6 @@
     .top {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
       gap: 1.2rem;
 
       .title {
@@ -158,7 +157,6 @@
 
         .title {
           .title__title {
-            align-items: baseline;
             flex-direction: row;
             color: var(--white);
           }
