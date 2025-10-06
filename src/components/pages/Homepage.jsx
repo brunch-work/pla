@@ -30,7 +30,7 @@ export default function Homepage({ homepage }) {
     } else {
       return 65;
     }
-  }
+  };
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
@@ -96,6 +96,18 @@ export default function Homepage({ homepage }) {
       carouselRef?.current?.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
 
+  // Thumbnail click handler
+  const handleThumbnailClick = useCallback((index) => {
+    if (index >= carouselRef.current.children.length) return;
+
+    let targetOffset = carouselRef.current.children[index].offsetLeft - 12; // 12 is the page's left gap
+
+    requestAnimationFrame(() => {
+      carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
+    });
+    setActiveThumbnail(index);
+  }, []);
+
   // Keyboard navigation
   useEffect(() => {
     if (thumbnailsList.length === 0) return;
@@ -116,27 +128,21 @@ export default function Homepage({ homepage }) {
               : currentActive;
         }
 
+        // Directly invoke the thumbnail click handler to avoid triggering nested buttons inside slides
         requestAnimationFrame(() => {
-          carouselRef.current.querySelectorAll("button")[newActive].click();
+          handleThumbnailClick(newActive);
         });
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [thumbnailsList.length, activeThumbnail, thumbnailPositions]);
-
-  // Thumbnail click handler
-  const handleThumbnailClick = useCallback((index) => {
-    if (index >= carouselRef.current.children.length) return;
-
-    let targetOffset = carouselRef.current.children[index].offsetLeft - 12; // 12 is the page's left gap
-
-    requestAnimationFrame(() => {
-      carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
-    });
-    setActiveThumbnail(index);
-  }, []);
+  }, [
+    thumbnailsList.length,
+    activeThumbnail,
+    thumbnailPositions,
+    handleThumbnailClick,
+  ]);
 
   if (isMobile) {
     return (
@@ -202,7 +208,14 @@ export default function Homepage({ homepage }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
               >
-                <div className="button" onClick={() => handleThumbnailClick(index)} role="button" tabIndex={0}>
+                <div
+                  className="button"
+                  onClick={() => handleThumbnailClick(index)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleThumbnailClick(index)
+                  }
+                  tabIndex={0}
+                >
                   <VideoPlayer video={video} />
                 </div>
               </li>
