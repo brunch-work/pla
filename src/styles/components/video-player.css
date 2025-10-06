@@ -190,10 +190,14 @@
         inset: 0;
         transform: translate3d(0, 0, 0);
         will-change: filter, mask-image;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
       }
 
       .blur:nth-child(1) {
-        filter: blur(2px);
+        filter: blur(2px) brightness(1);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 52%,
@@ -205,7 +209,7 @@
       }
 
       .blur:nth-child(2) {
-        filter: blur(4px);
+        filter: blur(4px) brightness(0.9);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 60%,
@@ -224,7 +228,7 @@
       }
 
       .blur:nth-child(3) {
-        filter: blur(8px);
+        filter: blur(8px) brightness(0.8);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 68%,
@@ -243,7 +247,7 @@
       }
 
       .blur:nth-child(4) {
-        filter: blur(16px);
+        filter: blur(16px) brightness(0.7);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 76%,
@@ -262,7 +266,7 @@
       }
 
       .blur:nth-child(5) {
-        filter: blur(32px);
+        filter: blur(32px) brightness(0.6);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 84%,
@@ -279,7 +283,7 @@
       }
 
       .blur:nth-child(6) {
-        filter: blur(64px);
+        filter: blur(64px) brightness(0.5);
         mask-image: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 92%,
