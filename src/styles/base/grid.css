@@ -1,9 +1,18 @@
-.grid {
+:root {
   --columns: 6;
   --padding: 1.2rem;
   --gap: 1.2rem;
   --maxWidth: 250000px;
+  --main-width: calc(100dvw - (var(--padding) * 2));
 
+  @media (min-width: 768px) {
+    --columns: 12;
+    --padding: 1.6rem;
+    --gap: 1.6rem;
+  }
+}
+
+.grid {
   display: grid;
   margin-inline: auto;
   width: 100%;
@@ -13,12 +22,6 @@
     calc(var(--padding) - var(--gap));
   row-gap: 0;
   grid-auto-rows: min-content;
-
-  @media (min-width: 1400px) {
-    --columns: 12;
-    --padding: 1.6rem;
-    --gap: 1.6rem;
-  }
 
   .subgrid {
     display: grid;
@@ -37,7 +40,7 @@
   row-gap: 0;
   grid-auto-rows: min-content;
 
-  @media (min-width: 1400px) {
+  @media (min-width: 768px) {
     grid-column: 5 / -1;
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }

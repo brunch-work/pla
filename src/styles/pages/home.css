@@ -5,15 +5,16 @@
   grid-template-rows: 1fr auto;
 
   .top {
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 0.5fr 1fr;
     grid-column: 1/-1;
+    gap: 1.2rem;
   }
 
   .intro {
     grid-column: 1/-1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 3.2rem 0 0;
 
     a {
@@ -24,7 +25,7 @@
   .featured {
     grid-column: 1 / -1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     .title.active {
       cursor: pointer;
@@ -45,6 +46,7 @@
 
   .carousel {
     max-width: 100vw;
+    margin: 0 -1.2rem;
   }
 
   .carousel-track {
@@ -55,6 +57,7 @@
     overflow-x: auto;
     overflow-y: clip;
     scrollbar-width: none;
+    padding: 0 1.2rem;
   }
 
   .carousel-item {
@@ -91,12 +94,14 @@
     ); /* ensures the carousel is fully scrollable to the end */
   }
 
-  @media (min-width: 1400px) {
-    grid-template-rows: auto 16dvh;
+  @media (min-width: 768px) {
+    row-gap: 2.2rem !important;
     height: calc(var(--100dvh) - var(--nav-height) - 1.6rem);
+    grid-template-rows: 0.4fr 1fr;
 
     .top {
-      height: fit-content;
+      display: flex;
+      align-items: flex-end;
     }
 
     .intro {
@@ -109,6 +114,34 @@
 
     .thumbnails {
       justify-content: space-between;
+
+      .carousel {
+        margin: 0 -1.6rem;
+      }
+
+      .carousel-track {
+        padding: 0 1.6rem;
+      }
+
+      .carousel-item {
+        aspect-ratio: 16/9;
+        height: 36dvh;
+
+        > button {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 1080px) {
+    grid-template-rows: 1fr auto;
+
+    .thumbnails {
+      .carousel-item {
+        height: 65dvh;
+      }
     }
   }
 }

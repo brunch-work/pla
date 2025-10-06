@@ -61,18 +61,6 @@ body:has(.search-dialog[open]) {
     }
   }
 
-  /* &.open,
-  &.subnav-open {
-    height: auto;
-    backdrop-filter: blur(10px);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-  } */
-
   .logo-wrapper {
     display: flex;
     gap: 0.8rem;
@@ -127,7 +115,7 @@ body:has(.search-dialog[open]) {
     }
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1080px) {
     padding-block: 1.6rem;
 
     .menu {
@@ -152,5 +140,5 @@ body:has(.search-dialog[open]) {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 999999;
 }

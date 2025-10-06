@@ -3,7 +3,7 @@
 import { Link } from "next-view-transitions";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { useMobile } from "../hooks/useMobile";
+import { useHamburgerMenu } from "../hooks/useMobile";
 import { AnimatePresence, motion } from "motion/react";
 
 import { Logo } from "./Logo";
@@ -99,7 +99,7 @@ export const Nav = () => {
   const { navProps } = useNavContext();
 
   const searchDialogRef = useRef(null);
-  const isMobile = useMobile();
+  const isMobile = useHamburgerMenu();
 
   const menu = getMenu(isMobile);
 
