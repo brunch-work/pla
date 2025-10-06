@@ -25,7 +25,7 @@ export default function Homepage({ homepage }) {
   const thumbnailHeightVh = () => {
     if (isMobile) {
       return 13;
-    } else if (viewportWidth > 768 && viewportWidth < 1080) {
+    } else if (viewportWidth >= 768 && viewportWidth <= 1080) {
       return 50;
     } else {
       return 65;

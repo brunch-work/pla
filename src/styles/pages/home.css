@@ -135,9 +135,11 @@
     }
   }
 
-  @media (max-width: 1080px) {
-    .carousel-item {
-      height: 65dvh;
+  @media (min-width: 1080px) {
+    .thumbnails {
+      .carousel-item {
+        height: 65dvh;
+      }
     }
   }
 }
