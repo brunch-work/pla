@@ -55,12 +55,19 @@ export default function Homepage({ homepage }) {
   useEffect(() => {
     if (thumbnailsList.length === 0 || !carouselRef.current) return;
 
+    let ticking = false;
     const handleWheel = (e) => {
-      const scrollDelta =
-        Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)
-          ? -e.wheelDeltaX
-          : -e.wheelDeltaY;
-      carouselRef.current.scrollBy({ left: scrollDelta });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollDelta =
+            Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)
+              ? -e.wheelDeltaX
+              : -e.wheelDeltaY;
+          carouselRef.current.scrollBy({ left: scrollDelta });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -69,29 +76,34 @@ export default function Homepage({ homepage }) {
 
   // scrollSnapchange and scroll (if scrollSnapChange isn't supported) event handling
   useEffect(() => {
-    // Debounce handleScroll so it only runs 100ms after the last scroll event
-    // Move scrollTimeoutRef outside useEffect to avoid invalid hook call
+    let scrollTicking = false;
     const handleScroll = (e) => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      const scrollLeft = e.target.scrollLeft;
-      scrollTimeoutRef.current = setTimeout(() => {
-        // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
-        for (let i = 0; i < thumbnailPositions.length; i++) {
-          if (
-            scrollLeft >= thumbnailPositions[i] &&
-            scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i] &&
-            activeThumbnail !== i
-          ) {
-            handleThumbnailClick(i);
-            break;
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          if (scrollTimeoutRef.current) {
+            clearTimeout(scrollTimeoutRef.current);
           }
-        }
-      }, 100);
+          const scrollLeft = e.target.scrollLeft;
+          scrollTimeoutRef.current = setTimeout(() => {
+            // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
+            for (let i = 0; i < thumbnailPositions.length; i++) {
+              if (
+                scrollLeft >= thumbnailPositions[i] &&
+                scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i] &&
+                activeThumbnail !== i
+              ) {
+                handleThumbnailClick(i);
+                break;
+              }
+            }
+          }, 100);
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
     };
 
-    carouselRef.current.addEventListener("scroll", handleScroll);
+    carouselRef.current.addEventListener("scroll", handleScroll, { passive: true });
     return () =>
       carouselRef?.current?.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);

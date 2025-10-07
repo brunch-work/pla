@@ -58,6 +58,9 @@
     overflow-y: clip;
     scrollbar-width: none;
     padding: 0 1.2rem;
+    will-change: scroll-position;
+    transform: translate3d(0, 0, 0);
+    -webkit-overflow-scrolling: touch;
   }
 
   .carousel-item {
@@ -68,6 +71,8 @@
     scroll-snap-align: start;
     container-type: scroll-state;
     container-name: active-thumb;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
 
     button {
       appearance: none;

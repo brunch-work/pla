@@ -68,6 +68,7 @@
           flex: 0 1 auto;
           display: flex;
           flex-direction: row-reverse;
+          align-items: center;
           gap: 0.8em;
           min-width: 0;
         }
@@ -158,6 +159,7 @@
         .title {
           .title__title {
             flex-direction: row;
+            align-items: center;
             color: var(--white);
           }
         }

@@ -68,7 +68,7 @@ export const VideoPlayer = ({ video }) => {
               aria-label="Toggle video description"
               aria-expanded={description}
             >
-              <div className="title__title">
+              <div className="title__title body-text">
                 <h3>{title}</h3>
                 {description && <PlusButton isActive={showDescription} />}
               </div>
@@ -138,7 +138,7 @@ export const VideoPlayer = ({ video }) => {
                 aria-label="Toggle video description"
                 aria-expanded={description}
               >
-                <div className="title__title">
+                <div className="title__title body-text">
                   <h3>{title}</h3>
                   {description && <PlusButton isActive={showDescription} color="#fff" />}
                 </div>
