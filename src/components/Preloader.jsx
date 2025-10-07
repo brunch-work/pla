@@ -47,7 +47,9 @@ export const Preloader = ({ assets = [], onDone }) => {
         exit="hidden"
       >
         <div className="intro">
-          <Logo/>
+          <motion.div className="logo-wrapper" layout="position" layoutId="logo" variants={preloaderLogoVariants} initial="hidden" animate="visible" transition={{ duration: 1, ease: "easeInOut" }}>
+            <Logo/>
+          </motion.div>
           <motion.h1
             className="body-text"
             layout="position"

@@ -10,9 +10,8 @@ import {
 import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
-import { homeVariants, homeItemVariants, featuredVariants } from "@/motion/home";
+import { homeVariants, homeItemVariants, featuredVariants, latestVariants } from "@/motion/home";
 import { useNavContext } from "@/utils/navContextProvider";
-import { Logo } from "../Logo";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
@@ -174,11 +173,16 @@ export default function Homepage({ homepage }) {
         <main className="home page subgrid">
           <div className="top subgrid">
             <div className="intro">
-              <h1 className="body-text">
+              <motion.h1
+                className="body-text"
+                layout="position"
+                layoutId="home-title"
+                transition={{ duration: 1, ease: "easeInOut" }}
+              >
                 A Video Gallery of Poets
                 <br />
                 in Southern California
-              </h1>
+              </motion.h1>
             </div>
             <div className="featured" ref={featuredRef}>
               <motion.div
@@ -191,7 +195,9 @@ export default function Homepage({ homepage }) {
             </div>
           </div>
           <div className="thumbnails">
-            <h3 className="body-text">Latest</h3>
+            <motion.h3 className="body-text" variants={latestVariants} initial="hidden" animate="visible">
+              Latest
+            </motion.h3>
             <div className="carousel">
               <motion.ul
                 className="carousel-track"
@@ -201,22 +207,22 @@ export default function Homepage({ homepage }) {
                 animate="visible"
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
-                    <motion.li
-                      className={`carousel-item ${
-                        index === activeThumbnail ? "active" : ""
-                      }`}
-                      style={{
-                        "--w": `${generatedThumbnailWidths[index]}px`,
-                      }}
-                      key={index}
-                      ref={(el) => (thumbnailsRef.current[index] = el)}
-                      variants={homeItemVariants}
-                    >
-                      <button onClick={() => handleThumbnailClick(index)}>
-                        <img src={video.thumbnail.url} alt={video.title} />
-                      </button>
-                    </motion.li>
-                  ))}
+                  <motion.li
+                    className={`carousel-item ${
+                      index === activeThumbnail ? "active" : ""
+                    }`}
+                    style={{
+                      "--w": `${generatedThumbnailWidths[index]}px`,
+                    }}
+                    key={index}
+                    ref={(el) => (thumbnailsRef.current[index] = el)}
+                    variants={homeItemVariants}
+                  >
+                    <button onClick={() => handleThumbnailClick(index)}>
+                      <img src={video.thumbnail.url} alt={video.title} />
+                    </button>
+                  </motion.li>
+                ))}
               </motion.ul>
             </div>
           </div>
@@ -227,7 +233,6 @@ export default function Homepage({ homepage }) {
 
   return (
     <main className="home page subgrid">
-      <Logo/>
       <div className="top subgrid">
         <div className="intro">
           <motion.h1

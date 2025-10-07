@@ -44,7 +44,27 @@ export const featuredVariants = {
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
       duration: 0.5,
-      delay: 0.25,
+      delay: 1,
+    },
+  },
+}
+
+export const latestVariants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+    transition: {
+      duration: 0.5,
+      ease: [0, 0.55, 0.45, 1],
+    },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0, 0.55, 0.45, 1],
+      delay: 0.75
     },
   },
 }
@@ -90,7 +110,7 @@ export const preloaderTitleVariants = {
     opacity: 0,
     y: 10,
     transition: {
-      duration: 0.3,
+      duration: 0.5,
       ease: [0, 0.55, 0.45, 1],
     },
   },
@@ -98,9 +118,9 @@ export const preloaderTitleVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.5,
       ease: [0, 0.55, 0.45, 1],
-      delay: 0.05
+      delay: 0.1
     },
   },
 }
