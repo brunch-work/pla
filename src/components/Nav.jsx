@@ -207,7 +207,7 @@ export const Nav = () => {
       <nav className="nav grid" aria-labelledby="main navigation">
         <div className="subgrid">
           <Link href="/">
-            <Logo />
+          {/* {!navProps.homeLoading && <Logo />} */}
           </Link>
 
           <ul className="menu">

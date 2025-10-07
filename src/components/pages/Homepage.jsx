@@ -10,14 +10,12 @@ import {
 import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
-import { usePreloader } from "@/hooks/usePreloader";
 import { homeVariants, homeItemVariants, featuredVariants } from "@/motion/home";
 import { useNavContext } from "@/utils/navContextProvider";
+import { Logo } from "../Logo";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   // Refs
   const thumbnailsRef = useRef([]);
@@ -41,26 +39,7 @@ export default function Homepage({ homepage }) {
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
-  useEffect(() => {
-    usePreloader(thumbnailsList, setProgress);
-  }, [thumbnailsList]);
-
-  useEffect(() => {
-    if (progress === 100) {
-      // setTimeout(() => {
-        setIsLoading(false);
-      // }, 1000);
-    }
-  }, [progress]);
-
-  useEffect(() => {
-    setNavProps({
-      itemType: "",
-      searchParam: "",
-      pageType: "",
-      homeLoading: isLoading,
-    });
-  }, [isLoading]);
+  // Nav props are handled by the container; nothing to do here
 
   // Memoized calculations
   const thumbnailHeight = useMemo(() => {
@@ -187,6 +166,8 @@ export default function Homepage({ homepage }) {
     handleThumbnailClick,
   ]);
 
+  // Rendering is gated by HomeContainer; no conditional here
+
   if (isMobile) {
     return (
       <>
@@ -200,15 +181,13 @@ export default function Homepage({ homepage }) {
               </h1>
             </div>
             <div className="featured" ref={featuredRef}>
-              {!isLoading && (
-                <motion.div
-                  variants={featuredVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <VideoPlayer video={thumbnailsList[activeThumbnail]} />
-                </motion.div>
-              )}
+              <motion.div
+                variants={featuredVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+              </motion.div>
             </div>
           </div>
           <div className="thumbnails">
@@ -221,8 +200,7 @@ export default function Homepage({ homepage }) {
                 initial="hidden"
                 animate="visible"
               >
-                {!isLoading &&
-                  homepage.youtubeVideoCollection.items.map((video, index) => (
+                {homepage.youtubeVideoCollection.items.map((video, index) => (
                     <motion.li
                       className={`carousel-item ${
                         index === activeThumbnail ? "active" : ""
@@ -249,13 +227,19 @@ export default function Homepage({ homepage }) {
 
   return (
     <main className="home page subgrid">
+      <Logo/>
       <div className="top subgrid">
         <div className="intro">
-          <h1 className="body-text">
+          <motion.h1
+            className="body-text"
+            layout="position"
+            layoutId="home-title"
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
             A Video Gallery of Poets
             <br />
             in Southern California
-          </h1>
+          </motion.h1>
         </div>
       </div>
       <div className="thumbnails">
@@ -267,31 +251,27 @@ export default function Homepage({ homepage }) {
             initial="hidden"
             animate="visible"
           >
-            {!isLoading && (
-              <>
-                {homepage.youtubeVideoCollection.items.map((video, index) => (
-                  <motion.li
-                    className={`carousel-item ${
-                      index === activeThumbnail ? "active" : ""
-                    }`}
-                    key={index}
-                    ref={(el) => (thumbnailsRef.current[index] = el)}
-                    variants={homeItemVariants}
-                  >
-                    <div
-                      className="button"
-                      onClick={() => handleThumbnailClick(index)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && handleThumbnailClick(index)
-                      }
-                      tabIndex={0}
-                    >
-                      <VideoPlayer video={video} />
-                    </div>
-                  </motion.li>
-                ))}
-              </>
-            )}
+            {homepage.youtubeVideoCollection.items.map((video, index) => (
+              <motion.li
+                className={`carousel-item ${
+                  index === activeThumbnail ? "active" : ""
+                }`}
+                key={index}
+                ref={(el) => (thumbnailsRef.current[index] = el)}
+                variants={homeItemVariants}
+              >
+                <div
+                  className="button"
+                  onClick={() => handleThumbnailClick(index)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleThumbnailClick(index)
+                  }
+                  tabIndex={0}
+                >
+                  <VideoPlayer video={video} />
+                </div>
+              </motion.li>
+            ))}
           </motion.ul>
         </div>
       </div>

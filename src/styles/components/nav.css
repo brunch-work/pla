@@ -52,7 +52,7 @@ body:has(.search-dialog[open]) {
     .letters {
       position: relative;
       margin-left: var(--logo-letter-ml);
-      animation: logo-timeline 1.4s ease-in-out 3s forwards;
+      /* animation: logo-timeline 1.4s ease-in-out 3s forwards; */
     }
 
     svg {
@@ -141,4 +141,27 @@ body:has(.search-dialog[open]) {
   right: 0;
   bottom: 0;
   z-index: 999999;
+}
+
+.logo {
+  grid-column: 1 / span 4;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  overflow-x: clip;
+
+  .P ~ span {
+    overflow: clip;
+  }
+
+  .letters {
+    position: relative;
+    margin-left: var(--logo-letter-ml);
+    /* animation: logo-timeline 1.4s ease-in-out 3s forwards; */
+  }
+
+  svg {
+    height: var(--base-font-size);
+    width: fit-content;
+  }
 }
