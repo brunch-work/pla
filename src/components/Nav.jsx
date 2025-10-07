@@ -211,7 +211,7 @@ export const Nav = () => {
           </Link>
 
           <ul className="menu">
-            {menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
+            {!navProps.homeLoading && menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
           </ul>
         </div>
       </nav>

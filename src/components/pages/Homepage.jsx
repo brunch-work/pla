@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { motion } from "motion/react";
 
 import {
   calculateImageWidth,
@@ -9,9 +10,14 @@ import {
 import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
+import { usePreloader } from "@/hooks/usePreloader";
+import { homeVariants, homeItemVariants, featuredVariants } from "@/motion/home";
+import { useNavContext } from "@/utils/navContextProvider";
 
 export default function Homepage({ homepage }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   // Refs
   const thumbnailsRef = useRef([]);
@@ -19,6 +25,7 @@ export default function Homepage({ homepage }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
+  const { setNavProps } = useNavContext();
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -33,6 +40,27 @@ export default function Homepage({ homepage }) {
   };
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
+
+  useEffect(() => {
+    usePreloader(thumbnailsList, setProgress);
+  }, [thumbnailsList]);
+
+  useEffect(() => {
+    if (progress === 100) {
+      // setTimeout(() => {
+        setIsLoading(false);
+      // }, 1000);
+    }
+  }, [progress]);
+
+  useEffect(() => {
+    setNavProps({
+      itemType: "",
+      searchParam: "",
+      pageType: "",
+      homeLoading: isLoading,
+    });
+  }, [isLoading]);
 
   // Memoized calculations
   const thumbnailHeight = useMemo(() => {
@@ -89,7 +117,8 @@ export default function Homepage({ homepage }) {
             for (let i = 0; i < thumbnailPositions.length; i++) {
               if (
                 scrollLeft >= thumbnailPositions[i] &&
-                scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i] &&
+                scrollLeft <
+                  thumbnailPositions[i] + generatedThumbnailWidths[i] &&
                 activeThumbnail !== i
               ) {
                 handleThumbnailClick(i);
@@ -103,7 +132,9 @@ export default function Homepage({ homepage }) {
       }
     };
 
-    carouselRef.current.addEventListener("scroll", handleScroll, { passive: true });
+    carouselRef.current.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
     return () =>
       carouselRef?.current?.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
@@ -169,28 +200,46 @@ export default function Homepage({ homepage }) {
               </h1>
             </div>
             <div className="featured" ref={featuredRef}>
-              <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+              {!isLoading && (
+                <motion.div
+                  variants={featuredVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+                </motion.div>
+              )}
             </div>
           </div>
           <div className="thumbnails">
-            <h3>Latest</h3>
+            <h3 className="body-text">Latest</h3>
             <div className="carousel">
-              <ul className="carousel-track" ref={carouselRef}>
-                {homepage.youtubeVideoCollection.items.map((video, index) => (
-                  <li
-                    className={`carousel-item ${
-                      index === activeThumbnail ? "active" : ""
-                    }`}
-                    style={{ "--w": `${generatedThumbnailWidths[index]}px` }}
-                    key={index}
-                    ref={(el) => (thumbnailsRef.current[index] = el)}
-                  >
-                    <button onClick={() => handleThumbnailClick(index)}>
-                      <img src={video.thumbnail.url} alt={video.title} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <motion.ul
+                className="carousel-track"
+                ref={carouselRef}
+                variants={homeVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {!isLoading &&
+                  homepage.youtubeVideoCollection.items.map((video, index) => (
+                    <motion.li
+                      className={`carousel-item ${
+                        index === activeThumbnail ? "active" : ""
+                      }`}
+                      style={{
+                        "--w": `${generatedThumbnailWidths[index]}px`,
+                      }}
+                      key={index}
+                      ref={(el) => (thumbnailsRef.current[index] = el)}
+                      variants={homeItemVariants}
+                    >
+                      <button onClick={() => handleThumbnailClick(index)}>
+                        <img src={video.thumbnail.url} alt={video.title} />
+                      </button>
+                    </motion.li>
+                  ))}
+              </motion.ul>
             </div>
           </div>
         </main>
@@ -211,28 +260,39 @@ export default function Homepage({ homepage }) {
       </div>
       <div className="thumbnails">
         <div className="carousel">
-          <ul className="carousel-track" ref={carouselRef}>
-            {homepage.youtubeVideoCollection.items.map((video, index) => (
-              <li
-                className={`carousel-item ${
-                  index === activeThumbnail ? "active" : ""
-                }`}
-                key={index}
-                ref={(el) => (thumbnailsRef.current[index] = el)}
-              >
-                <div
-                  className="button"
-                  onClick={() => handleThumbnailClick(index)}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && handleThumbnailClick(index)
-                  }
-                  tabIndex={0}
-                >
-                  <VideoPlayer video={video} />
-                </div>
-              </li>
-            ))}
-          </ul>
+          <motion.ul
+            className="carousel-track"
+            ref={carouselRef}
+            variants={homeVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {!isLoading && (
+              <>
+                {homepage.youtubeVideoCollection.items.map((video, index) => (
+                  <motion.li
+                    className={`carousel-item ${
+                      index === activeThumbnail ? "active" : ""
+                    }`}
+                    key={index}
+                    ref={(el) => (thumbnailsRef.current[index] = el)}
+                    variants={homeItemVariants}
+                  >
+                    <div
+                      className="button"
+                      onClick={() => handleThumbnailClick(index)}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && handleThumbnailClick(index)
+                      }
+                      tabIndex={0}
+                    >
+                      <VideoPlayer video={video} />
+                    </div>
+                  </motion.li>
+                ))}
+              </>
+            )}
+          </motion.ul>
         </div>
       </div>
     </main>
