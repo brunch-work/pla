@@ -38,13 +38,13 @@ export const VideoPlayer = ({ video }) => {
     return (
       <div className="video-player">
         <div className="video">
-          {videoPlayerUrl && (
+          {videoPlayerUrl && isPlaying && (
             <iframe
               src={videoPlayerUrl}
               alt=""
-              frameBorder="0"
               allow="autoplay"
               allowFullScreen
+              title={title}
             />
           )}
           <div
@@ -66,7 +66,7 @@ export const VideoPlayer = ({ video }) => {
                 description && setShowDescription(!showDescription)
               }
               aria-label="Toggle video description"
-              aria-expanded={description}
+              aria-expanded={showDescription}
             >
               <div className="title__title body-text">
                 <h3>{title}</h3>
@@ -94,9 +94,9 @@ export const VideoPlayer = ({ video }) => {
           <iframe
             src={videoPlayerUrl}
             alt=""
-            frameBorder="0"
             allow="autoplay"
             allowFullScreen
+            title={title}
           />
         )}
         <div className={`overlay ${isPlaying ? "playing" : ""}`}>
@@ -136,7 +136,7 @@ export const VideoPlayer = ({ video }) => {
                   description && setShowDescription(!showDescription)
                 }
                 aria-label="Toggle video description"
-                aria-expanded={description}
+                aria-expanded={showDescription}
               >
                 <div className="title__title body-text">
                   <h3>{title}</h3>
