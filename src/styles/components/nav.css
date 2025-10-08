@@ -44,6 +44,7 @@ body:has(.search-dialog[open]) {
     align-items: center;
     width: fit-content;
     overflow-x: clip;
+    color: var(--black);
 
     .P ~ span {
       overflow: clip;

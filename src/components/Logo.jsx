@@ -15,7 +15,7 @@ export const Logo = ({ fill = "#1b1917" }) => (
           To keep the same visual pixel size when reducing rendered width from 32 -> 10,
           we keep the viewBox unchanged so the circle's r can stay the same. Center the circle
           horizontally by using cx = 16 (center of 32). */}
-      <circle cx="16" cy="30" r="4.94322" fill="black" />
+      <circle cx="16" cy="30" r="4.94322" fill={fill} />
     </svg>
 
     <span>LA</span>

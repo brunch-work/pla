@@ -19,6 +19,7 @@ export default function Homepage({ homepage }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
+  const iOSScrollDuration = 700; // ms
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -57,6 +58,7 @@ export default function Homepage({ homepage }) {
 
     let ticking = false;
     const handleWheel = (e) => {
+      console.log(e);
       if (!ticking) {
         requestAnimationFrame(() => {
           const scrollDelta =
@@ -74,30 +76,22 @@ export default function Homepage({ homepage }) {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [thumbnailsList.length]);
 
-  // scrollSnapchange and scroll (if scrollSnapChange isn't supported) event handling
   useEffect(() => {
     let scrollTicking = false;
     const handleScroll = (e) => {
+
       if (!scrollTicking) {
         requestAnimationFrame(() => {
           if (scrollTimeoutRef.current) {
             clearTimeout(scrollTimeoutRef.current);
           }
-          const scrollLeft = e.target.scrollLeft;
-          scrollTimeoutRef.current = setTimeout(() => {
-            // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
-            for (let i = 0; i < thumbnailPositions.length; i++) {
-              if (
-                scrollLeft >= thumbnailPositions[i] &&
-                scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i] &&
-                activeThumbnail !== i
-              ) {
-                handleThumbnailClick(i);
-                break;
-              }
-            }
-          }, 100);
+          const activeThumb = determineActiveThumbnail(e);
+
+
+          setActiveThumbnail(activeThumb);
+          scrollTimeoutRef.current = setTimeout(() => { handleThumbnailClick(activeThumb); }, 100);
           scrollTicking = false;
+
         });
         scrollTicking = true;
       }
@@ -106,7 +100,20 @@ export default function Homepage({ homepage }) {
     carouselRef.current.addEventListener("scroll", handleScroll, { passive: true });
     return () =>
       carouselRef?.current?.removeEventListener("scroll", handleScroll);
-  }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
+  }, [thumbnailPositions, generatedThumbnailWidths, gap]);
+
+  const determineActiveThumbnail = (e) => {
+    const scrollLeft = e.target.scrollLeft
+    // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
+    for (let i = 0; i < thumbnailPositions.length; i++) {
+      if (
+        scrollLeft >= thumbnailPositions[i] &&
+        scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i]
+      ) {
+        return i;
+      }
+    }
+  }
 
   // Thumbnail click handler
   const handleThumbnailClick = useCallback((index) => {
@@ -178,9 +185,8 @@ export default function Homepage({ homepage }) {
               <ul className="carousel-track" ref={carouselRef}>
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <li
-                    className={`carousel-item ${
-                      index === activeThumbnail ? "active" : ""
-                    }`}
+                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                      }`}
                     style={{ "--w": `${generatedThumbnailWidths[index]}px` }}
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
@@ -214,9 +220,8 @@ export default function Homepage({ homepage }) {
           <ul className="carousel-track" ref={carouselRef}>
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <li
-                className={`carousel-item ${
-                  index === activeThumbnail ? "active" : ""
-                }`}
+                className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                  }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
               >
