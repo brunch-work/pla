@@ -13,7 +13,7 @@ import { useMobile } from "@/hooks/useMobile";
 import { homeVariants, homeItemVariants, featuredVariants, latestVariants } from "@/motion/home";
 import { useLoader } from "@/utils/loader";
 
-export default function Homepage({ homepage, hasRun }) {
+export default function Homepage({ homepage}) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
 
   // Refs
@@ -22,6 +22,7 @@ export default function Homepage({ homepage, hasRun }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
+  const { showLoader } = useLoader.getState();
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -176,7 +177,7 @@ export default function Homepage({ homepage, hasRun }) {
                 className="body-text"
                 layout="position"
                 layoutId="home-title"
-                transition={{ duration: 1, ease: "easeInOut", delay: hasRun ? 0 : 1 }}
+                transition={{ duration: 1, ease: "easeInOut", delay: showLoader ? 0 : 1 }}
               >
                 A Video Gallery of Poets
                 <br />
@@ -188,7 +189,7 @@ export default function Homepage({ homepage, hasRun }) {
                 variants={featuredVariants}
                 initial="hidden"
                 animate="visible"
-                transition={{ delay: hasRun ? 0 : 1 }}
+                transition={{ delay: showLoader ? 0 : 1 }}
               >
                 <VideoPlayer video={thumbnailsList[activeThumbnail]} />
               </motion.div>
@@ -217,7 +218,7 @@ export default function Homepage({ homepage, hasRun }) {
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
                     variants={homeItemVariants}
-                    transition={{ delay: hasRun ? 0 : 0.75 }}
+                    transition={{ delay: showLoader ? 0 : 0.75 }}
                   >
                     <button onClick={() => handleThumbnailClick(index)}>
                       <img src={video.thumbnail.url} alt={video.title} />
@@ -265,7 +266,7 @@ export default function Homepage({ homepage, hasRun }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
-                transition={{ delay: hasRun ? 0 : 0.75 }}
+                transition={{ delay: showLoader ? 0 : 0.75 }}
               >
                 <div
                   className="button"
