@@ -17,19 +17,6 @@ export default function HomeContainer({ homepage }) {
     [homepage]
   );
 
-   useEffect(() => {
-    //  const visited = sessionStorage.getItem("homepageVisited");
-    const visitCount = Number(
-      sessionStorage.getItem("homepageVisitCount") || "0"
-    );
-    const newVisitCount = visitCount + 1;
-    sessionStorage.setItem("homepageVisitCount", newVisitCount.toString());
-     if (visitCount <= 2) {
-       sessionStorage.setItem("homepageVisited", "true");
-       setRunCount(newVisitCount);
-     }
-   }, []);
-
   useEffect(() => {
     setNavProps({ homeLoading: isLoading, itemType: "", searchParam: "", pageType: "" });
   }, [isLoading, setNavProps]);
