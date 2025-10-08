@@ -177,7 +177,7 @@ export default function Homepage({ homepage}) {
                 className="body-text"
                 layout="position"
                 layoutId="home-title"
-                transition={{ duration: 1, ease: "easeInOut", delay: showLoader ? 0 : 1 }}
+                transition={{ duration: 1, ease: "easeInOut" }}
               >
                 A Video Gallery of Poets
                 <br />
