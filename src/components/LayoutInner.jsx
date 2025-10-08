@@ -5,7 +5,7 @@ import { Logo } from "@/components/Logo";
 import { NavContextProvider } from "@/utils/navContextProvider";
 import { useLoader } from "@/utils/loader";
 
-import { Suspense, use, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const navFallback = (

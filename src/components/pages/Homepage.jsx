@@ -56,8 +56,11 @@ export default function Homepage({ homepage}) {
   }, [generatedThumbnailWidths, gap]);
 
   useEffect(() => {
-    useLoader.setState({ showLoader: false, isDone: true });
-  });
+    // let animations finish before setting isDone
+    setTimeout(() => {
+      useLoader.setState({ showLoader: false, isDone: true });
+    }, 1000);
+  }, []);
 
   // Wheel or trackpad y-scroll to x-scroll conversion
   useEffect(() => {
