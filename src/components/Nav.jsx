@@ -14,6 +14,7 @@ import { Search } from "./Search";
 import { useNavContext } from "@/utils/navContextProvider";
 import { menuItemVariants } from "@/motion/menus";
 import { navVariants, plusButtonVariants } from "@/motion/nav";
+import { useLoader } from "@/utils/loader";
 
 export const getMenu = (isMobile) => {
   return isMobile
@@ -97,6 +98,7 @@ export const Nav = () => {
   const [subNavOpen, setSubNavOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { navProps } = useNavContext();
+  const { showLoader } = useLoader.getState();
 
   const searchDialogRef = useRef(null);
   const isMobile = useHamburgerMenu();
@@ -160,8 +162,8 @@ export const Nav = () => {
           <div className="subgrid">
             <button className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
               {!navProps.homeLoading && (
-                <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: 1, ease: "easeInOut" }}>
-                  <motion.div className="plusbutton-wrapper" variants={plusButtonVariants} initial="hidden" animate="visible">
+                <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: showLoader ? 1 : 0, ease: "easeInOut" }}>
+                  <motion.div className="plusbutton-wrapper" variants={plusButtonVariants} initial="hidden" animate="visible" transition={{ duration: showLoader ? 0 : 1 }}>
                     <PlusButton isActive={navOpen} />
                   </motion.div>
                   <Logo />
@@ -214,7 +216,7 @@ export const Nav = () => {
         <div className="subgrid">
           <Link href="/">
           {!navProps.homeLoading && (
-            <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: 1, ease: "easeInOut" }}>
+            <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: showLoader ? 1 : 0, ease: "easeInOut" }}>
               <Logo />
             </motion.div>
           )}
