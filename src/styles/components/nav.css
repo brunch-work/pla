@@ -38,29 +38,6 @@ body:has(.search-dialog[open]) {
     row-gap: 0.4rem;
   }
 
-  .logo {
-    grid-column: 1 / span 4;
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    overflow-x: clip;
-
-    .P ~ span {
-      overflow: clip;
-    }
-
-    .letters {
-      position: relative;
-      margin-left: var(--logo-letter-ml);
-      animation: logo-timeline 1.4s ease-in-out 3s forwards;
-    }
-
-    svg {
-      height: var(--base-font-size);
-      width: fit-content;
-    }
-  }
-
   .logo-wrapper {
     display: flex;
     gap: 0.8rem;
@@ -158,7 +135,7 @@ body:has(.search-dialog[open]) {
   .letters {
     position: relative;
     margin-left: var(--logo-letter-ml);
-    /* animation: logo-timeline 1.4s ease-in-out 3s forwards; */
+    animation: logo-timeline 1.4s ease-in-out 3s forwards;
   }
 
   svg {

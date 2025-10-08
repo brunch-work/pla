@@ -1,5 +1,3 @@
-"use client";
-
 export const Logo = ({ fill = "#1b1917" }) => (
   <div className="logo">
     <span className="P">P</span>
