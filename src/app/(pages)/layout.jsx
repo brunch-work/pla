@@ -18,7 +18,7 @@ const navFallback = (
   </nav>
 );
 
-export const LayoutInner = ({ children }) => {
+export default function RootLayout ({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {

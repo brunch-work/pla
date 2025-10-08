@@ -1,5 +1,4 @@
 import "@/styles/global.css";
-import { LayoutInner } from "@/components/LayoutInner";
 
 import { ViewTransitions } from "next-view-transitions";
 
@@ -64,7 +63,8 @@ export default function RootLayout({ children }) {
     <ViewTransitions>
       <html lang="en">
         <body className="grid">
-          <LayoutInner>{children}</LayoutInner>
+          {children}
+          {/* <LayoutInner>{children}</LayoutInner> */}
         </body>
       </html>
     </ViewTransitions>
