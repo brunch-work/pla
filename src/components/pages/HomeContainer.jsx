@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import Homepage from "@/components/pages/Homepage";
 import { Preloader } from "@/components/Preloader";
 import { useNavContext } from "@/utils/navContextProvider";
 import { AnimatePresence } from "motion/react";
+import { useLoader } from "@/utils/loader.jsx";
 
 export default function HomeContainer({ homepage }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(useLoader.getState().showLoader);
   const [runCount, setRunCount] = useState(0);
   const { setNavProps } = useNavContext();
 
