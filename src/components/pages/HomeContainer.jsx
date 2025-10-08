@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Homepage from "@/components/pages/Homepage";
 import { Preloader } from "@/components/Preloader";
 import { useNavContext } from "@/utils/navContextProvider";
@@ -9,7 +9,6 @@ import { useLoader } from "@/utils/loader.jsx";
 
 export default function HomeContainer({ homepage }) {
   const [isLoading, setIsLoading] = useState(useLoader.getState().showLoader);
-  const [runCount, setRunCount] = useState(0);
   const { setNavProps } = useNavContext();
 
   const thumbnailsList = useMemo(
@@ -30,7 +29,7 @@ export default function HomeContainer({ homepage }) {
            onDone={() => setIsLoading(false)}
          />
        ) : (
-         <Homepage key="homepage" homepage={homepage} hasRun={runCount > 1 ? true : false} />
+         <Homepage key="homepage" homepage={homepage} />
        )}
      </AnimatePresence>
    );
