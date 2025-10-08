@@ -11,9 +11,9 @@ import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
 import { homeVariants, homeItemVariants, featuredVariants, latestVariants } from "@/motion/home";
-import { useNavContext } from "@/utils/navContextProvider";
+import { useLoader } from "@/utils/loader";
 
-export default function Homepage({ homepage }) {
+export default function Homepage({ homepage, hasRun }) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
 
   // Refs
@@ -22,7 +22,6 @@ export default function Homepage({ homepage }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
-  const { setNavProps } = useNavContext();
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -37,8 +36,6 @@ export default function Homepage({ homepage }) {
   };
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
-
-  // Nav props are handled by the container; nothing to do here
 
   // Memoized calculations
   const thumbnailHeight = useMemo(() => {
@@ -56,6 +53,10 @@ export default function Homepage({ homepage }) {
   const thumbnailPositions = useMemo(() => {
     return calculateThumbnailPositions(generatedThumbnailWidths, gap);
   }, [generatedThumbnailWidths, gap]);
+
+  useEffect(() => {
+    useLoader.setState({ showLoader: false, isDone: true });
+  });
 
   // Wheel or trackpad y-scroll to x-scroll conversion
   useEffect(() => {
@@ -165,8 +166,6 @@ export default function Homepage({ homepage }) {
     handleThumbnailClick,
   ]);
 
-  // Rendering is gated by HomeContainer; no conditional here
-
   if (isMobile) {
     return (
       <>
@@ -177,7 +176,7 @@ export default function Homepage({ homepage }) {
                 className="body-text"
                 layout="position"
                 layoutId="home-title"
-                transition={{ duration: 1, ease: "easeInOut" }}
+                transition={{ duration: 1, ease: "easeInOut", delay: hasRun ? 0 : 1 }}
               >
                 A Video Gallery of Poets
                 <br />
@@ -189,6 +188,7 @@ export default function Homepage({ homepage }) {
                 variants={featuredVariants}
                 initial="hidden"
                 animate="visible"
+                transition={{ delay: hasRun ? 0 : 1 }}
               >
                 <VideoPlayer video={thumbnailsList[activeThumbnail]} />
               </motion.div>
@@ -217,6 +217,7 @@ export default function Homepage({ homepage }) {
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
                     variants={homeItemVariants}
+                    transition={{ delay: hasRun ? 0 : 0.75 }}
                   >
                     <button onClick={() => handleThumbnailClick(index)}>
                       <img src={video.thumbnail.url} alt={video.title} />
@@ -264,6 +265,7 @@ export default function Homepage({ homepage }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
+                transition={{ delay: hasRun ? 0 : 0.75 }}
               >
                 <div
                   className="button"

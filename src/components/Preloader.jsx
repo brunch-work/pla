@@ -5,10 +5,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { Logo } from "@/components/Logo";
 import { usePreloader } from "@/hooks/usePreloader";
 import { preloaderVariants, preloaderLogoVariants, preloaderTitleVariants } from "@/motion/home";
+import { useLoader } from "@/utils/loader";
 
 export const Preloader = ({ assets = [], onDone }) => {
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(true);
+  const { showLoader } = useLoader.getState();
 
   useEffect(() => {
     if (!assets || assets.length === 0) {
@@ -27,7 +29,7 @@ export const Preloader = ({ assets = [], onDone }) => {
         if (cancelled) return;
         setVisible(false);
         onDone && onDone();
-      }, 3000);
+      }, 1000);
     })();
 
     return () => {
@@ -35,7 +37,7 @@ export const Preloader = ({ assets = [], onDone }) => {
     };
   }, [assets]);
 
-  if (!visible) return null;
+  if (!visible || !showLoader) return null;
 
   return (
     <AnimatePresence>

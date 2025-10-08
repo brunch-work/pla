@@ -52,7 +52,7 @@ body:has(.search-dialog[open]) {
     .letters {
       position: relative;
       margin-left: var(--logo-letter-ml);
-      /* animation: logo-timeline 1.4s ease-in-out 3s forwards; */
+      animation: logo-timeline 1.4s ease-in-out 3s forwards;
     }
 
     svg {
