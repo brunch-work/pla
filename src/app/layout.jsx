@@ -1,15 +1,16 @@
 import "@/styles/global.css";
-import { Nav } from "@/components/Nav";
-import { NavContextProvider } from "@/utils/navContextProvider";
+import { LayoutInner } from "@/components/LayoutInner";
+
 import { ViewTransitions } from "next-view-transitions";
-import { Suspense } from "react";
 
 const APP_NAME = "Poetry LA";
 const APP_DEFAULT_TITLE = "Poetry LA";
 const APP_TITLE_TEMPLATE = "%s | Poetry LA";
-const APP_DESCRIPTION =
-  "A Video Gallery of Poets in Southern California";
-const APP_BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://poetry.la";
+const APP_DESCRIPTION = "A Video Gallery of Poets in Southern California";
+const APP_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://poetry.la";
 
 export const metadata = {
   metadataBase: APP_BASE_URL,
@@ -55,9 +56,7 @@ export const metadata = {
     images: ["/images/png/og-image.png"],
     description: APP_DESCRIPTION,
   },
-  authors: [
-    { name: "Studio Brunch", url: "https://brunch.work" },
-  ],
+  authors: [{ name: "Studio Brunch", url: "https://brunch.work" }],
 };
 
 export default function RootLayout({ children }) {
@@ -65,12 +64,7 @@ export default function RootLayout({ children }) {
     <ViewTransitions>
       <html lang="en">
         <body className="grid">
-          <NavContextProvider>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Nav />
-            </Suspense>
-            {children}
-          </NavContextProvider>
+          <LayoutInner>{children}</LayoutInner>
         </body>
       </html>
     </ViewTransitions>
