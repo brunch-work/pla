@@ -75,7 +75,6 @@ export default function Homepage({ homepage }) {
 
     let ticking = false;
     const handleWheel = (e) => {
-      console.log(e);
       if (!ticking) {
         requestAnimationFrame(() => {
           const scrollDelta =
