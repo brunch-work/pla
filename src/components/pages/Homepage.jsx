@@ -93,9 +93,12 @@ export default function Homepage({ homepage }) {
   }, [thumbnailsList.length]);
 
   useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
     let scrollTicking = false;
     const handleScroll = (e) => {
-      if (isScrollingProgrammatically.current) return;
+      if (isScrollingProgrammatically.current || !e.target) return;
 
       if (!scrollTicking) {
         requestAnimationFrame(() => {
@@ -114,11 +117,11 @@ export default function Homepage({ homepage }) {
       }
     };
 
-    carouselRef.current.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-    return () =>
-      carouselRef?.current?.removeEventListener("scroll", handleScroll);
+    carousel.addEventListener("scroll", handleScroll);
+
+    return () => {
+      carousel.removeEventListener("scroll", handleScroll);
+    };
   }, [thumbnailPositions, generatedThumbnailWidths, gap]);
 
   const determineActiveThumbnail = (e) => {
@@ -192,6 +195,11 @@ export default function Homepage({ homepage }) {
     handleThumbnailClick,
   ]);
 
+  useEffect(() => {
+    if (!carouselRef.current || thumbnailPositions.length === 0) return;
+    carouselRef.current.scrollLeft = carouselRef.current.children[activeThumbnail].offsetLeft - 12;
+  }, [viewportWidth, thumbnailPositions])
+
   if (isMobile) {
     return (
       <>
@@ -239,9 +247,8 @@ export default function Homepage({ homepage }) {
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <motion.li
-                    className={`carousel-item ${
-                      index === activeThumbnail ? "active" : ""
-                    }`}
+                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                      }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
                     }}
@@ -290,9 +297,8 @@ export default function Homepage({ homepage }) {
           >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <motion.li
-                className={`carousel-item ${
-                  index === activeThumbnail ? "active" : ""
-                }`}
+                className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                  }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
