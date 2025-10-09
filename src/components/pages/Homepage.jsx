@@ -19,7 +19,8 @@ export default function Homepage({ homepage }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
-  const iOSScrollDuration = 700; // ms
+  const isScrollingProgrammatically = useRef(false);
+  const smoothScrollDuration = 300; // ms
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -79,19 +80,20 @@ export default function Homepage({ homepage }) {
   useEffect(() => {
     let scrollTicking = false;
     const handleScroll = (e) => {
+      if (isScrollingProgrammatically.current) return;
 
       if (!scrollTicking) {
         requestAnimationFrame(() => {
           if (scrollTimeoutRef.current) {
             clearTimeout(scrollTimeoutRef.current);
           }
+
           const activeThumb = determineActiveThumbnail(e);
-
-
           setActiveThumbnail(activeThumb);
-          scrollTimeoutRef.current = setTimeout(() => { handleThumbnailClick(activeThumb); }, 100);
+          scrollTimeoutRef.current = setTimeout(() => {
+            handleThumbnailClick(activeThumb);
+          }, 100);
           scrollTicking = false;
-
         });
         scrollTicking = true;
       }
@@ -106,7 +108,7 @@ export default function Homepage({ homepage }) {
     const scrollLeft = e.target.scrollLeft
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
     for (let i = 0; i < thumbnailPositions.length; i++) {
-      if (scrollLeft < 0) return 0;
+      if (scrollLeft < 0) return 0;//iOS inertia scroll can produce out of bounds values
       if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1]) return thumbnailPositions.length - 1;
       if (
         scrollLeft >= thumbnailPositions[i] &&
@@ -117,14 +119,21 @@ export default function Homepage({ homepage }) {
     }
   }
 
-  // Thumbnail click handler
   const handleThumbnailClick = useCallback((index) => {
     if (index >= carouselRef.current.children.length) return;
 
-    let targetOffset = carouselRef.current.children[index].offsetLeft - 12; // 12 is the page's left gap
+    let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
+
+    // Set flag before scrolling
+    isScrollingProgrammatically.current = true;
 
     requestAnimationFrame(() => {
       carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
+
+      // Clear flag
+      setTimeout(() => {
+        isScrollingProgrammatically.current = false;
+      }, smoothScrollDuration);
     });
     setActiveThumbnail(index);
   }, []);
