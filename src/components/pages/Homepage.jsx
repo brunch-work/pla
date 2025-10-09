@@ -106,6 +106,8 @@ export default function Homepage({ homepage }) {
     const scrollLeft = e.target.scrollLeft
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
     for (let i = 0; i < thumbnailPositions.length; i++) {
+      if (scrollLeft < 0) return 0;
+      if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1]) return thumbnailPositions.length - 1;
       if (
         scrollLeft >= thumbnailPositions[i] &&
         scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i]
