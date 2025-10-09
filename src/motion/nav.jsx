@@ -43,3 +43,27 @@ export const subNavActiveItemVariants = {
     },
   }
 }
+
+export const plusButtonVariants = {
+  hidden: {
+    opacity: 0,
+    width: 0,
+    display: "none",
+    transition: {
+      ease: [0, 0.55, 0.45, 1],
+      type: "tween",
+      duration: 0.3,
+    },
+  },
+  visible: {
+    opacity: 1,
+    display: "block",
+    width: "calc(var(--base-font-size) * 0.8)",
+    transition: {
+      ease: [0, 0.55, 0.45, 1],
+      type: "tween",
+      duration: 0.3,
+      delay: 1,
+    },
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { motion } from "motion/react";
 
 import {
   calculateImageWidth,
@@ -9,8 +10,10 @@ import {
 import { useViewport } from "@/hooks/useViewport";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { useMobile } from "@/hooks/useMobile";
+import { homeVariants, homeItemVariants, featuredVariants, latestVariants } from "@/motion/home";
+import { useLoader } from "@/utils/loader";
 
-export default function Homepage({ homepage }) {
+export default function Homepage({ homepage}) {
   const [activeThumbnail, setActiveThumbnail] = useState(0);
 
   // Refs
@@ -19,6 +22,7 @@ export default function Homepage({ homepage }) {
   const scrollTimeoutRef = useRef();
   const featuredRef = useRef(null);
   const isMobile = useMobile();
+  const { showLoader } = useLoader.getState();
 
   const { viewportHeight, viewportWidth } = useViewport();
 
@@ -50,6 +54,13 @@ export default function Homepage({ homepage }) {
   const thumbnailPositions = useMemo(() => {
     return calculateThumbnailPositions(generatedThumbnailWidths, gap);
   }, [generatedThumbnailWidths, gap]);
+
+  useEffect(() => {
+    // let animations finish before setting isDone
+    setTimeout(() => {
+      useLoader.setState({ showLoader: false, isDone: true });
+    }, 1000);
+  }, []);
 
   // Wheel or trackpad y-scroll to x-scroll conversion
   useEffect(() => {
@@ -89,7 +100,8 @@ export default function Homepage({ homepage }) {
             for (let i = 0; i < thumbnailPositions.length; i++) {
               if (
                 scrollLeft >= thumbnailPositions[i] &&
-                scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i] &&
+                scrollLeft <
+                  thumbnailPositions[i] + generatedThumbnailWidths[i] &&
                 activeThumbnail !== i
               ) {
                 handleThumbnailClick(i);
@@ -103,7 +115,9 @@ export default function Homepage({ homepage }) {
       }
     };
 
-    carouselRef.current.addEventListener("scroll", handleScroll, { passive: true });
+    carouselRef.current.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
     return () =>
       carouselRef?.current?.removeEventListener("scroll", handleScroll);
   }, [thumbnailPositions, generatedThumbnailWidths, gap, activeThumbnail]);
@@ -162,35 +176,59 @@ export default function Homepage({ homepage }) {
         <main className="home page subgrid">
           <div className="top subgrid">
             <div className="intro">
-              <h1 className="body-text">
+              <motion.h1
+                className="body-text"
+                layout="position"
+                layoutId="home-title"
+                transition={{ duration: 1, ease: "easeInOut" }}
+              >
                 A Video Gallery of Poets
                 <br />
                 in Southern California
-              </h1>
+              </motion.h1>
             </div>
             <div className="featured" ref={featuredRef}>
-              <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+              <motion.div
+                variants={featuredVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: showLoader ? 0 : 1 }}
+              >
+                <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+              </motion.div>
             </div>
           </div>
           <div className="thumbnails">
-            <h3>Latest</h3>
+            <motion.h3 className="body-text" variants={latestVariants} initial="hidden" animate="visible">
+              Latest
+            </motion.h3>
             <div className="carousel">
-              <ul className="carousel-track" ref={carouselRef}>
+              <motion.ul
+                className="carousel-track"
+                ref={carouselRef}
+                variants={homeVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
-                  <li
+                  <motion.li
                     className={`carousel-item ${
                       index === activeThumbnail ? "active" : ""
                     }`}
-                    style={{ "--w": `${generatedThumbnailWidths[index]}px` }}
+                    style={{
+                      "--w": `${generatedThumbnailWidths[index]}px`,
+                    }}
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
+                    variants={homeItemVariants}
+                    transition={{ delay: showLoader ? 0 : 0.75 }}
                   >
                     <button onClick={() => handleThumbnailClick(index)}>
                       <img src={video.thumbnail.url} alt={video.title} />
                     </button>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </div>
           </div>
         </main>
@@ -202,23 +240,36 @@ export default function Homepage({ homepage }) {
     <main className="home page subgrid">
       <div className="top subgrid">
         <div className="intro">
-          <h1 className="body-text">
+          <motion.h1
+            className="body-text"
+            layout="position"
+            layoutId="home-title"
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
             A Video Gallery of Poets
             <br />
             in Southern California
-          </h1>
+          </motion.h1>
         </div>
       </div>
       <div className="thumbnails">
         <div className="carousel">
-          <ul className="carousel-track" ref={carouselRef}>
+          <motion.ul
+            className="carousel-track"
+            ref={carouselRef}
+            variants={homeVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
-              <li
+              <motion.li
                 className={`carousel-item ${
                   index === activeThumbnail ? "active" : ""
                 }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
+                variants={homeItemVariants}
+                transition={{ delay: showLoader ? 0 : 0.75 }}
               >
                 <div
                   className="button"
@@ -230,9 +281,9 @@ export default function Homepage({ homepage }) {
                 >
                   <VideoPlayer video={video} />
                 </div>
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </div>
     </main>

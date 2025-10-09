@@ -80,6 +80,10 @@
     margin-top: 1rem;
   }
 
+  &.not-found h1 {
+    grid-column: 1/-1;
+  }
+
   @media (min-width: 768px) {
     padding-top: calc(var(--nav-height) + 1.6rem);
 
