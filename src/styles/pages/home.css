@@ -3,6 +3,13 @@
   height: calc(var(--100dvh) - var(--nav-height) - 0.8rem);
   padding-bottom: 1.6rem;
   grid-template-rows: 1fr auto;
+  position: relative;
+
+  .logo {
+    position: absolute;
+    top: 1.6rem;
+    left: 0;
+  }
 
   .top {
     grid-template-rows: 0.5fr 1fr;
@@ -27,6 +34,10 @@
     display: flex;
     align-items: flex-start;
 
+    > * {
+      width: 100%;
+    }
+
     .title.active {
       cursor: pointer;
     }
@@ -47,6 +58,7 @@
   .carousel {
     max-width: 100vw;
     margin: 0 -1.2rem;
+    height: 13dvh;
   }
 
   .carousel-track {
@@ -119,6 +131,7 @@
 
     .thumbnails {
       justify-content: space-between;
+      height: 36dvh;
 
       .carousel {
         margin: 0 -1.6rem;
@@ -144,6 +157,7 @@
     grid-template-rows: 1fr auto;
 
     .thumbnails {
+      height: 65dvh;
       .carousel-item {
         height: 65dvh;
       }

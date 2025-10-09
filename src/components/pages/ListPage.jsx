@@ -44,6 +44,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
       itemType: sidebarLabel,
       searchParam: searchParam,
       pageType: sidebarLabel,
+      homeLoading: false,
     });
   }, [setNavProps, listOpen, router, searchParams]);
 

@@ -90,7 +90,7 @@ export const VideoPlayer = ({ video }) => {
   return (
     <div className="video-player">
       <div className="video">
-        {videoPlayerUrl && (
+        {videoPlayerUrl && isPlaying && (
           <iframe
             src={videoPlayerUrl}
             alt=""
