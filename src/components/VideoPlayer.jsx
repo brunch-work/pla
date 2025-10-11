@@ -23,14 +23,14 @@ export const VideoPlayer = ({ video }) => {
     setShowDescription(false);
     setVideoId(getVideoUid(videoUrl));
     setVideoPlayerUrl(
-      `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`
+      `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`,
     );
   }, [videoUrl]);
 
   const handlePlay = () => {
     setIsPlaying(true);
     setVideoPlayerUrl(
-      `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`
+      `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`,
     );
   };
 
@@ -88,7 +88,9 @@ export const VideoPlayer = ({ video }) => {
   }
 
   return (
-    <div className="video-player">
+    <div
+      className={`video-player ${showDescription ? "show-description" : ""}`}
+    >
       <div className="video">
         {videoPlayerUrl && isPlaying && (
           <iframe
@@ -100,32 +102,7 @@ export const VideoPlayer = ({ video }) => {
           />
         )}
         <div className={`overlay ${isPlaying ? "playing" : ""}`}>
-          <div className="progressive-blur">
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-            <div
-              className="blur"
-              style={{ backgroundImage: `url(${thumbnail.url})` }}
-            ></div>
-          </div>
+          <div className="progressive-blur"></div>
           <img src={thumbnail.url} alt={thumbnail.description || ""} />
           <Playbutton handlePlay={handlePlay} title={title} />
           <div className="info">
@@ -140,7 +117,9 @@ export const VideoPlayer = ({ video }) => {
               >
                 <div className="title__title body-text">
                   <h3>{title}</h3>
-                  {description && <PlusButton isActive={showDescription} color="#fff" />}
+                  {description && (
+                    <PlusButton isActive={showDescription} color="#fff" />
+                  )}
                 </div>
               </button>
               <span className="date body-text">
@@ -151,7 +130,13 @@ export const VideoPlayer = ({ video }) => {
             </div>
             <AnimatePresence>
               {showDescription && (
-                <motion.div className="description show" variants={videoPlayerVariants} initial="hidden" animate="visible" exit="hidden">
+                <motion.div
+                  className="description show"
+                  variants={videoPlayerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
                   <p className="body-text">{description}</p>
                 </motion.div>
               )}
