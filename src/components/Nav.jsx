@@ -19,30 +19,29 @@ import { useLoader } from "@/utils/loader";
 export const getMenu = (isMobile) => {
   return isMobile
     ? [
-      { name: "Home", route: "/" },
-      { name: "Poets", route: "/poets" },
-      { name: "Interviews", route: "/interviews" },
-      { name: "Series", route: "/series" },
-      { name: "Documentaries", route: "/documentaries" },
-      { name: "Resources", route: "/resources" },
-      { name: "About", route: "/about" },
-      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-      { name: "Search", route: "/search" },
-    ]
+        { name: "Home", route: "/" },
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+        { name: "Search", route: "/search" },
+      ]
     : [
-      { name: "Poets", route: "/poets" },
-      { name: "Interviews", route: "/interviews" },
-      { name: "Series", route: "/series" },
-      { name: "Documentaries", route: "/documentaries" },
-      { name: "Resources", route: "/resources" },
-      { name: "About", route: "/about" },
-      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-      { name: "Search", route: "/search" },
-    ];
+        { name: "Poets", route: "/poets" },
+        { name: "Interviews", route: "/interviews" },
+        { name: "Series", route: "/series" },
+        { name: "Documentaries", route: "/documentaries" },
+        { name: "Resources", route: "/resources" },
+        { name: "About", route: "/about" },
+        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+        { name: "Search", route: "/search" },
+      ];
 };
 
 export const renderNavItem = (item, pathname, openSearch) => {
-
   if (item.name === "Search") {
     return (
       <motion.li
@@ -50,7 +49,11 @@ export const renderNavItem = (item, pathname, openSearch) => {
         className="menu-item"
         variants={menuItemVariants}
       >
-        <button className="radio-button" onClick={openSearch ? openSearch : null} aria-current={pathname === item.route ? "page" : undefined}>
+        <button
+          className="radio-button"
+          onClick={openSearch ? openSearch : null}
+          aria-current={pathname === item.route ? "page" : undefined}
+        >
           {item.name}
         </button>
       </motion.li>
@@ -155,15 +158,34 @@ export const Nav = () => {
       <>
         <Search ref={searchDialogRef} closeSearch={closeSearch} />
         <nav
-          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
-            }`}
+          className={`nav grid${navOpen ? " open" : ""}${
+            subNavOpen && activeItem ? " subnav-open" : ""
+          }`}
           aria-labelledby="main navigation"
         >
+          <div className="gradient" />
           <div className="subgrid">
-            <button className="logo-wrapper" onClick={() => setNavOpen(!navOpen)}>
+            <button
+              className="logo-wrapper"
+              onClick={() => setNavOpen(!navOpen)}
+            >
               {!navProps.homeLoading && (
-                <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: showLoader ? 1 : 0, ease: "easeInOut" }}>
-                  <motion.div className="plusbutton-wrapper" variants={plusButtonVariants} initial="hidden" animate="visible" transition={{ duration: showLoader ? 0 : 1 }}>
+                <motion.div
+                  className="logo-wrapper"
+                  layout="position"
+                  layoutId="logo"
+                  transition={{
+                    duration: showLoader ? 1 : 0,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <motion.div
+                    className="plusbutton-wrapper"
+                    variants={plusButtonVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ duration: showLoader ? 0 : 1 }}
+                  >
                     <PlusButton isActive={navOpen} />
                   </motion.div>
                   <Logo />
@@ -199,7 +221,9 @@ export const Nav = () => {
                   <Logo />
                 </button>
                 <ul className="menu">
-                  {menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
+                  {menu.map((item, index) =>
+                    renderNavItem(item, pathname, openSearch),
+                  )}
                 </ul>
               </div>
             </motion.div>
@@ -215,15 +239,23 @@ export const Nav = () => {
       <nav className="nav grid" aria-labelledby="main navigation">
         <div className="subgrid">
           <Link href="/">
-          {!navProps.homeLoading && (
-            <motion.div className="logo-wrapper" layout="position" layoutId="logo" transition={{ duration: showLoader ? 1 : 0, ease: "easeInOut" }}>
-              <Logo />
-            </motion.div>
-          )}
+            {!navProps.homeLoading && (
+              <motion.div
+                className="logo-wrapper"
+                layout="position"
+                layoutId="logo"
+                transition={{ duration: showLoader ? 1 : 0, ease: "easeInOut" }}
+              >
+                <Logo />
+              </motion.div>
+            )}
           </Link>
 
           <ul className="menu">
-            {!navProps.homeLoading && menu.map((item, index) => renderNavItem(item, pathname, openSearch))}
+            {!navProps.homeLoading &&
+              menu.map((item, index) =>
+                renderNavItem(item, pathname, openSearch),
+              )}
           </ul>
         </div>
       </nav>
