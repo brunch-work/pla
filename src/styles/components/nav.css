@@ -100,6 +100,14 @@ body:has(.search-dialog[open]) {
       flex-direction: column;
       gap: 0.4rem;
     }
+
+    li {
+      gap: 0;
+    }
+
+    ul > ul {
+      padding-top: 0.4rem;
+    }
   }
 
   @media (min-width: 1080px) {
