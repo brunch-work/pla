@@ -13,7 +13,8 @@
 }
 
 body:has(.nav.open),
-body:has(.search-dialog[open]) {
+body:has(.search-dialog[open]),
+body:has(.nav.subnav-open) {
   overflow: hidden;
 }
 
@@ -36,6 +37,12 @@ body:has(.search-dialog[open]) {
     height: 100%;
     background: linear-gradient(to bottom, var(--white), transparent);
     z-index: -1;
+  }
+
+  &.open,
+  &.subnav-open {
+    bottom: 0;
+    overflow-y: scroll;
   }
 
   &.loading {
