@@ -95,32 +95,25 @@
   }
 
   .description {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(50%);
     z-index: 10;
-    padding: 0.8rem 0;
+    padding: 0;
     opacity: 0;
     pointer-events: none;
     background-color: var(--white-75);
     backdrop-filter: blur(10px);
-    transition: opacity 0.1s ease, transform 0.3s ease;
+    transition: opacity 0.1s ease, transform 0.3s ease, max-height 0.3s ease,
+      padding 0.3s ease;
     text-align: left;
+    max-height: 0;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
 
     &.show {
-      transform: translateY(100%);
       opacity: 1;
-      transition: opacity 0.1s ease 0.15s, transform 0.3s ease;
-
-      @media (prefers-reduced-motion: reduce) {
-        transition: none;
-      }
+      max-height: fit-content;
+      padding: 0.8rem 0;
     }
 
     p {
