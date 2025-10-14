@@ -13,7 +13,8 @@
 }
 
 body:has(.nav.open),
-body:has(.search-dialog[open]) {
+body:has(.search-dialog[open]),
+body:has(.nav.subnav-open) {
   overflow: hidden;
 }
 
@@ -25,8 +26,25 @@ body:has(.search-dialog[open]) {
   right: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
-  background-color: var(--white-75);
+  background-image: linear-gradient(to bottom, var(--white), transparent);
+  background-size: 100% 3rem;
+  background-repeat: no-repeat;
+  background-position: top;
   row-gap: 0.4rem;
+
+  &:not(.open) {
+    background-color: var(--white-75);
+  }
+
+  &:has(.subnav) {
+    background-size: 100% 6rem;
+  }
+
+  &.open,
+  &.subnav-open {
+    bottom: 0;
+    overflow-y: scroll;
+  }
 
   &.loading {
     height: var(--nav-height);
@@ -90,6 +108,14 @@ body:has(.search-dialog[open]) {
       flex-direction: column;
       gap: 0.4rem;
     }
+
+    li {
+      gap: 0;
+    }
+
+    ul > ul {
+      padding-top: 0.4rem;
+    }
   }
 
   @media (min-width: 1080px) {
@@ -110,7 +136,7 @@ body:has(.search-dialog[open]) {
 }
 
 .nav__overlay {
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--white-75);
   backdrop-filter: blur(10px);
   position: fixed;
   top: 0;

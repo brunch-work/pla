@@ -4,7 +4,12 @@ import { PlusButton } from "./PlusButton";
 import { RadioButton } from "./RadioButton";
 import { AlphabeticalListSection } from "./AlphabeticalListSection";
 import { SWRfetch } from "@/utils/client";
-import { GET_POETS_LIST, GET_INTERVIEWS_LIST, GET_SERIES_LIST, GET_DOCUMENTARIES_LIST } from "@/gql/queries";
+import {
+  GET_POETS_LIST,
+  GET_INTERVIEWS_LIST,
+  GET_SERIES_LIST,
+  GET_DOCUMENTARIES_LIST,
+} from "@/gql/queries";
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { navVariants, subNavActiveItemVariants } from "@/motion/nav";
 
@@ -21,7 +26,6 @@ export const SubNav = ({
   searchParam,
   pageType,
 }) => {
-
   let query;
 
   const [list, setList] = useState([]);
@@ -38,7 +42,7 @@ export const SubNav = ({
   }
 
   const { data, error, mutate, isLoading } = useSWR(query, (query, variables) =>
-    SWRfetch(query, { activeItem: activeItemSlug })
+    SWRfetch(query, { activeItem: activeItemSlug }),
   );
 
   useEffect(() => {
@@ -46,19 +50,20 @@ export const SubNav = ({
       mutate(data);
       setActiveItem(data.activeItem.items[0]);
       if (itemType === "Poets") {
-        setList(data.list.items.reduce(function (acc, poet) {
-          const firstLetter = poet.title[0].toUpperCase();
-          if (!acc[firstLetter]) {
-            acc[firstLetter] = [];
-          }
-          acc[firstLetter].push(poet);
-          return acc;
-        }, {}));
+        setList(
+          data.list.items.reduce(function (acc, poet) {
+            const firstLetter = poet.title[0].toUpperCase();
+            if (!acc[firstLetter]) {
+              acc[firstLetter] = [];
+            }
+            acc[firstLetter].push(poet);
+            return acc;
+          }, {}),
+        );
       } else {
         setList(data.list.items);
       }
     }
-
   }, [data, activeItemSlug]);
 
   const renderList = () => {
@@ -98,18 +103,24 @@ export const SubNav = ({
             </motion.li>
           ))}
         </motion.ul>
-      )
+      );
     }
   };
 
   return (
-    <motion.div className="subgrid" variants={navVariants} initial="hidden" animate="visible" exit="hidden">
+    <motion.div
+      className="subgrid"
+      variants={navVariants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+    >
       <div className={`subnav ${subNavOpen ? "open" : ""}`}>
         <h1
           className="body-text"
           onClick={() => setSubNavOpen(!subNavOpen)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               setSubNavOpen(!subNavOpen);
             }
           }}
@@ -120,7 +131,12 @@ export const SubNav = ({
         </h1>
         <AnimatePresence>
           {activeItemSlug && !subNavOpen && (
-            <motion.div variants={subNavActiveItemVariants} initial="hidden" animate="visible" exit="hidden">
+            <motion.div
+              variants={subNavActiveItemVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+            >
               <RadioButton
                 label={activeItem.title}
                 name="active-item"
@@ -134,7 +150,13 @@ export const SubNav = ({
         </AnimatePresence>
         <AnimatePresence>
           {list && subNavOpen && (
-            <motion.nav aria-labelledby={`${pageType} navigation`} variants={navVariants} initial="hidden" animate="visible" exit="hidden">
+            <motion.nav
+              aria-labelledby={`${pageType} navigation`}
+              variants={navVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+            >
               {renderList()}
             </motion.nav>
           )}
