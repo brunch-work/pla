@@ -4,7 +4,6 @@
   min-height: var(--100dvh);
 
   .sidebar {
-    position: sticky;
     top: var(--nav-height);
     grid-column: 1 / -1;
     background-color: var(--white-75);
@@ -89,7 +88,6 @@
 
     .sidebar {
       grid-column: 1 / span 3;
-      position: static;
       height: auto;
 
       .sidebar__section {

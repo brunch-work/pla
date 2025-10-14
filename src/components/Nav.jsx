@@ -163,7 +163,6 @@ export const Nav = () => {
           }`}
           aria-labelledby="main navigation"
         >
-          <div className="gradient" />
           <div className="subgrid">
             <button
               className="logo-wrapper"
@@ -202,33 +201,33 @@ export const Nav = () => {
               setSubNavOpen={setSubNavOpen}
             />
           )}
+          <AnimatePresence>
+            {navOpen && (
+              <motion.div
+                className="nav nav__overlay grid"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={navVariants}
+              >
+                <div className="subgrid">
+                  <button
+                    className="logo-wrapper"
+                    onClick={() => setNavOpen(!navOpen)}
+                  >
+                    <PlusButton isActive={navOpen} />
+                    <Logo />
+                  </button>
+                  <ul className="menu">
+                    {menu.map((item, index) =>
+                      renderNavItem(item, pathname, openSearch),
+                    )}
+                  </ul>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
-        <AnimatePresence>
-          {navOpen && (
-            <motion.div
-              className="nav nav__overlay grid"
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={navVariants}
-            >
-              <div className="subgrid">
-                <button
-                  className="logo-wrapper"
-                  onClick={() => setNavOpen(!navOpen)}
-                >
-                  <PlusButton isActive={navOpen} />
-                  <Logo />
-                </button>
-                <ul className="menu">
-                  {menu.map((item, index) =>
-                    renderNavItem(item, pathname, openSearch),
-                  )}
-                </ul>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </>
     );
   }
