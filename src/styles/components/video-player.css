@@ -188,7 +188,7 @@
       height: 75%;
       bottom: 0;
       pointer-events: none;
-      backdrop-filter: blur(8px); /* Apply the blur */
+      backdrop-filter: blur(8px);
       filter: brightness(0.6);
       mask-image: linear-gradient(
         to top,
