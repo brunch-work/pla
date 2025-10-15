@@ -22,22 +22,22 @@ export async function generateMetadata({ searchParams }) {
       title,
       images: [
         {
-          url: image.url,
-          width: image.width,
-          height: image.height,
-          alt: image.title,
+          url: image?.url,
+          width: image?.width,
+          height: image?.height,
+          alt: image?.title,
         },
       ],
     },
     twitter: {
       title,
-      images: [image.url],
+      images: [image?.url],
     },
   };
 }
 
 export default async function InterviewsPage() {
-  const {interviewHosts, interviewsIndex} = await getPropData(GET_INTERVIEW_HOSTS);
+  const { interviewHosts, interviewsIndex } = await getPropData(GET_INTERVIEW_HOSTS);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

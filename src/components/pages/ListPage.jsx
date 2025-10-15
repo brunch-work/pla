@@ -38,6 +38,11 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
     sortedList = list;
   }
 
+  if (sidebarLabel === "Interview Hosts") {
+    // sort interview hosts by last name. Their name must be two words with a space.
+    sortedList = list.sort((a, b) => a.title.split(" ")[1] > b.title.split(" ")[1] ? 1 : -1);
+  }
+
   // props for mobile nav
   useEffect(() => {
     setNavProps({
