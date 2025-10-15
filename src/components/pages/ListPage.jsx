@@ -40,7 +40,11 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
 
   if (sidebarLabel === "Interview Hosts") {
     // sort interview hosts by last name. Their name must be two words with a space.
-    sortedList = list.sort((a, b) => a.title.split(" ")[1] > b.title.split(" ")[1] ? 1 : -1);
+    sortedList = list.sort((a, b) => {
+      if (a.title === "Venue Interviews") return 1; // Venue Interviews always last
+      if (b.title === "Venue Interviews") return -1;
+      return a.title.split(" ")[1] > b.title.split(" ")[1] ? 1 : -1;
+    });
   }
 
   // props for mobile nav
