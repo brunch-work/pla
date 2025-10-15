@@ -26,7 +26,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
 
   // build alphabetical list for poets page
   if (sidebarLabel === "Poets") {
-    sortedList = list.sort().reduce(function (acc, poet) {
+    sortedList = list.reduce(function (acc, poet) {
       const firstLetter = poet.title[0].toUpperCase();
       if (!acc[firstLetter]) {
         acc[firstLetter] = [];

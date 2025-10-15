@@ -33,7 +33,7 @@ export const GET_POETS_INDEX = `
 
 export const GET_POETS = `
   query getPoets {
-    poets: poetCollection(limit: 1000) {
+    poets: poetCollection(limit: 1000, order: name_ASC) {
       items {
         _id
         title: name
