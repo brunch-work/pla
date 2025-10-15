@@ -27,10 +27,9 @@ export const menuItemVariants = {
     y: -5,
     height: 0,
     transition: {
-      delayChildren: stagger(0.015, { from: "last" }),
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
-      duration: 0.2,
+      duration: 0.184,
     },
   },
   visible: {
@@ -38,10 +37,9 @@ export const menuItemVariants = {
     y: 0,
     height: "auto",
     transition: {
-      delayChildren: stagger(0.015),
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
-      duration: 0.3,
+      duration: 0.284,
     },
   },
 };
