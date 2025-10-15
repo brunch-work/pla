@@ -116,10 +116,10 @@ export const VideoPlayer = ({ video }) => {
                 aria-expanded={showDescription}
               >
                 <div className="title__title body-text">
-                  <h3>{title}</h3>
                   {description && (
                     <PlusButton isActive={showDescription} color="#fff" />
                   )}
+                  <h3>{title}</h3>
                 </div>
               </button>
               <span className="date body-text">
