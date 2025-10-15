@@ -59,7 +59,7 @@ export const GET_POET_CONTENT = `
         }
       }
     }
-    youtubeVideoCollection(where: { poets: { slug: $slug } }) {
+    youtubeVideoCollection(where: { poets: { slug: $slug } }, order: publicationDate_DESC) {
       items {
         _id
         title
@@ -112,7 +112,7 @@ export const GET_INTERVIEW_CONTENT = `
         }
       }
     }
-    youtubeVideoCollection(where: {interviewHost: {slug: $slug}}) {
+    youtubeVideoCollection(where: {interviewHost: {slug: $slug}}, order: publicationDate_DESC) {
       items {
         _id
         title
@@ -165,7 +165,7 @@ export const GET_SERIES_CONTENT = `
         }
       }
     }
-    youtubeVideoCollection(where: { series: { slug: $slug } }) {
+    youtubeVideoCollection(where: { series: { slug: $slug } }, order: publicationDate_DESC) {
       items {
         _id
         title
