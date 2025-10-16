@@ -1,10 +1,9 @@
 "use client";
 
-import { forwardRef, useEffect, useRef, useState, useMemo } from "react";
+import { cloneElement, forwardRef, useEffect, useRef, useState, useMemo } from "react";
 import { fetchGraphQL } from '../utils/client';
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "next-view-transitions";
 import { Logo } from "./Logo";
 import { useMobile } from "../hooks/useMobile";
 import { getMenu, renderNavItem } from './Nav';
@@ -61,7 +60,11 @@ export const Search = forwardRef(function Search(props, ref) {
                         {renderNavItem({ name: "Search", route: "/search" }, pathname)}
                     </ul>
                     : <ul className="menu">
-                        {menu.map((item, index) => renderNavItem(item, pathname))}
+                        {menu.map((item, index) => {
+                            return cloneElement(renderNavItem(item, pathname), {
+                                onClick: handleDialogClose
+                            });
+                        })}
                     </ul>}
             </div>
         </nav>
