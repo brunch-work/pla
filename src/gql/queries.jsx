@@ -156,7 +156,7 @@ export const GET_SERIES_CONTENT = `
         _id
         title
         slug
-        description
+        bio: description
         photo: image {
           url
           width
