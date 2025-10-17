@@ -36,7 +36,7 @@ export default function Homepage({ homepage }) {
   const thumbnailHeightVh = () => {
     if (isMobile) {
       return 13;
-    } else if (viewportWidth >= 768 && viewportWidth <= 1080) {
+    } else if (viewportWidth >= 820 && viewportWidth <= 1080) {
       return 36;
     } else {
       return 65;
@@ -197,8 +197,9 @@ export default function Homepage({ homepage }) {
 
   useEffect(() => {
     if (!carouselRef.current || thumbnailPositions.length === 0) return;
-    carouselRef.current.scrollLeft = carouselRef.current.children[activeThumbnail].offsetLeft - 12;
-  }, [viewportWidth, thumbnailPositions])
+    carouselRef.current.scrollLeft =
+      carouselRef.current.children[activeThumbnail].offsetLeft - 12;
+  }, [viewportWidth, thumbnailPositions]);
 
   if (isMobile) {
     return (
@@ -247,8 +248,9 @@ export default function Homepage({ homepage }) {
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <motion.li
-                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                      }`}
+                    className={`carousel-item ${
+                      index === activeThumbnail ? "active" : ""
+                    }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
                     }}
@@ -297,8 +299,9 @@ export default function Homepage({ homepage }) {
           >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <motion.li
-                className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                  }`}
+                className={`carousel-item ${
+                  index === activeThumbnail ? "active" : ""
+                }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}

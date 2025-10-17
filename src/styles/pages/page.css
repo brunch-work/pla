@@ -83,7 +83,7 @@
     grid-column: 1/-1;
   }
 
-  @media (min-width: 768px) {
+  @media (width > 820px) {
     padding-top: calc(var(--nav-height) + 1.6rem);
 
     .sidebar {

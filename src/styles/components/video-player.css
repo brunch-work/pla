@@ -125,7 +125,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 820px) {
     .video {
       .overlay {
         overflow: hidden;

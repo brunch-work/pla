@@ -111,7 +111,7 @@
     ); /* ensures the carousel is fully scrollable to the end */
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 820px) {
     row-gap: 2.2rem !important;
     height: calc(var(--100dvh) - var(--nav-height) - 1.6rem);
     grid-template-rows: 0.4fr 1fr;

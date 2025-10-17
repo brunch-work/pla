@@ -11,7 +11,7 @@
     initial-value: 0px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 820px) {
     --nav-height: 5.2rem;
   }
 }
