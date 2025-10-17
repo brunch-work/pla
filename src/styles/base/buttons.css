@@ -65,7 +65,7 @@
 .plus-button {
   width: calc(var(--base-font-size) * 0.9);
   height: calc(var(--base-font-size) * 0.9);
-  @media (min-width: 768px) {
+  @media (min-width: 820px) {
     width: calc(var(--base-font-size) * 0.8);
     height: calc(var(--base-font-size) * 0.8);
   }
