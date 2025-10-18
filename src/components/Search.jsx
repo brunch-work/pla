@@ -55,13 +55,11 @@ export const Search = forwardRef(function Search(props, ref) {
     <dialog ref={ref} className="search-dialog" closedby="any">
       <nav className="nav grid" aria-labelledby="main navigation">
         <div className="subgrid">
-          <div
+          <button
             onClick={handleDialogClose}
-            className="logo-wrapper"
-            tabIndex={0}
-          >
+            className="logo-wrapper">
             <Logo />
-          </div>
+          </button>
           {isMobile ? (
             <ul className="menu">
               {renderNavItem({ name: "Search", route: "/search" }, pathname)}

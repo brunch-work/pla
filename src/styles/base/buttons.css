@@ -73,4 +73,5 @@
 
 button {
   border: none;
+  font-family: inherit;
 }

@@ -39,6 +39,7 @@
 
     .logo-wrapper {
       grid-column: 1 / 2;
+      letter-spacing: -0.02em;
     }
   }
 

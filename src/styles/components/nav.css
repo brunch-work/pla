@@ -153,7 +153,6 @@ body:has(.nav.subnav-open) {
   width: fit-content;
   overflow-x: clip;
   color: var(--black);
-  letter-spacing: -0.02em;
 
   .P ~ span {
     overflow: clip;
