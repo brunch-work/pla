@@ -34,8 +34,8 @@
   }
 
   .nav {
-    position: static;
-    background-color: transparent;
+    position: sticky;
+    background-color: var(--white-75);
 
     .logo-wrapper {
       grid-column: 1 / 2;
