@@ -91,22 +91,27 @@ export const Search = forwardRef(function Search(props, ref) {
                             animate="visible"
                             exit="hidden"
                             className="search-results-list">
-                            {searchResults.items.map((item) => (
-                                <motion.li variants={menuItemVariants} key={item._id} className="search-results-item">
-                                    <a href={item.videoUrl} target="_blank" rel="noopener noreferrer">
-                                        <img
-                                            src={item.thumbnail?.url}
-                                            alt={item.thumbnail?.description || item.title}
-                                        />
-                                        <div>
-                                            <span className="search-results-title">{item.title}</span>
-                                            <div className="search-results-description">
-                                                {item.description}
+                            {searchResults.items.map((item) => {
+                                const date = new Date(item.publicationDate);
+                                return (
+                                    <motion.li variants={menuItemVariants} key={item._id} className="search-results-item">
+                                        <a href={item.videoUrl} target="_blank" rel="noopener noreferrer">
+                                            <img
+                                                src={item.thumbnail?.url}
+                                                alt={item.thumbnail?.description || item.title}
+                                            />
+                                            <div>
+                                                <span className="search-results-title">{item.title}</span>
+                                                <span className="search-results-date">
+                                                    {new Intl.DateTimeFormat("en-US", {
+                                                        dateStyle: isMobile ? "medium" : "long",
+                                                    }).format(date)}
+                                                </span>
                                             </div>
-                                        </div>
-                                    </a>
-                                </motion.li>
-                            ))}
+                                        </a>
+                                    </motion.li>
+                                )
+                            })}
                         </motion.ul>
                     </AnimatePresence>
                 ) : (
