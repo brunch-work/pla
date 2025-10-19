@@ -87,7 +87,7 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
       {/* MAIN CONTENT */}
       <div className="main-content">
         {activeItem && sidebarLabel !== "Documentaries" && <Poet activeItem={activeItem} pageType={sidebarLabel} />}
-        {activeItem && sidebarLabel === "Documentaries" && <VideoPlayer video={list.find((d) => d.slug === activeItem)} />}
+        {activeItem && (sidebarLabel === "Documentaries" || sidebarLabel === "Video") && <VideoPlayer video={list.find((d) => d.slug === activeItem)} />}
         {!activeItem && pageDetails?.pageContent && (
           <Markdown>{pageDetails.pageContent}</Markdown>
         )}

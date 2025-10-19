@@ -90,7 +90,7 @@ export const Search = forwardRef(function Search(props, ref) {
                             className="search-results-list">
                             {searchResults.items.map((item) => (
                                 <motion.li variants={menuItemVariants} key={item._id} className="search-results-item">
-                                    <a href={item.videoUrl} target="_blank" rel="noopener noreferrer">
+                                    <a href={`/video?v=${item.slug}`}>
                                         <img
                                             src={item.thumbnail?.url}
                                             alt={item.thumbnail?.description || item.title}
