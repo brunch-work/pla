@@ -75,7 +75,8 @@ export default function Homepage({ homepage }) {
 
     let ticking = false;
     const handleWheel = (e) => {
-      if (!ticking) {
+      const isSearchOpen = document.querySelector('.search-dialog')?.open;
+      if (!ticking && !isSearchOpen) {
         requestAnimationFrame(() => {
           const scrollDelta =
             Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)
