@@ -47,7 +47,7 @@ export const Search = forwardRef(function Search(props, ref) {
     }
 
     const handleDialogClose = () => {
-        setSearchVal('');
+        setTimeout(() => setSearchVal(''), 250);
         document.querySelector('.search-dialog').close();
     }
 
