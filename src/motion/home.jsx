@@ -1,8 +1,7 @@
 import { stagger } from "motion";
 
 export const homeVariants = {
-  hidden: {
-  },
+  hidden: {},
   visible: {
     transition: {
       delayChildren: stagger(0.05),
@@ -27,7 +26,7 @@ export const homeItemVariants = {
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
       duration: 0.75,
-      delay: 0.75
+      delay: 0.75,
     },
   },
 };
@@ -47,7 +46,7 @@ export const featuredVariants = {
       delay: 1,
     },
   },
-}
+};
 
 export const latestVariants = {
   hidden: {
@@ -64,10 +63,10 @@ export const latestVariants = {
     transition: {
       duration: 0.5,
       ease: [0, 0.55, 0.45, 1],
-      delay: 0.75
+      delay: 0.75,
     },
   },
-}
+};
 
 export const preloaderVariants = {
   hidden: {
@@ -84,7 +83,7 @@ export const preloaderVariants = {
       ease: [0, 0.55, 0.45, 1],
     },
   },
-}
+};
 
 export const preloaderLogoVariants = {
   hidden: {
@@ -99,11 +98,12 @@ export const preloaderLogoVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.75,
       ease: [0, 0.55, 0.45, 1],
+      delay: 0.2,
     },
   },
-}
+};
 
 export const preloaderTitleVariants = {
   hidden: {
@@ -118,9 +118,9 @@ export const preloaderTitleVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.75,
       ease: [0, 0.55, 0.45, 1],
-      delay: 0.1
+      delay: 0.3,
     },
   },
-}
+};
