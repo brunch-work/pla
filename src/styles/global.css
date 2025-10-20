@@ -11,6 +11,7 @@
 @import "./components/video-player.css";
 @import "./components/search.css";
 @import "./components/preloader.css";
+@import "./components/logo.css";
 
 @import "./pages/home.css";
 @import "./pages/not-found.css";

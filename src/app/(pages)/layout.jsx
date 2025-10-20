@@ -18,7 +18,7 @@ const navFallback = (
   </nav>
 );
 
-export default function RootLayout ({ children }) {
+export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -35,4 +35,4 @@ export default function RootLayout ({ children }) {
       {children}
     </NavContextProvider>
   );
-};
+}

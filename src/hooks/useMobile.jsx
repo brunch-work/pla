@@ -20,7 +20,6 @@ export function useMobile(breakpoint = 820) {
   return isMobile;
 }
 
-
 export function useHamburgerMenu(breakpoint = 1080) {
   const [isMobile, setIsMobile] = useState(false); // Always false on SSR
 

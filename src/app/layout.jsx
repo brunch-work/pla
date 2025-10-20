@@ -62,10 +62,7 @@ export default function RootLayout({ children }) {
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className="grid">
-          {children}
-          {/* <LayoutInner>{children}</LayoutInner> */}
-        </body>
+        <body className="grid">{children}</body>
       </html>
     </ViewTransitions>
   );
