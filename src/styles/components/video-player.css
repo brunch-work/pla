@@ -1,5 +1,6 @@
 .video-player {
   position: relative;
+  background-color: #000;
 
   .video {
     position: relative;
@@ -102,10 +103,7 @@
     pointer-events: none;
     background-color: var(--white-75);
     backdrop-filter: blur(10px);
-    transition:
-      opacity 0.1s ease,
-      transform 0.3s ease,
-      max-height 0.3s ease,
+    transition: opacity 0.1s ease, transform 0.3s ease, max-height 0.3s ease,
       padding 0.3s ease;
     text-align: left;
     max-height: 0;
@@ -201,8 +199,6 @@
     backdrop-filter: blur(10px);
     filter: brightness(0.5);
     height: 100%;
-    transition:
-      height 0.3s ease,
-      filter 0.3s ease;
+    transition: height 0.3s ease, filter 0.3s ease;
   }
 }
