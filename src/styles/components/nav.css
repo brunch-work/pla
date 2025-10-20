@@ -1,17 +1,3 @@
-@keyframes logo-timeline {
-  0% {
-    --logo-letter-ml: 0ch;
-    opacity: 1;
-  }
-  90% {
-    opacity: 0;
-  }
-  100% {
-    --logo-letter-ml: -3.72ch;
-    opacity: 0;
-  }
-}
-
 body:has(.nav.open),
 body:has(.search-dialog[open]),
 body:has(.nav.subnav-open) {
@@ -144,40 +130,4 @@ body:has(.nav.subnav-open) {
   right: 0;
   bottom: 0;
   z-index: 999999;
-}
-
-.logo {
-  grid-column: 1 / span 4;
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  overflow-x: clip;
-  color: var(--black);
-
-  .P ~ span {
-    overflow: clip;
-  }
-
-  .letters {
-    position: relative;
-    margin-left: var(--logo-letter-ml);
-  }
-
-  svg {
-    height: var(--base-font-size);
-    width: fit-content;
-  }
-
-  &.animate {
-    .letters {
-      animation: logo-timeline 1.4s ease-in-out 3s forwards;
-    }
-  }
-
-  &.done {
-    .letters {
-      margin-left: -3.72ch;
-      opacity: 0;
-    }
-  }
 }

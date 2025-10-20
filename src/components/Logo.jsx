@@ -1,13 +1,31 @@
 import { useLogo } from "@/utils/logoState";
+import { useEffect } from "react";
+import { useAnimate } from "motion/react";
 
 export const Logo = ({ fill = "#1b1917" }) => {
-  const { animate, isDone } = useLogo();
+  const { isAnimating, isDone } = useLogo();
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    if (animate && isAnimating) {
+      animate(
+        scope.current,
+        { opacity: 0, marginLeft: "-3.72ch" },
+        { duration: 1.4, delay: 3 },
+      );
+      setTimeout(() => {
+        useLogo.setState({ isDone: true, isAnimating: false });
+      }, 5000);
+    }
+  }, [animate]);
 
   return (
-    <div className={`logo${animate ? " animate" : ""}${isDone ? " done" : ""}`}>
+    <div className={`logo ${isDone ? "done" : ""}`}>
       <span className="P">P</span>
       <span>
-        <span className="letters">oetry</span>
+        <span className="letters" ref={scope}>
+          oetry
+        </span>
       </span>
       <svg
         width="10"

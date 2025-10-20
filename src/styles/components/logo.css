@@ -1,0 +1,30 @@
+.logo {
+  grid-column: 1 / span 4;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  overflow-x: clip;
+  color: var(--black);
+  letter-spacing: -0.02em;
+
+  .P ~ span {
+    overflow: clip;
+  }
+
+  .letters {
+    position: relative;
+    margin-left: var(--logo-letter-ml);
+  }
+
+  svg {
+    height: var(--base-font-size);
+    width: fit-content;
+  }
+
+  &.done {
+    .letters {
+      margin-left: -3.72ch;
+      opacity: 0;
+    }
+  }
+}

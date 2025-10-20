@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
 export const useLogo = create(() => ({
-  animate: true,
+  isAnimating: true,
   isDone: false,
 }));
