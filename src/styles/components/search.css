@@ -34,8 +34,8 @@
   }
 
   .nav {
-    position: static;
-    background-color: transparent;
+    position: sticky;
+    background-color: var(--white-75);
 
     .logo-wrapper {
       grid-column: 1 / 2;
@@ -73,29 +73,27 @@
     .search-results-item {
       margin-bottom: 1.5rem;
       a {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        font-size: 1.6rem;
         text-decoration: none;
+        &:hover,
+        &:focus-visible {
+          text-decoration: underline;
+        }
       }
 
       img {
-        width: 120px;
-        height: auto;
+        width: 100%;
+        aspect-ratio: 633 / 356;
         object-fit: cover;
-        border-radius: 8px;
       }
 
-      .search-results-title {
-        flex: 1;
-        text-decoration: underline;
-        font-weight: bold;
-      }
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
 
-      .search-results-description {
-        margin-top: 0.5rem;
-        font-size: 1.4rem;
+        .search-results-date {
+          white-space: nowrap;
+        }
       }
     }
   }
