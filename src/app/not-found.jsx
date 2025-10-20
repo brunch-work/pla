@@ -29,7 +29,7 @@ export default function NotFound() {
         <Nav />
       </Suspense>
       <div className="not-found page subgrid">
-        <h1 className="body-text">404 - Page Not Found</h1>
+        <h1 className="body-text">404 — Are you lost?</h1>
       </div>
     </NavContextProvider>
   );

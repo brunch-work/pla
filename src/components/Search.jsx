@@ -1,10 +1,17 @@
 "use client";
 
-import { forwardRef, useEffect, useRef, useState, useMemo } from "react";
+import {
+  cloneElement,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import { fetchGraphQL } from "../utils/client";
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "next-view-transitions";
+import { PlusButton } from "./PlusButton";
 import { Logo } from "./Logo";
 import { useMobile } from "../hooks/useMobile";
 import { getMenu, renderNavItem } from "./Nav";
@@ -17,7 +24,7 @@ export const Search = forwardRef(function Search(props, ref) {
   const [searchResults, setSearchResults] = useState(null);
   const isMobile = useMobile();
   const menu = getMenu(isMobile);
-  const pathname = "/search"; // I'm cheating. sue me.
+  const pathname = "/search";
 
   const fetchSearchResults = useMemo(() => {
     return async (term) => {
@@ -38,9 +45,11 @@ export const Search = forwardRef(function Search(props, ref) {
         setIsLoading(false);
       });
     }
-    if (searchVal.length === 0) {
-      setSearchResults(null);
-    }
+
+    const handleDialogClose = () => {
+      setTimeout(() => setSearchVal(""), 250);
+      document.querySelector(".search-dialog").close();
+    };
   }, [searchVal]);
 
   const handleSearchChange = (e) => {
@@ -52,12 +61,20 @@ export const Search = forwardRef(function Search(props, ref) {
   };
 
   return (
-    <dialog ref={ref} className="search-dialog" closedby="any">
+    <dialog
+      ref={ref}
+      className="search-dialog"
+      closedby="any"
+      onClose={handleDialogClose}
+    >
       <nav className="nav grid" aria-labelledby="main navigation">
         <div className="subgrid">
-          <button
-            onClick={handleDialogClose}
-            className="logo-wrapper">
+          <button onClick={handleDialogClose} className="logo-wrapper">
+            {isMobile ? (
+              <div className="plusbutton-wrapper">
+                <PlusButton isActive={false} />
+              </div>
+            ) : null}
             <Logo />
           </button>
           {isMobile ? (
@@ -66,7 +83,11 @@ export const Search = forwardRef(function Search(props, ref) {
             </ul>
           ) : (
             <ul className="menu">
-              {menu.map((item, index) => renderNavItem(item, pathname))}
+              {menu.map((item, index) => {
+                return cloneElement(renderNavItem(item, pathname), {
+                  onClick: handleDialogClose,
+                });
+              })}
             </ul>
           )}
         </div>
@@ -100,32 +121,37 @@ export const Search = forwardRef(function Search(props, ref) {
                 exit="hidden"
                 className="search-results-list"
               >
-                {searchResults.items.map((item) => (
-                  <motion.li
-                    variants={menuItemVariants}
-                    key={item._id}
-                    className="search-results-item"
-                  >
-                    <a
-                      href={item.videoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                {searchResults.items.map((item) => {
+                  const date = new Date(item.publicationDate);
+                  return (
+                    <motion.li
+                      variants={menuItemVariants}
+                      key={item._id}
+                      className="search-results-item"
                     >
-                      <img
-                        src={item.thumbnail?.url}
-                        alt={item.thumbnail?.description || item.title}
-                      />
-                      <div>
-                        <span className="search-results-title">
-                          {item.title}
-                        </span>
-                        <div className="search-results-description">
-                          {item.description}
+                      <a
+                        href={item.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={item.thumbnail?.url}
+                          alt={item.thumbnail?.description || item.title}
+                        />
+                        <div>
+                          <span className="search-results-title">
+                            {item.title}
+                          </span>
+                          <span className="search-results-date">
+                            {new Intl.DateTimeFormat("en-US", {
+                              dateStyle: isMobile ? "medium" : "long",
+                            }).format(date)}
+                          </span>
                         </div>
-                      </div>
-                    </a>
-                  </motion.li>
-                ))}
+                      </a>
+                    </motion.li>
+                  );
+                })}
               </motion.ul>
             </AnimatePresence>
           ) : (
