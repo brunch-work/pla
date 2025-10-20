@@ -19,26 +19,26 @@ import { useLoader } from "@/utils/loader";
 export const getMenu = (isMobile) => {
   return isMobile
     ? [
-        { name: "Home", route: "/" },
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ]
+      { name: "Home", route: "/" },
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ]
     : [
-        { name: "Poets", route: "/poets" },
-        { name: "Interviews", route: "/interviews" },
-        { name: "Series", route: "/series" },
-        { name: "Documentaries", route: "/documentaries" },
-        { name: "Resources", route: "/resources" },
-        { name: "About", route: "/about" },
-        { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
-        { name: "Search", route: "/search" },
-      ];
+      { name: "Poets", route: "/poets" },
+      { name: "Interviews", route: "/interviews" },
+      { name: "Series", route: "/series" },
+      { name: "Documentaries", route: "/documentaries" },
+      { name: "Resources", route: "/resources" },
+      { name: "About", route: "/about" },
+      { name: "Donate", route: "https://www.patreon.com/PoetryLA" },
+      { name: "Search", route: "/search" },
+    ];
 };
 
 export const renderNavItem = (item, pathname, openSearch) => {
@@ -134,6 +134,7 @@ export const Nav = () => {
 
   const openSearch = () => {
     if (searchDialogRef.current) {
+      setNavOpen(false);
       searchDialogRef.current.showModal();
       searchDialogRef.current.querySelector('input[type="search"]').focus();
     }
@@ -158,9 +159,8 @@ export const Nav = () => {
       <>
         <Search ref={searchDialogRef} closeSearch={closeSearch} />
         <nav
-          className={`nav grid${navOpen ? " open" : ""}${
-            subNavOpen && activeItem ? " subnav-open" : ""
-          }`}
+          className={`nav grid${navOpen ? " open" : ""}${subNavOpen && activeItem ? " subnav-open" : ""
+            }`}
           aria-labelledby="main navigation"
         >
           <div className="subgrid">

@@ -4,6 +4,7 @@ import { cloneElement, forwardRef, useEffect, useRef, useState, useMemo } from "
 import { fetchGraphQL } from '../utils/client';
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
+import { PlusButton } from "./PlusButton";
 import { Logo } from "./Logo";
 import { useMobile } from "../hooks/useMobile";
 import { getMenu, renderNavItem } from './Nav';
@@ -16,7 +17,7 @@ export const Search = forwardRef(function Search(props, ref) {
     const [searchResults, setSearchResults] = useState(null);
     const isMobile = useMobile();
     const menu = getMenu(isMobile);
-    const pathname = '/search'; // I'm cheating. sue me.
+    const pathname = '/search';
 
     const fetchSearchResults = useMemo(() => {
         return async (term) => {
@@ -46,13 +47,17 @@ export const Search = forwardRef(function Search(props, ref) {
     }
 
     const handleDialogClose = () => {
+        setSearchVal('');
         document.querySelector('.search-dialog').close();
     }
 
-    return <dialog ref={ref} className="search-dialog" closedby="any">
+    return <dialog ref={ref} className="search-dialog" closedby="any" onClose={handleDialogClose}>
         <nav className="nav grid" aria-labelledby="main navigation">
             <div className="subgrid">
                 <button onClick={handleDialogClose} className="logo-wrapper">
+                    {isMobile ? <div className="plusbutton-wrapper">
+                        <PlusButton isActive={false} />
+                    </div> : null}
                     <Logo />
                 </button>
                 {isMobile ?
