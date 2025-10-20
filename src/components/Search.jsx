@@ -4,6 +4,7 @@ import { cloneElement, forwardRef, useEffect, useRef, useState, useMemo } from "
 import { fetchGraphQL } from '../utils/client';
 import { menuVariants, menuItemVariants } from "@/motion/menus";
 import { motion, AnimatePresence } from "motion/react";
+import { Link } from "next-view-transitions";
 import { PlusButton } from "./PlusButton";
 import { Logo } from "./Logo";
 import { useMobile } from "../hooks/useMobile";
