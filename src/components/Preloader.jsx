@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Logo } from "@/components/Logo";
 import { usePreloader } from "@/hooks/usePreloader";
-import { preloaderVariants, preloaderLogoVariants, preloaderTitleVariants } from "@/motion/home";
+import {
+  preloaderVariants,
+  preloaderLogoVariants,
+  preloaderTitleVariants,
+} from "@/motion/home";
 import { useLoader } from "@/utils/loader";
 
 export const Preloader = ({ assets = [], onDone }) => {
@@ -29,7 +33,7 @@ export const Preloader = ({ assets = [], onDone }) => {
         if (cancelled) return;
         setVisible(false);
         onDone && onDone();
-      }, 1000);
+      }, 1200);
     })();
 
     return () => {
@@ -49,8 +53,16 @@ export const Preloader = ({ assets = [], onDone }) => {
         exit="hidden"
       >
         <div className="intro">
-          <motion.div className="logo-wrapper" layout="position" layoutId="logo" variants={preloaderLogoVariants} initial="hidden" animate="visible" transition={{ duration: 1, ease: "easeInOut" }}>
-            <Logo/>
+          <motion.div
+            className="logo-wrapper"
+            layout="position"
+            layoutId="logo"
+            variants={preloaderLogoVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
+            <Logo />
           </motion.div>
           <motion.h1
             className="body-text"
@@ -69,4 +81,4 @@ export const Preloader = ({ assets = [], onDone }) => {
       </motion.div>
     </AnimatePresence>
   );
-}
+};

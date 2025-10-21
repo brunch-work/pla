@@ -66,7 +66,7 @@ export default function Homepage({ homepage }) {
     // let animations finish before setting isDone
     setTimeout(() => {
       useLoader.setState({ showLoader: false, isDone: true });
-    }, 1000);
+    }, 1500);
   }, []);
 
   // Wheel or trackpad y-scroll to x-scroll conversion
@@ -75,7 +75,7 @@ export default function Homepage({ homepage }) {
 
     let ticking = false;
     const handleWheel = (e) => {
-      const isSearchOpen = document.querySelector('.search-dialog')?.open;
+      const isSearchOpen = document.querySelector(".search-dialog")?.open;
       if (!ticking && !isSearchOpen) {
         requestAnimationFrame(() => {
           const scrollDelta =
