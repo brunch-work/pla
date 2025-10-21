@@ -43,6 +43,7 @@
 
   &::before {
     content: "";
+    flex-shrink: 0;
     width: 1.35rem;
     height: 1.35rem;
     border-radius: 50%;
