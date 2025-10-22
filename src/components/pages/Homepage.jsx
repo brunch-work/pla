@@ -31,6 +31,13 @@ export default function Homepage({ homepage }) {
   const smoothScrollDuration = 300; // ms
   const { showLoader } = useLoader.getState();
 
+  // Momentum scrolling refs and state
+  const momentumRef = useRef(0);
+  const lastScrollTimeRef = useRef(0);
+  const momentumAnimationRef = useRef(null);
+  const isMomentumScrollingRef = useRef(false);
+  const lastWheelTimeRef = useRef(0);
+
   const { viewportHeight, viewportWidth } = useViewport();
 
   const thumbnailHeightVh = () => {
@@ -69,29 +76,132 @@ export default function Homepage({ homepage }) {
     }, 1500);
   }, []);
 
-  // Wheel or trackpad y-scroll to x-scroll conversion
+  const handleThumbnailClick = useCallback((index) => {
+    if (index >= carouselRef.current.children.length) return;
+
+    // Stop any ongoing momentum
+    momentumRef.current = 0;
+    if (momentumAnimationRef.current) {
+      cancelAnimationFrame(momentumAnimationRef.current);
+      momentumAnimationRef.current = null;
+    }
+    isMomentumScrollingRef.current = false;
+
+    let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
+
+    // Set flag before scrolling
+    isScrollingProgrammatically.current = true;
+
+    requestAnimationFrame(() => {
+      carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
+
+      // Clear flag
+      setTimeout(() => {
+        isScrollingProgrammatically.current = false;
+      }, smoothScrollDuration);
+    });
+    setActiveThumbnail(index);
+  }, []);
+
+  // Momentum scrolling animation loop
+  const applyMomentum = useCallback(() => {
+    if (!carouselRef.current || Math.abs(momentumRef.current) < 1) {
+      // Momentum has stopped, snap to nearest thumbnail
+      if (isMomentumScrollingRef.current) {
+        isMomentumScrollingRef.current = false;
+        const currentScrollLeft = carouselRef.current.scrollLeft;
+
+        // Find the closest thumbnail
+        let closestIndex = 0;
+        let minDistance = Infinity;
+
+        for (let i = 0; i < thumbnailPositions.length; i++) {
+          const thumbnailCenter =
+            thumbnailPositions[i] + generatedThumbnailWidths[i] / 2;
+          const distance = Math.abs(
+            currentScrollLeft +
+              carouselRef.current.offsetWidth / 2 -
+              thumbnailCenter,
+          );
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+          }
+        }
+
+        // Snap to the closest thumbnail
+        handleThumbnailClick(closestIndex);
+      }
+      return;
+    }
+
+    // Apply momentum to scroll position
+    const currentTime = performance.now();
+    const deltaTime = (currentTime - lastScrollTimeRef.current) / 16.67; // Normalize to 60fps
+
+    carouselRef.current.scrollLeft += momentumRef.current * deltaTime * 0.3;
+
+    // Apply friction to momentum
+    momentumRef.current *= 0.95;
+
+    lastScrollTimeRef.current = currentTime;
+    momentumAnimationRef.current = requestAnimationFrame(applyMomentum);
+  }, [thumbnailPositions, generatedThumbnailWidths, handleThumbnailClick]);
+
+  // Enhanced wheel handler with momentum
   useEffect(() => {
     if (thumbnailsList.length === 0 || !carouselRef.current) return;
 
-    let ticking = false;
     const handleWheel = (e) => {
       const isSearchOpen = document.querySelector(".search-dialog")?.open;
-      if (!ticking && !isSearchOpen) {
-        requestAnimationFrame(() => {
-          const scrollDelta =
-            Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)
-              ? -e.wheelDeltaX
-              : -e.wheelDeltaY;
-          carouselRef.current.scrollBy({ left: scrollDelta });
-          ticking = false;
-        });
-        ticking = true;
+      if (isSearchOpen) return;
+
+      e.preventDefault();
+
+      const currentTime = performance.now();
+      const timeDelta = currentTime - lastWheelTimeRef.current;
+      lastWheelTimeRef.current = currentTime;
+
+      // Calculate scroll delta
+      const scrollDelta =
+        Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)
+          ? -e.wheelDeltaX
+          : -e.wheelDeltaY;
+
+      if (Math.abs(e.wheelDeltaY) > 0 && e.wheelDeltaY % 1 === 0) {
+        const momentumMultiplier = Math.min(timeDelta / 16, 3);
+        momentumRef.current += scrollDelta * momentumMultiplier * 0.15;
+      } else {
+        carouselRef.current.scrollBy({ left: scrollDelta * 0.8 });
+        momentumRef.current += scrollDelta * 0.03;
+      }
+
+      if (
+        !isMomentumScrollingRef.current &&
+        Math.abs(momentumRef.current) > 0.1
+      ) {
+        isMomentumScrollingRef.current = true;
+        lastScrollTimeRef.current = currentTime;
+
+        if (momentumAnimationRef.current) {
+          cancelAnimationFrame(momentumAnimationRef.current);
+        }
+
+        momentumAnimationRef.current = requestAnimationFrame(applyMomentum);
       }
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [thumbnailsList.length]);
+    const carousel = carouselRef.current;
+    carousel.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      carousel.removeEventListener("wheel", handleWheel);
+      if (momentumAnimationRef.current) {
+        cancelAnimationFrame(momentumAnimationRef.current);
+      }
+    };
+  }, [thumbnailsList.length, applyMomentum]);
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -99,7 +209,12 @@ export default function Homepage({ homepage }) {
 
     let scrollTicking = false;
     const handleScroll = (e) => {
-      if (isScrollingProgrammatically.current || !e.target) return;
+      if (
+        isScrollingProgrammatically.current ||
+        isMomentumScrollingRef.current ||
+        !e.target
+      )
+        return;
 
       if (!scrollTicking) {
         requestAnimationFrame(() => {
@@ -109,9 +224,12 @@ export default function Homepage({ homepage }) {
 
           const activeThumb = determineActiveThumbnail(e);
           setActiveThumbnail(activeThumb);
+
           scrollTimeoutRef.current = setTimeout(() => {
-            handleThumbnailClick(activeThumb);
-          }, 100);
+            if (!isMomentumScrollingRef.current) {
+              handleThumbnailClick(activeThumb);
+            }
+          }, 150);
           scrollTicking = false;
         });
         scrollTicking = true;
@@ -140,25 +258,6 @@ export default function Homepage({ homepage }) {
       }
     }
   };
-
-  const handleThumbnailClick = useCallback((index) => {
-    if (index >= carouselRef.current.children.length) return;
-
-    let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
-
-    // Set flag before scrolling
-    isScrollingProgrammatically.current = true;
-
-    requestAnimationFrame(() => {
-      carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
-
-      // Clear flag
-      setTimeout(() => {
-        isScrollingProgrammatically.current = false;
-      }, smoothScrollDuration);
-    });
-    setActiveThumbnail(index);
-  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -201,6 +300,15 @@ export default function Homepage({ homepage }) {
     carouselRef.current.scrollLeft =
       carouselRef.current.children[activeThumbnail].offsetLeft - 12;
   }, [viewportWidth, thumbnailPositions]);
+
+  // Cleanup momentum animation on unmount
+  useEffect(() => {
+    return () => {
+      if (momentumAnimationRef.current) {
+        cancelAnimationFrame(momentumAnimationRef.current);
+      }
+    };
+  }, []);
 
   if (isMobile) {
     return (
