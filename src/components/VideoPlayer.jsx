@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 
 import { Playbutton } from "./Playbutton";
@@ -57,6 +58,7 @@ export const VideoPlayer = ({ video }) => {
             <img src={thumbnail.url} alt={thumbnail.description} />
             <Playbutton handlePlay={handlePlay} title={title} />
           </div>
+          <div className="underlay"></div>
         </div>
         <div className="info">
           <div className="top">
@@ -143,6 +145,7 @@ export const VideoPlayer = ({ video }) => {
             </AnimatePresence>
           </div>
         </div>
+        <div className="underlay"></div>
       </div>
     </div>
   );

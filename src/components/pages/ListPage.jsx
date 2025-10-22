@@ -11,16 +11,22 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Markdown from "react-markdown";
 
-export default function ListPage({ list, pageDetails, searchParam, sidebarLabel }) {
-
+export default function ListPage({
+  list,
+  pageDetails,
+  searchParam,
+  sidebarLabel,
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const { setNavProps } = useNavContext();
   const isMobile = useMobile();
-  const [activeItem, setActiveItem] = useState(searchParams.get(searchParam) || "");
+  const [activeItem, setActiveItem] = useState(
+    searchParams.get(searchParam) || "",
+  );
   const [listOpen, setListOpen] = useState(
-    !isMobile || (isMobile && !activeItem) ? true : false
+    !isMobile || (isMobile && !activeItem) ? true : false,
   );
   let sortedList;
 
@@ -68,15 +74,17 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
   // handle sidebar toggle
   const renderSidebar = () => {
     if (!isMobile || (isMobile && !activeItem)) {
-      return <Sidebar
-        pageType={sidebarLabel}
-        list={sortedList}
-        activeItem={activeItem}
-        listOpen={listOpen}
-        setListOpen={setListOpen}
-        pathname={pathname}
-        searchParam={searchParam}
-      />;
+      return (
+        <Sidebar
+          pageType={sidebarLabel}
+          list={sortedList}
+          activeItem={activeItem}
+          listOpen={listOpen}
+          setListOpen={setListOpen}
+          pathname={pathname}
+          searchParam={searchParam}
+        />
+      );
     }
   };
 
@@ -86,8 +94,12 @@ export default function ListPage({ list, pageDetails, searchParam, sidebarLabel 
 
       {/* MAIN CONTENT */}
       <div className="main-content">
-        {activeItem && sidebarLabel !== "Documentaries" && <Poet activeItem={activeItem} pageType={sidebarLabel} />}
-        {activeItem && sidebarLabel === "Documentaries" && <VideoPlayer video={list.find((d) => d.slug === activeItem)} />}
+        {activeItem && sidebarLabel !== "Documentaries" && (
+          <Poet activeItem={activeItem} pageType={sidebarLabel} />
+        )}
+        {activeItem && sidebarLabel === "Documentaries" && (
+          <VideoPlayer video={list.find((d) => d.slug === activeItem)} />
+        )}
         {!activeItem && pageDetails?.pageContent && (
           <Markdown>{pageDetails.pageContent}</Markdown>
         )}

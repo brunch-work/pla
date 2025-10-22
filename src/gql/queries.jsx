@@ -347,6 +347,7 @@ query getSearch($searchTerm: String) {
       _id
       title
       videoUrl
+      slug
       description
       publicationDate
       thumbnail {
@@ -359,3 +360,24 @@ query getSearch($searchTerm: String) {
     }
     }
 }`;
+
+export const GET_VIDEO_CONTENT = `
+query getVideoContent($activeItem: String!) {
+    activeItem: youtubeVideoCollection(where: { slug: $activeItem }, limit: 1) {
+        items {
+        _id
+        title
+        slug
+        videoUrl
+        description
+        publicationDate
+        thumbnail {
+          url
+          width
+          height
+          description
+          contentType
+        }
+      }
+    }
+  }`
