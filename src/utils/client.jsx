@@ -1,6 +1,6 @@
 const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_CONTENTFUL_URL;
 const environment = process.env.NODE_ENV;
-const cache = environment === "development" ? "force-cache" : "default";
+const cache = "default";
 const HEADERS = {
   "Content-Type": "application/json",
   Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,

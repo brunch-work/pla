@@ -206,7 +206,7 @@ export default function Homepage({ homepage }) {
       }
     };
 
-    const carousel = carouselRef.current;
+    const carousel = document.body;
     carousel.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
