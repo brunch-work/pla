@@ -15,6 +15,8 @@
     grid-template-rows: 0.5fr 1fr;
     grid-column: 1/-1;
     gap: 1.2rem;
+    position: relative;
+    z-index: 2;
   }
 
   .intro {
@@ -22,7 +24,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 3.2rem 0 0;
 
     a {
       margin-top: 1em;
@@ -44,6 +45,9 @@
 
     .video-player {
       width: 100%;
+      .info {
+        position: absolute;
+      }
     }
   }
 
