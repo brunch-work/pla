@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Markdown from "react-markdown";
 
 import { Playbutton } from "./Playbutton";
 import { PlusButton } from "./PlusButton";
@@ -82,7 +83,7 @@ export const VideoPlayer = ({ video }) => {
             </span>
           </div>
           <div className={`description ${showDescription ? "show" : ""}`}>
-            <p>{description}</p>
+            <Markdown>{description}</Markdown>
           </div>
         </div>
       </div>
@@ -139,7 +140,7 @@ export const VideoPlayer = ({ video }) => {
                   animate="visible"
                   exit="hidden"
                 >
-                  <p className="body-text">{description}</p>
+                  <Markdown>{description}</Markdown>
                 </motion.div>
               )}
             </AnimatePresence>
