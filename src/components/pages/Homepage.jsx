@@ -79,7 +79,6 @@ export default function Homepage({ homepage }) {
   const handleThumbnailClick = useCallback((index) => {
     if (index >= carouselRef.current.children.length) return;
 
-    // Stop any ongoing momentum
     momentumRef.current = 0;
     if (momentumAnimationRef.current) {
       cancelAnimationFrame(momentumAnimationRef.current);
@@ -89,13 +88,11 @@ export default function Homepage({ homepage }) {
 
     let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
 
-    // Set flag before scrolling
     isScrollingProgrammatically.current = true;
 
     requestAnimationFrame(() => {
       carouselRef.current.scrollTo({ left: targetOffset, behavior: "smooth" });
 
-      // Clear flag
       setTimeout(() => {
         isScrollingProgrammatically.current = false;
       }, smoothScrollDuration);
@@ -136,7 +133,6 @@ export default function Homepage({ homepage }) {
       return;
     }
 
-    // Apply momentum to scroll position
     const currentTime = performance.now();
     const deltaTime = (currentTime - lastScrollTimeRef.current) / 16.67; // Normalize to 60fps
 
@@ -149,7 +145,6 @@ export default function Homepage({ homepage }) {
     momentumAnimationRef.current = requestAnimationFrame(applyMomentum);
   }, [thumbnailPositions, generatedThumbnailWidths, handleThumbnailClick]);
 
-  // Enhanced wheel handler with momentum
   useEffect(() => {
     if (thumbnailsList.length === 0 || !carouselRef.current) return;
 
