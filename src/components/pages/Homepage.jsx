@@ -164,12 +164,31 @@ export default function Homepage({ homepage }) {
           ? -e.wheelDeltaX
           : -e.wheelDeltaY;
 
+      // For stepped scrolling (mouse wheel), add momentum
       if (Math.abs(e.wheelDeltaY) > 0 && e.wheelDeltaY % 1 === 0) {
+        // This is likely a stepped mouse wheel - use custom momentum
         const momentumMultiplier = Math.min(timeDelta / 16, 3);
         momentumRef.current += scrollDelta * momentumMultiplier * 0.15;
+
+        // Start momentum animation if not already running
+        if (
+          !isMomentumScrollingRef.current &&
+          Math.abs(momentumRef.current) > 0.1
+        ) {
+          isMomentumScrollingRef.current = true;
+          lastScrollTimeRef.current = currentTime;
+
+          // Cancel any existing animation
+          if (momentumAnimationRef.current) {
+            cancelAnimationFrame(momentumAnimationRef.current);
+          }
+
+          momentumAnimationRef.current = requestAnimationFrame(applyMomentum);
+        }
       } else {
-        carouselRef.current.scrollBy({ left: scrollDelta * 0.8 });
-        momentumRef.current += scrollDelta * 0.03;
+        // For smooth trackpad scrolling, use native scrolling - no custom momentum
+        carouselRef.current.scrollBy({ left: scrollDelta });
+        // Don't add any momentum or start animation - let native trackpad momentum handle it
       }
 
       if (
