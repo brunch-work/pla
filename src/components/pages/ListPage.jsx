@@ -44,14 +44,6 @@ export default function ListPage({
     sortedList = list;
   }
 
-  if (sidebarLabel === "Interview Hosts") {
-    // sort interview hosts by last name. Their name must be two words with a space.
-    sortedList = list.sort((a, b) => {
-      if (a.title === "Venue Interviews") return 1; // Venue Interviews always last
-      if (b.title === "Venue Interviews") return -1;
-    });
-  }
-
   // props for mobile nav
   useEffect(() => {
     setNavProps({

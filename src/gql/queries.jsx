@@ -80,7 +80,7 @@ export const GET_POET_CONTENT = `
 
 export const GET_INTERVIEW_HOSTS = `
   query getInterviewHosts {
-    interviewHosts: interviewHostCollection(order: name_ASC) {
+    interviewHosts: interviewHostCollection(order: [sortWeight_ASC ,name_ASC]) {
       items {
         _id
         title: name
