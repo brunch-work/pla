@@ -1,6 +1,4 @@
 const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_CONTENTFUL_URL;
-const environment = process.env.NODE_ENV;
-const cache = environment === "development" ? "force-cache" : "default";
 const HEADERS = {
   "Content-Type": "application/json",
   Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,
@@ -18,7 +16,6 @@ export const fetchGraphQL = async (query, variables) => {
     method: "POST",
     headers: HEADERS,
     body: JSON.stringify({ query, variables }),
-    cache: cache,
   });
 
   if (!res.ok) {
