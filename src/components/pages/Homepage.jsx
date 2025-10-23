@@ -139,7 +139,7 @@ export default function Homepage({ homepage }) {
     carouselRef.current.scrollLeft += momentumRef.current * deltaTime * 0.3;
 
     // Apply friction to momentum
-    momentumRef.current *= 0.95;
+    momentumRef.current *= 0.9;
 
     lastScrollTimeRef.current = currentTime;
     momentumAnimationRef.current = requestAnimationFrame(applyMomentum);
