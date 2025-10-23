@@ -49,7 +49,6 @@ export default function ListPage({
     sortedList = list.sort((a, b) => {
       if (a.title === "Venue Interviews") return 1; // Venue Interviews always last
       if (b.title === "Venue Interviews") return -1;
-      return a.title.split(" ")[1] > b.title.split(" ")[1] ? 1 : -1;
     });
   }
 
