@@ -133,7 +133,7 @@ export const GET_INTERVIEW_CONTENT = `
 
 export const GET_SERIES = `
   query getSeries {
-    series: seriesCollection {
+    series: seriesCollection (order: title_ASC) {
       items {
         _id
         title
@@ -188,7 +188,7 @@ export const GET_DOCUMENTARIES = `
   query getDocumentaries {
     documentaries: youtubeVideoCollection(
       where: { documentary: true }
-      order: [publicationDate_DESC]
+      order: [title_ASC]
     ) {
       items {
         _id
@@ -275,7 +275,7 @@ export const GET_DOCUMENTARIES_LIST = `
   query getDocumentariesList($activeItem: String) {
     list: youtubeVideoCollection(
       where: { documentary: true }
-      order: [publicationDate_DESC]
+      order: [title_ASC]
     ) {
       items {
         _id
@@ -380,4 +380,4 @@ query getVideoContent($activeItem: String!) {
         }
       }
     }
-  }`
+  }`;
