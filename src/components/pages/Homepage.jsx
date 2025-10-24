@@ -43,7 +43,7 @@ export default function Homepage({ homepage }) {
   const thumbnailHeightVh = () => {
     if (isMobile) {
       return 13;
-    } else if (viewportWidth >= 820 && viewportWidth <= 1080) {
+    } else if (viewportWidth >= 970 && viewportWidth <= 1080) {
       return 36;
     } else {
       return 65;
@@ -117,8 +117,8 @@ export default function Homepage({ homepage }) {
             thumbnailPositions[i] + generatedThumbnailWidths[i] / 2;
           const distance = Math.abs(
             currentScrollLeft +
-              carouselRef.current.offsetWidth / 2 -
-              thumbnailCenter,
+            carouselRef.current.offsetWidth / 2 -
+            thumbnailCenter,
           );
 
           if (distance < minDistance) {
@@ -371,9 +371,8 @@ export default function Homepage({ homepage }) {
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <motion.li
-                    className={`carousel-item ${
-                      index === activeThumbnail ? "active" : ""
-                    }`}
+                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                      }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
                     }}
@@ -422,9 +421,8 @@ export default function Homepage({ homepage }) {
           >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <motion.li
-                className={`carousel-item ${
-                  index === activeThumbnail ? "active" : ""
-                }`}
+                className={`carousel-item ${index === activeThumbnail ? "active" : ""
+                  }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}

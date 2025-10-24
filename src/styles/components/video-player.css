@@ -130,7 +130,7 @@
     }
   }
 
-  @media (min-width: 820px) {
+  @media (min-width: 970px) {
     .video {
       .overlay {
         overflow: hidden;

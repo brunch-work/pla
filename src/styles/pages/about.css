@@ -19,7 +19,7 @@
     }
   }
 
-  @media (width > 820px) {
+  @media (width > 970px) {
     display: grid !important;
 
     .sidebar {
