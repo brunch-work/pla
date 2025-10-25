@@ -40,15 +40,10 @@ export default function Homepage({ homepage }) {
 
   const { viewportHeight, viewportWidth } = useViewport();
 
-  const thumbnailHeightVh = () => {
-    if (isMobile) {
-      return 13;
-    } else if (viewportWidth >= 970 && viewportWidth <= 1080) {
-      return 36;
-    } else {
-      return 65;
-    }
-  };
+  const thumbnailHeightVh = useCallback(() => {
+    return isMobile ? 13 : 65;
+  }, [isMobile]);
+
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
@@ -108,27 +103,8 @@ export default function Homepage({ homepage }) {
         isMomentumScrollingRef.current = false;
         const currentScrollLeft = carouselRef.current.scrollLeft;
 
-        // Find the closest thumbnail
-        let closestIndex = 0;
-        let minDistance = Infinity;
-
-        for (let i = 0; i < thumbnailPositions.length; i++) {
-          const thumbnailCenter =
-            thumbnailPositions[i] + generatedThumbnailWidths[i] / 2;
-          const distance = Math.abs(
-            currentScrollLeft +
-            carouselRef.current.offsetWidth / 2 -
-            thumbnailCenter,
-          );
-
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestIndex = i;
-          }
-        }
-
-        // Snap to the closest thumbnail
-        handleThumbnailClick(closestIndex);
+        const activeThumb = determineActiveThumbnail(currentScrollLeft);
+        handleThumbnailClick(activeThumb);
       }
       return;
     }
@@ -236,7 +212,7 @@ export default function Homepage({ homepage }) {
             clearTimeout(scrollTimeoutRef.current);
           }
 
-          const activeThumb = determineActiveThumbnail(e);
+          const activeThumb = determineActiveThumbnail(e.target.scrollLeft);
           setActiveThumbnail(activeThumb);
 
           scrollTimeoutRef.current = setTimeout(() => {
@@ -257,8 +233,7 @@ export default function Homepage({ homepage }) {
     };
   }, [thumbnailPositions, generatedThumbnailWidths, gap]);
 
-  const determineActiveThumbnail = (e) => {
-    const scrollLeft = e.target.scrollLeft;
+  const determineActiveThumbnail = (scrollLeft) => {
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
     for (let i = 0; i < thumbnailPositions.length; i++) {
       if (scrollLeft < 0) return 0; //iOS inertia scroll can produce out of bounds values
