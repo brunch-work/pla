@@ -12,7 +12,7 @@
   }
 
   .top {
-    grid-template-rows: 0.5fr 1fr;
+    grid-template-rows: calc(35rem - 15vw) 1fr;
     grid-column: 1/-1;
     gap: 1.2rem;
     position: relative;
