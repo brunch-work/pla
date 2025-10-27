@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export function useMobile(breakpoint = 820) {
+export function useMobile(breakpoint = 970) {
   const [isMobile, setIsMobile] = useState(false); // Always false on SSR
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function useMobile(breakpoint = 820) {
   return isMobile;
 }
 
-export function useHamburgerMenu(breakpoint = 1080) {
+export function useHamburgerMenu(breakpoint = 970) {
   const [isMobile, setIsMobile] = useState(false); // Always false on SSR
 
   useEffect(() => {

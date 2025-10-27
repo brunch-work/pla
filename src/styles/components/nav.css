@@ -104,11 +104,11 @@ body:has(.nav.subnav-open) {
     }
   }
 
-  @media (width > 1080px) {
+  @media (width > 970px) {
     padding-block: 1.6rem;
 
     .menu {
-      grid-column: 5 / span 8;
+      grid-column: 4 / span 9;
       justify-content: space-between;
       flex-direction: row;
       gap: 0;
