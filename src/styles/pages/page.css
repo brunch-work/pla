@@ -83,7 +83,7 @@
     grid-column: 1/-1;
   }
 
-  @media (width > 820px) {
+  @media (width > 970px) {
     padding-top: calc(var(--nav-height) + 1.6rem);
 
     .sidebar {
@@ -97,7 +97,7 @@
 
     .main-content {
       margin-top: 0;
-      grid-column: 5 / -1;
+      grid-column: 4 / -1;
     }
   }
 }
