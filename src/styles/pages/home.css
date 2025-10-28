@@ -164,9 +164,18 @@
     grid-template-rows: 1fr auto;
 
     .thumbnails {
-      height: 65dvh;
+      max-height: 65dvh;
+      height: fit-content;
+      .carousel,
+      .carousel-track {
+        height: fit-content;
+      }
       .carousel-item {
-        height: 65dvh;
+        max-height: 65dvh;
+        height: calc(
+          (100vw - 3.2rem) / 16 * 9
+        ); /* height auto makes the thumbnails collapse  */
+        max-width: calc(100vw - 3.2rem);
       }
     }
   }
