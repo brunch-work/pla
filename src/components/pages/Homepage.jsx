@@ -40,25 +40,15 @@ export default function Homepage({ homepage }) {
 
   const { viewportHeight, viewportWidth } = useViewport();
 
-  const thumbnailHeightVh = useCallback(() => {
-    return isMobile ? 13 : 65;
-  }, [isMobile]);
-
   const gap = 1.6;
   const thumbnailsList = homepage.youtubeVideoCollection.items;
 
-  // Memoized calculations
-  const thumbnailHeight = useMemo(() => {
-    const thumbnailHeight = thumbnailHeightVh();
-    if (viewportHeight === 0) return 75;
-    return Math.floor((viewportHeight * thumbnailHeight) / 100);
-  }, [viewportHeight, thumbnailHeightVh]);
-
   const generatedThumbnailWidths = useMemo(() => {
+    const height = carouselRef.current?.offsetHeight || 0;
     return thumbnailsList.map((project, index) =>
-      calculateImageWidth(project, index, thumbnailHeight),
+      calculateImageWidth(project, index, height),
     );
-  }, [thumbnailsList, thumbnailHeight]);
+  }, [thumbnailsList, viewportHeight, viewportWidth]);
 
   const thumbnailPositions = useMemo(() => {
     return calculateThumbnailPositions(generatedThumbnailWidths, gap);
@@ -212,7 +202,7 @@ export default function Homepage({ homepage }) {
             clearTimeout(scrollTimeoutRef.current);
           }
 
-          const activeThumb = determineActiveThumbnail(e.target.scrollLeft);
+          const activeThumb = e.target?.scrollLeft ? determineActiveThumbnail(e.target.scrollLeft) : activeThumbnail;
           setActiveThumbnail(activeThumb);
 
           scrollTimeoutRef.current = setTimeout(() => {
