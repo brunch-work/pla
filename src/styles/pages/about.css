@@ -7,6 +7,14 @@
     margin-top: 2.4rem;
     padding: 0;
     margin: 0;
+
+    .sidebar__section {
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  .video-player {
+    margin: 2.4rem 0;
   }
 
   .footer {
@@ -24,14 +32,14 @@
 
     .sidebar {
       margin: 0;
+
+      .sidebar__section {
+        margin-bottom: 1.6rem;
+
     }
 
     .footer {
       bottom: 1.2rem;
-
-      .copyright {
-        grid-column: span 4;
-      }
     }
   }
 }

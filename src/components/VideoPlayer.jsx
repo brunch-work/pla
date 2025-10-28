@@ -18,7 +18,7 @@ export const VideoPlayer = ({ video }) => {
   const [videoId, setVideoId] = useState(getVideoUid(videoUrl));
   const isMobile = useMobile();
 
-  const date = new Date(publicationDate);
+  const date = publicationDate ? new Date(publicationDate) : null;
 
   useEffect(() => {
     setIsPlaying(false);
@@ -76,11 +76,13 @@ export const VideoPlayer = ({ video }) => {
                 {description && <PlusButton isActive={showDescription} />}
               </div>
             </button>
-            <span className="date">
-              {new Intl.DateTimeFormat("en-US", {
-                dateStyle: isMobile ? "medium" : "long",
-              }).format(date)}
-            </span>
+            {date && (
+              <span className="date">
+                {new Intl.DateTimeFormat("en-US", {
+                  dateStyle: isMobile ? "medium" : "long",
+                }).format(date)}
+              </span>
+            )}
           </div>
           <div className={`description ${showDescription ? "show" : ""}`}>
             <Markdown>{description}</Markdown>
@@ -125,11 +127,13 @@ export const VideoPlayer = ({ video }) => {
                   <h3>{title}</h3>
                 </div>
               </button>
-              <span className="date body-text">
-                {new Intl.DateTimeFormat("en-US", {
-                  dateStyle: isMobile ? "medium" : "long",
-                }).format(date)}
-              </span>
+              {date && (
+                <span className="date body-text">
+                  {new Intl.DateTimeFormat("en-US", {
+                    dateStyle: isMobile ? "medium" : "long",
+                  }).format(date)}
+                </span>
+              )}
             </div>
             <AnimatePresence>
               {showDescription && (
