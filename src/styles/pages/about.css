@@ -35,11 +35,11 @@
 
       .sidebar__section {
         margin-bottom: 1.6rem;
+      }
 
-    }
-
-    .footer {
-      bottom: 1.2rem;
+      .footer {
+        bottom: 1.2rem;
+      }
     }
   }
 }
