@@ -98,6 +98,16 @@ export default async function AboutPage() {
       </div>
       <div className="main-content">
         <Markdown>{aboutPage.pageContent}</Markdown>
+        <a
+          href="https://lp.constantcontactpages.com/sl/zBh1LrQ"
+          className="body-text no-decoration"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <u>Sign up for our video releases</u>
+          <br />
+          Receive each new video directly to your inbox.
+        </a>
         <VideoPlayer video={video} />
       </div>
       <footer className="footer subgrid">
