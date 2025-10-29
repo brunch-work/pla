@@ -19,8 +19,11 @@
 
   .footer {
     position: absolute;
-    bottom: 0.4rem;
+    bottom: 0;
+    padding: 0.4rem 0;
     width: 100%;
+    background: linear-gradient(to top, var(--white), transparent);
+    z-index: 9999;
 
     > * {
       grid-column: span 3;
@@ -40,6 +43,10 @@
       .footer {
         bottom: 1.2rem;
       }
+    }
+
+    .main-content {
+      grid-column: 4 / span 7;
     }
   }
 }
