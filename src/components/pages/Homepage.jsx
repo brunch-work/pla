@@ -72,6 +72,7 @@ export default function Homepage({ homepage }) {
     isMomentumScrollingRef.current = false;
 
     let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
+    console.info(targetOffset);
 
     isScrollingProgrammatically.current = true;
 
@@ -207,13 +208,11 @@ export default function Homepage({ homepage }) {
             : activeThumbnail;
           setActiveThumbnail(activeThumb);
 
-          if (!isMobile) {
-            scrollTimeoutRef.current = setTimeout(() => {
-              if (!isMomentumScrollingRef.current) {
-                handleThumbnailClick(activeThumb);
-              }
-            }, 150);
-          }
+          scrollTimeoutRef.current = setTimeout(() => {
+            if (!isMomentumScrollingRef.current) {
+              handleThumbnailClick(activeThumb);
+            }
+          }, 150);
           scrollTicking = false;
         });
         scrollTicking = true;
@@ -235,11 +234,13 @@ export default function Homepage({ homepage }) {
   ]);
 
   const determineActiveThumbnail = (scrollLeft) => {
+    // Early returns for out of bounds
+    if (scrollLeft < 0) return 0;
+    if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1])
+      return thumbnailPositions.length - 1;
+
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
     for (let i = 0; i < thumbnailPositions.length; i++) {
-      if (scrollLeft < 0) return 0; //iOS inertia scroll can produce out of bounds values
-      if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1])
-        return thumbnailPositions.length - 1;
       if (
         scrollLeft >= thumbnailPositions[i] &&
         scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i]
@@ -247,6 +248,9 @@ export default function Homepage({ homepage }) {
         return i;
       }
     }
+
+    // Fallback: return the last index if nothing matches
+    return thumbnailPositions.length - 1;
   };
 
   // Keyboard navigation
