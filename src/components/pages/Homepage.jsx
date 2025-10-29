@@ -72,7 +72,6 @@ export default function Homepage({ homepage }) {
     isMomentumScrollingRef.current = false;
 
     let targetOffset = carouselRef.current.children[index].offsetLeft - 12;
-    console.info(targetOffset);
 
     isScrollingProgrammatically.current = true;
 
