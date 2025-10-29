@@ -4,6 +4,7 @@ import {
   GET_INTERVIEW_CONTENT,
 } from "@/gql/queries";
 import { VideoPlayer } from "./VideoPlayer";
+import { videoVariants, videosVariants, infoVariants } from "@/motion/poet.jsx";
 
 import Markdown from "react-markdown";
 import useSWR from "swr";
@@ -35,81 +36,11 @@ export const Poet = ({ activeItem, pageType }) => {
       setPoet(data.poet.items[0]);
       setVideos(data.youtubeVideoCollection.items);
     }
-  }, [activeItem, data]);
-
-  const infoVariants = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-  };
-
-  const videosVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-  };
-
-  const videoVariants = {
-    hidden: {
-      opacity: 0,
-      y: 10,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: 10,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        type: "tween",
-        duration: 0.3,
-      },
-    },
-  };
+  }, [data]);
 
   return (
-    <AnimatePresence>
-      <div className="poet grid-right">
+    <AnimatePresence mode="wait">
+      <div className="poet grid-right" key={poet._id}>
         {!isLoading && poet && poet._id && (
           <motion.div className="poet__info" {...infoVariants}>
             {poet.photo && (

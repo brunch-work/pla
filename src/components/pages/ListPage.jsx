@@ -4,7 +4,6 @@ import { Poet } from "../Poet";
 import { useNavContext } from "@/utils/navContextProvider";
 import { Sidebar } from "../Sidebar";
 import { VideoPlayer } from "../VideoPlayer";
-
 import { useMobile } from "@/hooks/useMobile";
 
 import { useEffect, useState } from "react";
