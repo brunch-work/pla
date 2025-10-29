@@ -202,14 +202,18 @@ export default function Homepage({ homepage }) {
             clearTimeout(scrollTimeoutRef.current);
           }
 
-          const activeThumb = e.target?.scrollLeft ? determineActiveThumbnail(e.target.scrollLeft) : activeThumbnail;
+          const activeThumb = e.target?.scrollLeft
+            ? determineActiveThumbnail(e.target.scrollLeft)
+            : activeThumbnail;
           setActiveThumbnail(activeThumb);
 
-          scrollTimeoutRef.current = setTimeout(() => {
-            if (!isMomentumScrollingRef.current) {
-              handleThumbnailClick(activeThumb);
-            }
-          }, 150);
+          if (!isMobile) {
+            scrollTimeoutRef.current = setTimeout(() => {
+              if (!isMomentumScrollingRef.current) {
+                handleThumbnailClick(activeThumb);
+              }
+            }, 150);
+          }
           scrollTicking = false;
         });
         scrollTicking = true;
@@ -221,7 +225,14 @@ export default function Homepage({ homepage }) {
     return () => {
       carousel.removeEventListener("scroll", handleScroll);
     };
-  }, [thumbnailPositions, generatedThumbnailWidths, gap]);
+  }, [
+    thumbnailPositions,
+    generatedThumbnailWidths,
+    gap,
+    isMobile,
+    handleThumbnailClick,
+    activeThumbnail,
+  ]);
 
   const determineActiveThumbnail = (scrollLeft) => {
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
@@ -336,8 +347,9 @@ export default function Homepage({ homepage }) {
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <motion.li
-                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                      }`}
+                    className={`carousel-item ${
+                      index === activeThumbnail ? "active" : ""
+                    }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
                     }}
@@ -386,8 +398,9 @@ export default function Homepage({ homepage }) {
           >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <motion.li
-                className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                  }`}
+                className={`carousel-item ${
+                  index === activeThumbnail ? "active" : ""
+                }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
