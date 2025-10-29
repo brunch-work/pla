@@ -1,15 +1,11 @@
 // Function to calculate width from image dimensions
-export const calculateImageWidth = (
-  project,
-  index,
-  thumbnailHeight,
-) => {
+export const calculateImageWidth = (project, index, thumbnailHeight) => {
   const projectType = project._modelApiKey;
   const fileType = projectType === "photo" ? "photo" : "thumbnail";
 
   if (project[fileType].width && project[fileType].height) {
     return Math.floor(
-      (project[fileType].width / project[fileType].height) * thumbnailHeight
+      (project[fileType].width / project[fileType].height) * thumbnailHeight,
     );
   }
 
@@ -22,7 +18,7 @@ export const calculateThumbnailPositions = (thumbnailWidths, gap) => {
     if (index === 0) {
       acc.push(0);
     } else {
-      acc.push(acc[index - 1] + thumbnailWidths[index - 1]);
+      acc.push(acc[index - 1] + thumbnailWidths[index - 1] + gap);
     }
     return acc;
   }, []);

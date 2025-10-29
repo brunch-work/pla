@@ -202,7 +202,9 @@ export default function Homepage({ homepage }) {
             clearTimeout(scrollTimeoutRef.current);
           }
 
-          const activeThumb = e.target?.scrollLeft ? determineActiveThumbnail(e.target.scrollLeft) : activeThumbnail;
+          const activeThumb = e.target?.scrollLeft
+            ? determineActiveThumbnail(e.target.scrollLeft)
+            : activeThumbnail;
           setActiveThumbnail(activeThumb);
 
           scrollTimeoutRef.current = setTimeout(() => {
@@ -221,14 +223,23 @@ export default function Homepage({ homepage }) {
     return () => {
       carousel.removeEventListener("scroll", handleScroll);
     };
-  }, [thumbnailPositions, generatedThumbnailWidths, gap]);
+  }, [
+    thumbnailPositions,
+    generatedThumbnailWidths,
+    gap,
+    isMobile,
+    handleThumbnailClick,
+    activeThumbnail,
+  ]);
 
   const determineActiveThumbnail = (scrollLeft) => {
+    // Early returns for out of bounds
+    if (scrollLeft < 0) return 0;
+    if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1])
+      return thumbnailPositions.length - 1;
+
     // Find the single valid index where scrollLeft is between thumbnailPositions[i] and thumbnailPositions[i+1]
     for (let i = 0; i < thumbnailPositions.length; i++) {
-      if (scrollLeft < 0) return 0; //iOS inertia scroll can produce out of bounds values
-      if (scrollLeft >= thumbnailPositions[thumbnailPositions.length - 1])
-        return thumbnailPositions.length - 1;
       if (
         scrollLeft >= thumbnailPositions[i] &&
         scrollLeft < thumbnailPositions[i] + generatedThumbnailWidths[i]
@@ -236,6 +247,9 @@ export default function Homepage({ homepage }) {
         return i;
       }
     }
+
+    // Fallback: return the last index if nothing matches
+    return thumbnailPositions.length - 1;
   };
 
   // Keyboard navigation
@@ -336,8 +350,9 @@ export default function Homepage({ homepage }) {
               >
                 {homepage.youtubeVideoCollection.items.map((video, index) => (
                   <motion.li
-                    className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                      }`}
+                    className={`carousel-item ${
+                      index === activeThumbnail ? "active" : ""
+                    }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
                     }}
@@ -386,8 +401,9 @@ export default function Homepage({ homepage }) {
           >
             {homepage.youtubeVideoCollection.items.map((video, index) => (
               <motion.li
-                className={`carousel-item ${index === activeThumbnail ? "active" : ""
-                  }`}
+                className={`carousel-item ${
+                  index === activeThumbnail ? "active" : ""
+                }`}
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
