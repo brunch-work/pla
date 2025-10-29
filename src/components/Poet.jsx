@@ -5,6 +5,7 @@ import {
 } from "@/gql/queries";
 import { VideoPlayer } from "./VideoPlayer";
 import { videoVariants, videosVariants, infoVariants } from "@/motion/poet.jsx";
+import { usePreloader } from "@/hooks/usePreloader";
 
 import Markdown from "react-markdown";
 import useSWR from "swr";
@@ -16,6 +17,8 @@ export const Poet = ({ activeItem, pageType }) => {
   let query;
   const [poet, setPoet] = useState({});
   const [videos, setVideos] = useState([]);
+  const [mediaLoaded, setMediaLoaded] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
 
   if (pageType === "Poets") {
     query = GET_POET_CONTENT;
@@ -25,23 +28,52 @@ export const Poet = ({ activeItem, pageType }) => {
     query = GET_INTERVIEW_CONTENT;
   }
 
-  // fetch poet content
   const { data, error, mutate, isLoading } = useSWR(
     [query, activeItem],
     ([query, activeItem]) => SWRfetch(query, { slug: activeItem }),
   );
 
   useEffect(() => {
-    if (data) {
-      setPoet(data.poet.items[0]);
-      setVideos(data.youtubeVideoCollection.items);
+    if (data && data.poet?.items?.[0]) {
+      const newPoet = data.poet.items[0];
+      const newVideos = data.youtubeVideoCollection?.items || [];
+
+      setPoet(newPoet);
+      setVideos(newVideos);
+      setMediaLoaded(false);
+      setLoadProgress(0);
+
+      const assets = [];
+
+      if (newPoet.photo) {
+        assets.push({ thumbnail: { url: newPoet.photo.url } });
+      }
+
+      if (newVideos && newVideos.length > 0) {
+        newVideos.forEach((video) => {
+          if (video.thumbnail?.url) {
+            assets.push(video);
+          }
+        });
+      }
+
+      if (assets.length > 0) {
+        usePreloader(assets, (progress) => {
+          setLoadProgress(progress);
+          if (progress === 100) {
+            setMediaLoaded(true);
+          }
+        });
+      } else {
+        setMediaLoaded(true);
+      }
     }
   }, [data]);
 
   return (
     <AnimatePresence mode="wait">
       <div className="poet grid-right" key={poet._id}>
-        {!isLoading && poet && poet._id && (
+        {!isLoading && poet && poet._id && mediaLoaded && (
           <motion.div className="poet__info" {...infoVariants}>
             {poet.photo && (
               <div className="img">
