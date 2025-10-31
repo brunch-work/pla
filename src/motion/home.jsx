@@ -2,14 +2,7 @@ import { stagger } from "motion";
 
 export const homeVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      delayChildren: stagger(0.05),
-      ease: [0, 0.55, 0.45, 1],
-      type: "tween",
-      duration: 1,
-    },
-  },
+  visible: {},
 };
 
 export const homeItemVariants = {
@@ -26,7 +19,6 @@ export const homeItemVariants = {
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
       duration: 0.75,
-      delay: 0.75,
     },
   },
 };

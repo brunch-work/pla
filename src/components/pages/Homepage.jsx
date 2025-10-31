@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { motion } from "motion/react";
+import { stagger } from "motion";
 
 import {
   calculateImageWidth,
@@ -58,7 +59,7 @@ export default function Homepage({ homepage }) {
     // let animations finish before setting isDone
     setTimeout(() => {
       useLoader.setState({ showLoader: false, isDone: true });
-    }, 1500);
+    }, 3000);
   }, []);
 
   const handleThumbnailClick = useCallback((index) => {
@@ -345,6 +346,14 @@ export default function Homepage({ homepage }) {
                 className="carousel-track"
                 ref={carouselRef}
                 variants={homeVariants}
+                transition={{
+                  delayChildren: stagger(0.1, {
+                    startDelay: showLoader ? 0.75 : 0,
+                  }),
+                  ease: [0, 0.55, 0.45, 1],
+                  type: "tween",
+                  duration: 1,
+                }}
                 initial="hidden"
                 animate="visible"
               >
@@ -359,7 +368,11 @@ export default function Homepage({ homepage }) {
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
                     variants={homeItemVariants}
-                    transition={{ delay: showLoader ? 0 : 0.75 }}
+                    transition={{
+                      ease: [0, 0.55, 0.45, 1],
+                      type: "tween",
+                      duration: 0.75,
+                    }}
                   >
                     <button onClick={() => handleThumbnailClick(index)}>
                       <img src={video.thumbnail.url} alt={video.title} />
@@ -396,6 +409,14 @@ export default function Homepage({ homepage }) {
             className="carousel-track"
             ref={carouselRef}
             variants={homeVariants}
+            transition={{
+              delayChildren: stagger(0.01, {
+                startDelay: showLoader ? 0.75 : 0,
+              }),
+              ease: [0, 0.55, 0.45, 1],
+              type: "tween",
+              duration: 1,
+            }}
             initial="hidden"
             animate="visible"
           >
@@ -407,7 +428,11 @@ export default function Homepage({ homepage }) {
                 key={index}
                 ref={(el) => (thumbnailsRef.current[index] = el)}
                 variants={homeItemVariants}
-                transition={{ delay: showLoader ? 0 : 0.75 }}
+                transition={{
+                  ease: [0, 0.55, 0.45, 1],
+                  type: "tween",
+                  duration: 0.75,
+                }}
               >
                 <div
                   className="button"
