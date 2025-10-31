@@ -21,7 +21,7 @@ export default async function AboutPage() {
       url: "https://images.ctfassets.net/1gqe9kiz0yup/loQrNbTAs1jubArLKzCrE/c05dc00807ebbdbe5eb1b2ccea12a85c/SoCal_Poets_in_Conversation.png",
       alt: "Poets in Southern California",
     },
-    videoUrl: "https://www.youtube.com/watch?v=UC9xv9pj2wrbNa7CsQXyj-wA",
+    videoUrl: "https://www.youtube.com/watch?v=3kJTl6PnB-g",
   };
 
   return (
