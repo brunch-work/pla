@@ -4,7 +4,7 @@ export const navVariants = {
   hidden: {
     opacity: 0,
     transition: {
-      delayChildren: stagger(0.01, {from: "last"}),
+      delayChildren: stagger(0.01, { from: "last" }),
       delay: 0.2,
       ease: [0, 0.55, 0.45, 1],
       type: "tween",
@@ -19,8 +19,8 @@ export const navVariants = {
       type: "tween",
       duration: 0.5,
     },
-  }
-}
+  },
+};
 
 export const subNavActiveItemVariants = {
   hidden: {
@@ -41,8 +41,8 @@ export const subNavActiveItemVariants = {
       type: "tween",
       duration: 0.3,
     },
-  }
-}
+  },
+};
 
 export const plusButtonVariants = {
   hidden: {
@@ -65,5 +65,14 @@ export const plusButtonVariants = {
       duration: 0.3,
       delay: 1,
     },
-  }
-}
+  },
+};
+
+export const menuItemVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+};

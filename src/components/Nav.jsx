@@ -12,8 +12,11 @@ import { PlusButton } from "./PlusButton";
 import { SubNav } from "./SubNav";
 import { Search } from "./Search";
 import { useNavContext } from "@/utils/navContextProvider";
-import { menuItemVariants } from "@/motion/menus";
-import { navVariants, plusButtonVariants } from "@/motion/nav";
+import {
+  navVariants,
+  plusButtonVariants,
+  menuItemVariants,
+} from "@/motion/nav";
 import { useLoader } from "@/utils/loader";
 
 export const getMenu = (isMobile) => {
@@ -41,13 +44,22 @@ export const getMenu = (isMobile) => {
       ];
 };
 
-export const renderNavItem = (item, pathname, openSearch) => {
+export const renderNavItem = (item, pathname, openSearch, showLoader) => {
   if (item.name === "Search") {
     return (
       <motion.li
         key={item.name}
         className="menu-item"
         variants={menuItemVariants}
+        transition={{
+          duration: showLoader ? 0.75 : 0.3,
+          type: "tween",
+          ease: [0, 0.55, 0.45, 1],
+          delay: showLoader ? 1 : 0,
+        }}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
       >
         <button
           className="radio-button"
@@ -66,6 +78,15 @@ export const renderNavItem = (item, pathname, openSearch) => {
         key={item.name}
         className="menu-item"
         variants={menuItemVariants}
+        transition={{
+          duration: showLoader ? 0.75 : 0.3,
+          type: "tween",
+          ease: [0, 0.55, 0.45, 1],
+          delay: showLoader ? 1 : 0,
+        }}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
       >
         <a
           href={item.route}
@@ -83,6 +104,15 @@ export const renderNavItem = (item, pathname, openSearch) => {
       key={item.name}
       className="menu-item"
       variants={menuItemVariants}
+      transition={{
+        duration: showLoader ? 0.75 : 0.3,
+        type: "tween",
+        ease: [0, 0.55, 0.45, 1],
+        delay: showLoader ? 1 : 0,
+      }}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
     >
       <RadioButton
         label={item.name}
@@ -226,7 +256,7 @@ export const Nav = () => {
                   </button>
                   <ul className="menu">
                     {menu.map((item, index) =>
-                      renderNavItem(item, pathname, openSearch),
+                      renderNavItem(item, pathname, openSearch, showLoader),
                     )}
                   </ul>
                 </div>
@@ -259,7 +289,7 @@ export const Nav = () => {
           <ul className="menu">
             {!navProps.homeLoading &&
               menu.map((item, index) =>
-                renderNavItem(item, pathname, openSearch),
+                renderNavItem(item, pathname, openSearch, showLoader),
               )}
           </ul>
         </div>
