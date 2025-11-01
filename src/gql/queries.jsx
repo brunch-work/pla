@@ -341,6 +341,7 @@ query getSearch($searchTerm: String) {
       { series: { title_contains: $searchTerm } }
       { poets: { name_contains: $searchTerm } }
       { interviewHost: { name_contains: $searchTerm } }
+      { description_contains: $searchTerm }
     ]
   }) {
     items {
