@@ -1,6 +1,7 @@
 import "@/styles/global.css";
 
 import { ViewTransitions } from "next-view-transitions";
+import { Analytics } from "@vercel/analytics/next";
 
 const APP_NAME = "Poetry LA";
 const APP_DEFAULT_TITLE = "Poetry LA";
@@ -62,7 +63,10 @@ export default function RootLayout({ children }) {
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className="grid">{children}</body>
+        <body className="grid">
+          {children}
+          <Analytics />
+        </body>
       </html>
     </ViewTransitions>
   );
