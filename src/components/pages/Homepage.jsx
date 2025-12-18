@@ -328,7 +328,10 @@ export default function Homepage({ homepage }) {
                 animate="visible"
                 transition={{ delay: showLoader ? 0 : 1 }}
               >
-                <VideoPlayer video={thumbnailsList[activeThumbnail]} />
+                <VideoPlayer
+                  video={thumbnailsList[activeThumbnail]}
+                  index={activeThumbnail + 1}
+                />
               </motion.div>
             </div>
           </div>
@@ -364,6 +367,7 @@ export default function Homepage({ homepage }) {
                     }`}
                     style={{
                       "--w": `${generatedThumbnailWidths[index]}px`,
+                      width: "185px",
                     }}
                     key={index}
                     ref={(el) => (thumbnailsRef.current[index] = el)}
@@ -374,8 +378,15 @@ export default function Homepage({ homepage }) {
                       duration: 0.75,
                     }}
                   >
-                    <button onClick={() => handleThumbnailClick(index)}>
-                      <img src={video.thumbnail.url} alt={video.title} />
+                    <button
+                      onClick={() => handleThumbnailClick(index)}
+                      style={{ width: "100%" }}
+                    >
+                      <img
+                        src={`/images/png/image${index + 1}.png`}
+                        alt={video.title}
+                        style={{ width: "100%", objectFit: "cover" }}
+                      />
                     </button>
                   </motion.li>
                 ))}
@@ -442,7 +453,7 @@ export default function Homepage({ homepage }) {
                   }
                   tabIndex={0}
                 >
-                  <VideoPlayer video={video} />
+                  <VideoPlayer video={video} index={index + 1} />
                 </div>
               </motion.li>
             ))}

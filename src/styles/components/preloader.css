@@ -13,6 +13,10 @@
     left: 0;
     transform: translate(0, -50%);
 
+    .logo-wrapper {
+      opacity: 0;
+    }
+
     .logo {
       margin-bottom: 2rem;
     }

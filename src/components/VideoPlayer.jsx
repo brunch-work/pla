@@ -9,7 +9,7 @@ import { useMobile } from "@/hooks/useMobile";
 import { AnimatePresence, motion } from "motion/react";
 import { videoPlayerVariants } from "@/motion/videoplayer";
 
-export const VideoPlayer = ({ video }) => {
+export const VideoPlayer = ({ video, index }) => {
   const { videoUrl, thumbnail, title, description, publicationDate } = video;
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -56,7 +56,10 @@ export const VideoPlayer = ({ video }) => {
             tabIndex={0}
             role="button"
           >
-            <img src={thumbnail.url} alt={thumbnail.description} />
+            <img
+              src={`/images/png/image${index}.png`}
+              alt={thumbnail.description}
+            />
             <Playbutton handlePlay={handlePlay} title={title} />
           </div>
           <div className="underlay"></div>
@@ -108,7 +111,10 @@ export const VideoPlayer = ({ video }) => {
         )}
         <div className={`overlay ${isPlaying ? "playing" : ""}`}>
           <div className="progressive-blur"></div>
-          <img src={thumbnail.url} alt={thumbnail.description || ""} />
+          <img
+            src={`/images/png/image${index}.png`}
+            alt={thumbnail.description || ""}
+          />
           <Playbutton handlePlay={handlePlay} title={title} />
           <div className="info">
             <div className="top">

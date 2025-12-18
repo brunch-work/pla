@@ -90,9 +90,9 @@ export const preloaderLogoVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.75,
+      duration: 0.3,
       ease: [0, 0.55, 0.45, 1],
-      delay: 0.2,
+      delay: 0.5,
     },
   },
 };
@@ -112,7 +112,7 @@ export const preloaderTitleVariants = {
     transition: {
       duration: 0.75,
       ease: [0, 0.55, 0.45, 1],
-      delay: 0.3,
+      delay: 0.6,
     },
   },
 };
