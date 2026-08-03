@@ -306,6 +306,7 @@ query getAbout {
       pageTitle
       pageContent
       email
+      videoUrl
       teamMembersCollection {
         items {
           name
